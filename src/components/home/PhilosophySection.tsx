@@ -1,4 +1,5 @@
 import { Target, UserCheck, FolderKanban, Briefcase } from "lucide-react";
+import techPattern from "@/assets/tech-pattern.jpg";
 
 const features = [
   {
@@ -25,14 +26,24 @@ const features = [
 
 export const PhilosophySection = () => {
   return (
-    <section className="py-20 lg:py-32 gradient-hero-bg">
-      <div className="container mx-auto px-4">
+    <section className="py-20 lg:py-28 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src={techPattern} 
+          alt="" 
+          className="w-full h-full object-cover opacity-10"
+        />
+        <div className="absolute inset-0 bg-muted/80" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-primary font-semibold mb-4 block">Our Philosophy</span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+          <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Our Philosophy</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-foreground">
             Learning + Experience +{" "}
-            <span className="gradient-text">Outcomes</span>
+            <span className="text-primary">Outcomes</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             Why GrowthCraft is different from traditional education platforms.
@@ -40,17 +51,17 @@ export const PhilosophySection = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="flex gap-5 p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-card transition-all duration-300 group"
+              className="flex gap-5 p-6 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all duration-300 group"
             >
-              <div className="p-4 rounded-xl gradient-bg text-primary-foreground h-fit group-hover:scale-110 transition-transform">
+              <div className="p-4 rounded-xl bg-primary text-primary-foreground h-fit group-hover:scale-110 transition-transform">
                 <feature.icon className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                <h3 className="text-xl font-bold mb-2 text-foreground">{feature.title}</h3>
                 <p className="text-muted-foreground">{feature.description}</p>
               </div>
             </div>

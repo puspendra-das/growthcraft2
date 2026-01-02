@@ -1,98 +1,115 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Users, ArrowRight } from "lucide-react";
+import { Calendar, Clock, Users, ArrowRight, Code2, Brain, Palette } from "lucide-react";
+import bootcampScene from "@/assets/bootcamp-scene.jpg";
 
 const bootcamps = [
   {
+    icon: Code2,
     title: "Full Stack Developer Bootcamp",
     description: "Become a complete developer with React, Node.js, and modern databases",
     duration: "12 weeks",
     batchSize: "30 students",
     nextBatch: "Jan 15, 2026",
-    gradient: "from-primary to-accent",
   },
   {
+    icon: Brain,
     title: "Data Science & AI Bootcamp",
     description: "Master Python, ML, and deploy AI models to production",
     duration: "10 weeks",
     batchSize: "25 students",
     nextBatch: "Feb 1, 2026",
-    gradient: "from-accent to-primary",
   },
   {
+    icon: Palette,
     title: "UI/UX Design Crash Program",
     description: "From Figma basics to complete product design portfolio",
     duration: "8 weeks",
     batchSize: "20 students",
     nextBatch: "Jan 20, 2026",
-    gradient: "from-primary via-accent to-primary",
   },
 ];
 
 export const BootcampsSection = () => {
   return (
-    <section className="py-20 lg:py-32 bg-muted/30">
+    <section className="py-20 lg:py-28 bg-muted/30">
       <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-primary font-semibold mb-4 block">Bootcamps & Programs</span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            High-Impact Bootcamps for{" "}
-            <span className="gradient-text">Real-World Readiness</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Our bootcamps go beyond just theory. Join structured, intensive programs built 
-            to replicate real job experiences with mentorship, collaboration, and outcome-based learning.
-          </p>
-        </div>
-
-        {/* Bootcamps Grid */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          {bootcamps.map((bootcamp, index) => (
-            <div
-              key={bootcamp.title}
-              className="relative group rounded-2xl bg-card border border-border overflow-hidden hover:border-primary/30 transition-all duration-300"
-            >
-              {/* Gradient Header */}
-              <div className={`h-2 gradient-bg`} />
-              
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                  {bootcamp.title}
-                </h3>
-                <p className="text-muted-foreground mb-6">{bootcamp.description}</p>
-
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-3 text-sm">
-                    <Clock className="h-4 w-4 text-primary" />
-                    <span>{bootcamp.duration}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm">
-                    <Users className="h-4 w-4 text-primary" />
-                    <span>{bootcamp.batchSize} max</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm">
-                    <Calendar className="h-4 w-4 text-primary" />
-                    <span>Next batch: {bootcamp.nextBatch}</span>
-                  </div>
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left - Image */}
+          <div className="relative order-2 lg:order-1">
+            <img 
+              src={bootcampScene} 
+              alt="Bootcamp learning environment" 
+              className="rounded-2xl shadow-lg w-full"
+            />
+            <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 shadow-card">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-lg bg-primary text-primary-foreground">
+                  <Users className="h-6 w-6" />
                 </div>
-
-                <Button asChild className="w-full" variant="outline">
-                  <Link to="/bootcamps">Learn More</Link>
-                </Button>
+                <div>
+                  <p className="text-2xl font-bold text-foreground">500+</p>
+                  <p className="text-sm text-muted-foreground">Bootcamp Alumni</p>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* CTA */}
-        <div className="text-center">
-          <Button asChild variant="hero" size="lg">
-            <Link to="/bootcamps">
-              View Bootcamp Calendar
-              <Calendar className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
+          {/* Right - Content */}
+          <div className="order-1 lg:order-2">
+            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Bootcamps & Programs</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-foreground">
+              High-Impact Bootcamps for{" "}
+              <span className="text-primary">Real-World Readiness</span>
+            </h2>
+            <p className="text-muted-foreground text-lg mb-8">
+              Intensive programs built to replicate real job experiences with mentorship, 
+              collaboration, and outcome-based learning.
+            </p>
+
+            {/* Bootcamp Cards */}
+            <div className="space-y-4 mb-8">
+              {bootcamps.map((bootcamp) => (
+                <div
+                  key={bootcamp.title}
+                  className="group p-4 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all duration-300"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <bootcamp.icon className="h-5 w-5" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
+                        {bootcamp.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-3">{bootcamp.description}</p>
+                      <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {bootcamp.duration}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Users className="h-3 w-3" />
+                          {bootcamp.batchSize}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {bootcamp.nextBatch}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <Button asChild variant="hero" size="lg">
+              <Link to="/bootcamps">
+                View All Bootcamps
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

@@ -21,7 +21,7 @@ export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
@@ -37,7 +37,7 @@ export const Navbar = () => {
                 to={link.path}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   location.pathname === link.path
-                    ? "text-primary bg-secondary"
+                    ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
@@ -48,7 +48,7 @@ export const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button variant="hero" size="default">
+            <Button variant="default" size="default">
               Get Started
             </Button>
           </div>
@@ -73,7 +73,7 @@ export const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                     location.pathname === link.path
-                      ? "text-primary bg-secondary"
+                      ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`}
                 >
@@ -81,7 +81,7 @@ export const Navbar = () => {
                 </Link>
               ))}
               <div className="pt-4 px-4">
-                <Button variant="hero" className="w-full">
+                <Button variant="default" className="w-full">
                   Get Started
                 </Button>
               </div>

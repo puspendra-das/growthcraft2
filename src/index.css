@@ -7,117 +7,108 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 17%;
+    --foreground: 230 25% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 17%;
+    --card-foreground: 230 25% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 17%;
+    --popover-foreground: 230 25% 10%;
 
-    /* Lavender Blue - Primary brand color */
-    --primary: 246 94% 66%;
+    /* Primary brand color - #4a32ff */
+    --primary: 248 100% 60%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Lighter lavender */
-    --secondary: 246 80% 95%;
-    --secondary-foreground: 246 94% 50%;
+    /* Secondary - Very light primary */
+    --secondary: 248 60% 97%;
+    --secondary-foreground: 248 100% 50%;
 
-    --muted: 240 5% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 40%;
 
-    /* Accent - Magenta tint */
-    --accent: 280 70% 60%;
+    /* Accent - Slightly different blue */
+    --accent: 248 80% 65%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 246 94% 66%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 248 100% 60%;
 
     --radius: 0.75rem;
 
     /* Custom brand tokens */
-    --lavender: 246 94% 66%;
-    --lavender-light: 246 80% 95%;
-    --lavender-dark: 246 94% 50%;
-    --graphite: 0 0% 17%;
+    --brand: 248 100% 60%;
+    --brand-light: 248 60% 97%;
+    --brand-dark: 248 100% 50%;
+    --graphite: 230 25% 10%;
     --marble: 0 0% 100%;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(246 94% 66%) 0%, hsl(280 70% 60%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(246 94% 66% / 0.1) 0%, hsl(280 70% 60% / 0.1) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(246 80% 98%) 100%);
-
-    /* Shadows */
+    /* Shadows - clean, modern */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
-    --shadow-glow: 0 0 40px hsl(246 94% 66% / 0.3);
-    --shadow-card: 0 4px 20px hsl(246 94% 66% / 0.1);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.07), 0 2px 4px -2px hsl(0 0% 0% / 0.05);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.08), 0 4px 6px -4px hsl(0 0% 0% / 0.04);
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.06), 0 6px 16px hsl(0 0% 0% / 0.06);
+    --shadow-hover: 0 4px 12px hsl(248 100% 60% / 0.15);
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 246 94% 66%;
+    --sidebar-foreground: 230 25% 10%;
+    --sidebar-primary: 248 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 246 80% 95%;
-    --sidebar-accent-foreground: 246 94% 50%;
-    --sidebar-border: 240 6% 90%;
-    --sidebar-ring: 246 94% 66%;
+    --sidebar-accent: 248 60% 97%;
+    --sidebar-accent-foreground: 248 100% 50%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 248 100% 60%;
   }
 
   .dark {
-    --background: 240 10% 8%;
+    --background: 230 20% 8%;
     --foreground: 0 0% 95%;
 
-    --card: 240 10% 12%;
+    --card: 230 20% 11%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 240 10% 12%;
+    --popover: 230 20% 11%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 246 94% 70%;
-    --primary-foreground: 240 10% 8%;
+    --primary: 248 100% 70%;
+    --primary-foreground: 230 20% 8%;
 
-    --secondary: 246 30% 20%;
-    --secondary-foreground: 246 94% 80%;
+    --secondary: 248 30% 18%;
+    --secondary-foreground: 248 100% 80%;
 
-    --muted: 240 10% 18%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 230 15% 18%;
+    --muted-foreground: 220 10% 60%;
 
-    --accent: 280 70% 65%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 248 80% 75%;
+    --accent-foreground: 230 20% 8%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 10% 20%;
-    --input: 240 10% 20%;
-    --ring: 246 94% 70%;
+    --border: 230 15% 20%;
+    --input: 230 15% 20%;
+    --ring: 248 100% 70%;
 
-    --lavender: 246 94% 70%;
-    --lavender-light: 246 30% 20%;
-    --lavender-dark: 246 94% 60%;
+    --brand: 248 100% 70%;
+    --brand-light: 248 30% 18%;
+    --brand-dark: 248 100% 60%;
     --graphite: 0 0% 95%;
-    --marble: 240 10% 8%;
+    --marble: 230 20% 8%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(246 94% 70%) 0%, hsl(280 70% 65%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(246 94% 70% / 0.15) 0%, hsl(280 70% 65% / 0.15) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(240 10% 12%) 0%, hsl(246 30% 15%) 100%);
+    --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.3);
+    --shadow-hover: 0 4px 16px hsl(248 100% 70% / 0.2);
 
-    --shadow-glow: 0 0 40px hsl(246 94% 70% / 0.4);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.3);
-
-    --sidebar-background: 240 10% 10%;
+    --sidebar-background: 230 20% 10%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 246 94% 70%;
-    --sidebar-primary-foreground: 240 10% 8%;
-    --sidebar-accent: 246 30% 20%;
-    --sidebar-accent-foreground: 246 94% 80%;
-    --sidebar-border: 240 10% 20%;
-    --sidebar-ring: 246 94% 70%;
+    --sidebar-primary: 248 100% 70%;
+    --sidebar-primary-foreground: 230 20% 8%;
+    --sidebar-accent: 248 30% 18%;
+    --sidebar-accent-foreground: 248 100% 80%;
+    --sidebar-border: 230 15% 20%;
+    --sidebar-ring: 248 100% 70%;
   }
 }
 
@@ -131,30 +122,29 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-bold tracking-tight;
+    @apply font-display font-bold tracking-tight text-foreground;
   }
 }
 
 @layer utilities {
-  .gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-primary);
+  .text-brand {
+    color: hsl(var(--brand));
   }
 
-  .gradient-bg {
-    background-image: var(--gradient-primary);
+  .bg-brand {
+    background-color: hsl(var(--brand));
   }
 
-  .gradient-hero-bg {
-    background-image: var(--gradient-hero);
-  }
-
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
+  .bg-brand-light {
+    background-color: hsl(var(--brand-light));
   }
 
   .shadow-card {
     box-shadow: var(--shadow-card);
+  }
+
+  .shadow-hover {
+    box-shadow: var(--shadow-hover);
   }
 
   .animate-float {

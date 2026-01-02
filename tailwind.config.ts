@@ -52,10 +52,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        lavender: {
-          DEFAULT: "hsl(var(--lavender))",
-          light: "hsl(var(--lavender-light))",
-          dark: "hsl(var(--lavender-dark))",
+        brand: {
+          DEFAULT: "hsl(var(--brand))",
+          light: "hsl(var(--brand-light))",
+          dark: "hsl(var(--brand-dark))",
         },
         graphite: "hsl(var(--graphite))",
         marble: "hsl(var(--marble))",
