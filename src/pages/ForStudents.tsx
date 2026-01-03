@@ -1,11 +1,12 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { GraduationCap, Rocket, Users, Briefcase, Award, BookOpen, Code2, Trophy, ArrowRight, CheckCircle, Phone } from "lucide-react";
+import { GraduationCap, Rocket, Users, Briefcase, Award, BookOpen, Code2, Trophy, ArrowRight, CheckCircle, Phone, Clock } from "lucide-react";
 import { PopupForm, usePopupForm } from "@/components/shared/PopupForm";
 import collegeStudents from "@/assets/college-students.jpg";
 import careerSuccess from "@/assets/career-success.jpg";
 import { TechLogos } from "@/components/shared/TechLogos";
+import { courses, trainingPrograms } from "@/data/courses";
 
 const benefits = [
   { icon: BookOpen, title: "Industry-Ready Courses", description: "Learn skills that employers actually want, with curriculum designed by tech professionals." },
@@ -157,17 +158,36 @@ const ForStudents = () => {
         </div>
       </section>
 
-      {/* Cross-links */}
+      {/* Popular Courses Section */}
       <section className="py-16 border-t border-border">
         <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold text-foreground mb-2">Popular Courses for Students</h2>
+            <p className="text-muted-foreground">Start with these beginner-friendly courses</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {courses.filter(c => c.level === "Beginner").slice(0, 4).map(course => (
+              <div key={course.id} className="p-4 rounded-xl bg-card border border-border hover:border-primary/40 transition-all">
+                <span className="text-xs text-primary font-medium">{course.category}</span>
+                <h4 className="font-bold text-foreground mt-1 mb-2 text-sm line-clamp-2">{course.name}</h4>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Clock className="h-3 w-3" />
+                  <span>{course.duration}</span>
+                  <span className="ml-auto px-2 py-0.5 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-full">
+                    {course.level}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
           <div className="grid md:grid-cols-3 gap-6 text-center">
             <Link to="/courses" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Explore Courses</h3>
-              <p className="text-sm text-muted-foreground mt-1">Browse our catalog of 45+ courses</p>
+              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Explore All Courses</h3>
+              <p className="text-sm text-muted-foreground mt-1">Browse our catalog of {courses.length}+ courses</p>
             </Link>
             <Link to="/bootcamps" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
               <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Join Bootcamps</h3>
-              <p className="text-sm text-muted-foreground mt-1">Intensive programs for fast results</p>
+              <p className="text-sm text-muted-foreground mt-1">{trainingPrograms.length} intensive programs available</p>
             </Link>
             <Link to="/for-mentors" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
               <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Become a Mentor</h3>
