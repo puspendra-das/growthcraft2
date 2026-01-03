@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Users, ArrowRight, Code2, Brain, Palette } from "lucide-react";
+import { Calendar, Clock, Users, ArrowRight, Code2, Brain, Palette, CheckCircle } from "lucide-react";
+import { trainingPrograms, events } from "@/data/courses";
 import bootcampScene from "@/assets/bootcamp-scene.jpg";
 
 const bootcamps = [
@@ -103,9 +104,24 @@ export const BootcampsSection = () => {
               ))}
             </div>
 
-            <Button asChild variant="hero" size="lg">
+            {/* 40-Day Programs Preview */}
+            <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
+              <p className="text-sm font-medium text-foreground mb-2">Plus {trainingPrograms.length} Internship Programs:</p>
+              <div className="flex flex-wrap gap-2">
+                {trainingPrograms.slice(0, 3).map(p => (
+                  <span key={p.id} className="text-xs px-2 py-1 bg-card border border-border rounded-full text-muted-foreground">
+                    {p.domain}
+                  </span>
+                ))}
+                <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full font-medium">
+                  +{events.length} Events
+                </span>
+              </div>
+            </div>
+
+            <Button asChild size="lg">
               <Link to="/bootcamps">
-                View All Bootcamps
+                View All Programs
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>

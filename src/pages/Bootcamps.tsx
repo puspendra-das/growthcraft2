@@ -1,12 +1,22 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Calendar, Clock, Users, Video, CheckCircle, ArrowRight, Code2, Brain, Palette, School, Download, Phone } from "lucide-react";
+import { Calendar, Clock, Users, Video, CheckCircle, ArrowRight, Code2, Brain, Palette, School, Download, Phone, Zap } from "lucide-react";
 import { PopupForm, usePopupForm } from "@/components/shared/PopupForm";
+import { trainingPrograms, events } from "@/data/courses";
 import bootcampScene from "@/assets/bootcamp-scene.jpg";
 import courseFullstack from "@/assets/course-fullstack.jpg";
 import courseDatascience from "@/assets/course-datascience.jpg";
 import courseUiux from "@/assets/course-uiux.jpg";
+import courseDevops from "@/assets/course-devops.jpg";
+
+const programImages: Record<string, string> = {
+  "Mobile Development": courseFullstack,
+  "Web Application Development": courseFullstack,
+  "CMS Web Development": courseFullstack,
+  "UI/UX Design": courseUiux,
+  "DevOps": courseDevops,
+};
 
 const bootcamps = [
   {
@@ -166,11 +176,113 @@ const Bootcamps = () => {
         </div>
       </section>
 
+      {/* Training Programs from Catalog */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">40-Day Internship Programs</span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+              Intensive <span className="text-primary">Training Programs</span>
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Project-based internship programs designed to make you job-ready with real-world experience.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {trainingPrograms.map((program) => (
+              <div key={program.id} className="rounded-2xl bg-card border border-border p-6 hover:border-primary/40 hover:shadow-lg transition-all">
+                <div className="h-32 rounded-lg overflow-hidden mb-4">
+                  <img 
+                    src={programImages[program.domain] || courseFullstack} 
+                    alt={program.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Calendar className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium text-primary">{program.duration}</span>
+                  <span className="text-xs text-muted-foreground ml-auto">{program.domain}</span>
+                </div>
+                <h3 className="text-lg font-bold mb-3 text-foreground line-clamp-2">{program.name}</h3>
+                <div className="space-y-2 mb-4">
+                  {program.focusAreas.slice(0, 3).map(area => (
+                    <div key={area} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
+                      <span className="line-clamp-1">{area}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {program.techStack.slice(0, 4).map(tech => (
+                    <span key={tech} className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <Button className="w-full" onClick={() => openForm("enrollment", `Apply for ${program.name}`)}>
+                  Apply Now <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Events & Workshops */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Events & Workshops</span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+              Quick-Fire <span className="text-primary">Learning Events</span>
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              1-3 day workshops, bootcamps, and hackathons to jumpstart your learning.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {events.slice(0, 8).map((event) => (
+              <div key={event.id} className="rounded-xl bg-card border border-border p-4 hover:border-primary/40 hover:shadow-lg transition-all">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                    event.type === "Workshop" ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" :
+                    event.type === "Bootcamp" ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400" :
+                    "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400"
+                  }`}>
+                    {event.type}
+                  </span>
+                  <span className="text-xs text-muted-foreground ml-auto flex items-center gap-1">
+                    <Zap className="h-3 w-3" />{event.duration}
+                  </span>
+                </div>
+                <h3 className="text-sm font-bold mb-2 text-foreground line-clamp-2">{event.name}</h3>
+                <p className="text-xs text-muted-foreground mb-3">{event.domain}</p>
+                <div className="flex flex-wrap gap-1">
+                  {event.topics.slice(0, 2).map(topic => (
+                    <span key={topic} className="px-2 py-0.5 bg-secondary text-secondary-foreground rounded text-[10px]">
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Button onClick={() => openForm("enrollment", "Event Registration")} size="lg">
+              Register for Events <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary-foreground">
-            Not Sure Which Bootcamp Is Right for You?
+            Not Sure Which Program Is Right for You?
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
             Schedule a free counseling session with our team to understand your goals 
