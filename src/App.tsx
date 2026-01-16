@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Courses from "./pages/Courses";
 import Bootcamps from "./pages/Bootcamps";
@@ -13,30 +14,61 @@ import ForColleges from "./pages/ForColleges";
 import ForMentors from "./pages/ForMentors";
 import ForEmployers from "./pages/ForEmployers";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminCourses from "./pages/admin/AdminCourses";
+import AdminTrainingPrograms from "./pages/admin/AdminTrainingPrograms";
+import AdminEvents from "./pages/admin/AdminEvents";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminColleges from "./pages/admin/AdminColleges";
+import AdminEmployers from "./pages/admin/AdminEmployers";
+import AdminEnquiries from "./pages/admin/AdminEnquiries";
+import AdminRegistrations from "./pages/admin/AdminRegistrations";
+import AdminContent from "./pages/admin/AdminContent";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/bootcamps" element={<Bootcamps />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/for-students" element={<ForStudents />} />
-          <Route path="/for-colleges" element={<ForColleges />} />
-          <Route path="/for-mentors" element={<ForMentors />} />
-          <Route path="/for-employers" element={<ForEmployers />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/bootcamps" element={<Bootcamps />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/for-students" element={<ForStudents />} />
+            <Route path="/for-colleges" element={<ForColleges />} />
+            <Route path="/for-mentors" element={<ForMentors />} />
+            <Route path="/for-employers" element={<ForEmployers />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="courses" element={<AdminCourses />} />
+              <Route path="training-programs" element={<AdminTrainingPrograms />} />
+              <Route path="events" element={<AdminEvents />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="colleges" element={<AdminColleges />} />
+              <Route path="employers" element={<AdminEmployers />} />
+              <Route path="enquiries" element={<AdminEnquiries />} />
+              <Route path="registrations" element={<AdminRegistrations />} />
+              <Route path="content" element={<AdminContent />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Route>
+            
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
