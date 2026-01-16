@@ -19,7 +19,7 @@ const footerLinks = {
     { name: "About Us", path: "/about" },
     { name: "Contact", path: "/contact" },
     { name: "FAQs", path: "/contact" },
-    { name: "Blog", path: "/about" },
+    { name: "Admin Panel", path: "/admin" },
   ],
 };
 
