@@ -14,6 +14,93 @@ export type Database = {
   }
   public: {
     Tables: {
+      bootcamps: {
+        Row: {
+          batch_size: number | null
+          category: string | null
+          created_at: string
+          created_by: string | null
+          curriculum: Json | null
+          description: string | null
+          discount_label: string | null
+          discount_price: number | null
+          duration: string | null
+          format: string | null
+          highlights: string[] | null
+          icon_name: string | null
+          id: string
+          image_url: string | null
+          instructor_bio: string | null
+          instructor_name: string | null
+          is_featured: boolean
+          is_published: boolean
+          learning_outcomes: string[] | null
+          next_batch_date: string | null
+          prerequisites: string[] | null
+          price: number | null
+          slug: string | null
+          tech_stack: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          batch_size?: number | null
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          curriculum?: Json | null
+          description?: string | null
+          discount_label?: string | null
+          discount_price?: number | null
+          duration?: string | null
+          format?: string | null
+          highlights?: string[] | null
+          icon_name?: string | null
+          id?: string
+          image_url?: string | null
+          instructor_bio?: string | null
+          instructor_name?: string | null
+          is_featured?: boolean
+          is_published?: boolean
+          learning_outcomes?: string[] | null
+          next_batch_date?: string | null
+          prerequisites?: string[] | null
+          price?: number | null
+          slug?: string | null
+          tech_stack?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          batch_size?: number | null
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          curriculum?: Json | null
+          description?: string | null
+          discount_label?: string | null
+          discount_price?: number | null
+          duration?: string | null
+          format?: string | null
+          highlights?: string[] | null
+          icon_name?: string | null
+          id?: string
+          image_url?: string | null
+          instructor_bio?: string | null
+          instructor_name?: string | null
+          is_featured?: boolean
+          is_published?: boolean
+          learning_outcomes?: string[] | null
+          next_batch_date?: string | null
+          prerequisites?: string[] | null
+          price?: number | null
+          slug?: string | null
+          tech_stack?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       colleges: {
         Row: {
           address: string | null
@@ -114,51 +201,81 @@ export type Database = {
           category: string
           created_at: string
           created_by: string | null
+          curriculum: Json | null
           description: string | null
+          discount_label: string | null
           discount_price: number | null
           duration: string | null
+          format: string | null
+          highlights: string[] | null
           id: string
           image_url: string | null
+          instructor_bio: string | null
+          instructor_name: string | null
           is_featured: boolean
           is_published: boolean
+          learning_outcomes: string[] | null
           level: string | null
+          prerequisites: string[] | null
           price: number | null
+          slug: string | null
           subcategory: string | null
           title: string
+          topics: string[] | null
           updated_at: string
         }
         Insert: {
           category: string
           created_at?: string
           created_by?: string | null
+          curriculum?: Json | null
           description?: string | null
+          discount_label?: string | null
           discount_price?: number | null
           duration?: string | null
+          format?: string | null
+          highlights?: string[] | null
           id?: string
           image_url?: string | null
+          instructor_bio?: string | null
+          instructor_name?: string | null
           is_featured?: boolean
           is_published?: boolean
+          learning_outcomes?: string[] | null
           level?: string | null
+          prerequisites?: string[] | null
           price?: number | null
+          slug?: string | null
           subcategory?: string | null
           title: string
+          topics?: string[] | null
           updated_at?: string
         }
         Update: {
           category?: string
           created_at?: string
           created_by?: string | null
+          curriculum?: Json | null
           description?: string | null
+          discount_label?: string | null
           discount_price?: number | null
           duration?: string | null
+          format?: string | null
+          highlights?: string[] | null
           id?: string
           image_url?: string | null
+          instructor_bio?: string | null
+          instructor_name?: string | null
           is_featured?: boolean
           is_published?: boolean
+          learning_outcomes?: string[] | null
           level?: string | null
+          prerequisites?: string[] | null
           price?: number | null
+          slug?: string | null
           subcategory?: string | null
           title?: string
+          topics?: string[] | null
           updated_at?: string
         }
         Relationships: [
@@ -274,51 +391,81 @@ export type Database = {
           created_at: string
           created_by: string | null
           description: string | null
+          domain: string | null
+          duration: string | null
           event_date: string | null
           event_time: string | null
           event_type: string | null
+          highlights: string[] | null
           id: string
           image_url: string | null
           is_featured: boolean
           is_online: boolean
           is_published: boolean
           location: string | null
+          max_participants: number | null
+          prerequisites: string[] | null
+          price: number | null
           registration_link: string | null
+          slug: string | null
+          speaker_bio: string | null
+          speaker_name: string | null
           title: string
+          topics: string[] | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           created_by?: string | null
           description?: string | null
+          domain?: string | null
+          duration?: string | null
           event_date?: string | null
           event_time?: string | null
           event_type?: string | null
+          highlights?: string[] | null
           id?: string
           image_url?: string | null
           is_featured?: boolean
           is_online?: boolean
           is_published?: boolean
           location?: string | null
+          max_participants?: number | null
+          prerequisites?: string[] | null
+          price?: number | null
           registration_link?: string | null
+          slug?: string | null
+          speaker_bio?: string | null
+          speaker_name?: string | null
           title: string
+          topics?: string[] | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           created_by?: string | null
           description?: string | null
+          domain?: string | null
+          duration?: string | null
           event_date?: string | null
           event_time?: string | null
           event_type?: string | null
+          highlights?: string[] | null
           id?: string
           image_url?: string | null
           is_featured?: boolean
           is_online?: boolean
           is_published?: boolean
           location?: string | null
+          max_participants?: number | null
+          prerequisites?: string[] | null
+          price?: number | null
           registration_link?: string | null
+          slug?: string | null
+          speaker_bio?: string | null
+          speaker_name?: string | null
           title?: string
+          topics?: string[] | null
           updated_at?: string
         }
         Relationships: [
@@ -491,52 +638,91 @@ export type Database = {
       training_programs: {
         Row: {
           batch_size: number | null
+          category: string | null
           created_at: string
           created_by: string | null
+          curriculum: Json | null
           description: string | null
           discount_price: number | null
+          domain: string | null
           duration: string | null
           end_date: string | null
+          focus_areas: string[] | null
+          format: string | null
+          highlights: string[] | null
           id: string
           image_url: string | null
+          instructor_bio: string | null
+          instructor_name: string | null
           is_featured: boolean
           is_published: boolean
+          learning_outcomes: string[] | null
+          next_batch_date: string | null
+          prerequisites: string[] | null
           price: number | null
+          slug: string | null
           start_date: string | null
+          tech_stack: string[] | null
           title: string
           updated_at: string
         }
         Insert: {
           batch_size?: number | null
+          category?: string | null
           created_at?: string
           created_by?: string | null
+          curriculum?: Json | null
           description?: string | null
           discount_price?: number | null
+          domain?: string | null
           duration?: string | null
           end_date?: string | null
+          focus_areas?: string[] | null
+          format?: string | null
+          highlights?: string[] | null
           id?: string
           image_url?: string | null
+          instructor_bio?: string | null
+          instructor_name?: string | null
           is_featured?: boolean
           is_published?: boolean
+          learning_outcomes?: string[] | null
+          next_batch_date?: string | null
+          prerequisites?: string[] | null
           price?: number | null
+          slug?: string | null
           start_date?: string | null
+          tech_stack?: string[] | null
           title: string
           updated_at?: string
         }
         Update: {
           batch_size?: number | null
+          category?: string | null
           created_at?: string
           created_by?: string | null
+          curriculum?: Json | null
           description?: string | null
           discount_price?: number | null
+          domain?: string | null
           duration?: string | null
           end_date?: string | null
+          focus_areas?: string[] | null
+          format?: string | null
+          highlights?: string[] | null
           id?: string
           image_url?: string | null
+          instructor_bio?: string | null
+          instructor_name?: string | null
           is_featured?: boolean
           is_published?: boolean
+          learning_outcomes?: string[] | null
+          next_batch_date?: string | null
+          prerequisites?: string[] | null
           price?: number | null
+          slug?: string | null
           start_date?: string | null
+          tech_stack?: string[] | null
           title?: string
           updated_at?: string
         }
@@ -555,6 +741,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_slug: { Args: { title: string }; Returns: string }
       get_user_role: {
         Args: never
         Returns: Database["public"]["Enums"]["user_role"]

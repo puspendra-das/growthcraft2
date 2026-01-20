@@ -6,7 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Courses from "./pages/Courses";
+import CourseDetail from "./pages/CourseDetail";
 import Bootcamps from "./pages/Bootcamps";
+import BootcampDetail from "./pages/BootcampDetail";
+import TrainingProgramDetail from "./pages/TrainingProgramDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import ForStudents from "./pages/ForStudents";
@@ -40,7 +43,10 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/:slug" element={<CourseDetail />} />
             <Route path="/bootcamps" element={<Bootcamps />} />
+            <Route path="/bootcamps/:slug" element={<BootcampDetail />} />
+            <Route path="/programs/:slug" element={<TrainingProgramDetail />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/for-students" element={<ForStudents />} />
