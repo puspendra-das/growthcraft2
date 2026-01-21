@@ -21,6 +21,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminCourses from "./pages/admin/AdminCourses";
+import AdminBootcamps from "./pages/admin/AdminBootcamps";
 import AdminTrainingPrograms from "./pages/admin/AdminTrainingPrograms";
 import AdminEvents from "./pages/admin/AdminEvents";
 import AdminUsers from "./pages/admin/AdminUsers";
@@ -59,6 +60,7 @@ const App = () => (
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="courses" element={<AdminCourses />} />
+              <Route path="bootcamps" element={<AdminBootcamps />} />
               <Route path="training-programs" element={<AdminTrainingPrograms />} />
               <Route path="events" element={<AdminEvents />} />
               <Route path="users" element={<AdminUsers />} />

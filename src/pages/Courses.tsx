@@ -2,30 +2,26 @@ import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Clock, Users, BookOpen, ArrowRight, Star, CheckCircle, Filter, Search, Calendar, Zap } from "lucide-react";
+import { Clock, BookOpen, ArrowRight, Star, CheckCircle, Filter, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { courses, courseCategories, trainingPrograms, events } from "@/data/courses";
 import { PopupForm } from "@/components/shared/PopupForm";
 import { TechLogos } from "@/components/shared/TechLogos";
-import courseFullstack from "@/assets/course-fullstack.jpg";
-import courseDatascience from "@/assets/course-datascience.jpg";
-import courseUiux from "@/assets/course-uiux.jpg";
-import courseDevops from "@/assets/course-devops.jpg";
+import { useCourses, useCategories } from "@/hooks/useCourses";
+import { Skeleton } from "@/components/ui/skeleton";
+import courseWebDev from "@/assets/course-web-dev.jpg";
+import courseDataScience from "@/assets/course-data-science.jpg";
+import courseCloud from "@/assets/course-cloud.jpg";
+import courseMobile from "@/assets/course-mobile.jpg";
+import courseSecurity from "@/assets/course-security.jpg";
 
 const categoryImages: Record<string, string> = {
-  "Programming & CS": courseFullstack,
-  "Web Development": courseFullstack,
-  "Data Science & Analytics": courseDatascience,
-  "DevOps & Cloud": courseDevops,
-  "Cybersecurity": courseDevops,
-  "Mobile App Development": courseFullstack,
-  "Mobile Development": courseFullstack,
-  "UI/UX & Design": courseUiux,
-  "Software Engineering": courseFullstack,
-  "Project-Based Learning": courseFullstack,
-  "Career Prep": courseUiux,
-  "Career Prep & Soft Skills": courseUiux,
-  "CMS & eCommerce": courseFullstack,
+  "Web Development": courseWebDev,
+  "Programming Languages": courseWebDev,
+  "Data Science & AI": courseDataScience,
+  "Cloud & DevOps": courseCloud,
+  "Mobile Development": courseMobile,
+  "Cybersecurity": courseSecurity,
+  "Design": courseWebDev,
 };
 
 const getLevelColor = (level: string) => {
@@ -44,12 +40,15 @@ const Courses = () => {
   const [showEnrollForm, setShowEnrollForm] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState("");
 
+  const { courses, isLoading } = useCourses();
+  const categories = useCategories();
+
   const filteredCourses = courses.filter(course => {
-    const matchesCategory = !selectedCategory || course.category.includes(selectedCategory);
+    const matchesCategory = !selectedCategory || course.category === selectedCategory;
     const matchesLevel = !selectedLevel || course.level === selectedLevel;
     const matchesSearch = !searchQuery || 
-      course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.topics.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (course.topics && course.topics.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())));
     return matchesCategory && matchesLevel && matchesSearch;
   });
 
@@ -74,21 +73,18 @@ const Courses = () => {
             </p>
             <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground flex-wrap">
               <div className="flex items-center gap-2"><BookOpen className="h-5 w-5 text-primary" /><span>{courses.length}+ Courses</span></div>
-              <div className="flex items-center gap-2"><Users className="h-5 w-5 text-primary" /><span>10,000+ Students</span></div>
               <div className="flex items-center gap-2"><Star className="h-5 w-5 text-primary" /><span>4.8 Avg Rating</span></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Tech Logos */}
       <TechLogos />
 
       {/* Search & Filters */}
       <section className="py-8 border-b border-border sticky top-16 bg-background/95 backdrop-blur z-40">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            {/* Search */}
             <div className="relative w-full lg:w-96">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input 
@@ -99,7 +95,6 @@ const Courses = () => {
               />
             </div>
 
-            {/* Level Filter */}
             <div className="flex items-center gap-2 flex-wrap justify-center">
               <Filter className="h-4 w-4 text-muted-foreground" />
               {["Beginner", "Intermediate", "Advanced"].map(level => (
@@ -132,9 +127,9 @@ const Courses = () => {
       <section className="py-8 border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-2">
-            {courseCategories.map((category) => (
+            {categories.map((category) => (
               <button 
-                key={category.id} 
+                key={category.name} 
                 onClick={() => setSelectedCategory(selectedCategory === category.name ? null : category.name)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm transition-all ${
                   selectedCategory === category.name
@@ -142,10 +137,9 @@ const Courses = () => {
                     : "bg-card border-border hover:border-primary/40"
                 }`}
               >
-                <category.icon className="h-4 w-4" />
                 <span className="font-medium">{category.name}</span>
                 <span className={selectedCategory === category.name ? "text-primary-foreground/70" : "text-muted-foreground"}>
-                  ({category.courses})
+                  ({category.count})
                 </span>
               </button>
             ))}
@@ -163,52 +157,74 @@ const Courses = () => {
             </h2>
           </div>
 
-          {filteredCourses.length > 0 ? (
+          {isLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="rounded-xl bg-card border border-border overflow-hidden">
+                  <Skeleton className="h-32 w-full" />
+                  <div className="p-4">
+                    <Skeleton className="h-4 w-1/3 mb-2" />
+                    <Skeleton className="h-5 w-full mb-3" />
+                    <Skeleton className="h-3 w-1/2 mb-3" />
+                    <Skeleton className="h-9 w-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredCourses.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {filteredCourses.map((course) => (
-                <div 
+                <Link 
+                  to={`/courses/${course.slug}`}
                   key={course.id} 
                   className="group rounded-xl bg-card border border-border overflow-hidden hover:border-primary/40 hover:shadow-lg transition-all duration-300"
                 >
                   <div className="h-32 overflow-hidden relative">
                     <img 
-                      src={categoryImages[course.category] || courseFullstack} 
-                      alt={course.name} 
+                      src={course.image_url || categoryImages[course.category] || courseWebDev} 
+                      alt={course.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                     />
-                    <span className={`absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs font-medium ${getLevelColor(course.level)}`}>
+                    <span className={`absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs font-medium ${getLevelColor(course.level || "Beginner")}`}>
                       {course.level}
                     </span>
                   </div>
                   <div className="p-4">
-                    <span className="text-xs text-primary font-medium">{course.subcategory}</span>
+                    <span className="text-xs text-primary font-medium">{course.subcategory || course.category}</span>
                     <h3 className="text-sm font-bold mt-1 mb-2 text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                      {course.name}
+                      {course.title}
                     </h3>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{course.duration}</span>
+                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{course.duration || "Self-paced"}</span>
                     </div>
                     <div className="flex flex-wrap gap-1 mb-3">
-                      {course.topics.slice(0, 3).map(topic => (
+                      {course.topics?.slice(0, 3).map(topic => (
                         <span key={topic} className="px-2 py-0.5 bg-secondary text-secondary-foreground rounded text-[10px]">
                           {topic}
                         </span>
                       ))}
-                      {course.topics.length > 3 && (
+                      {course.topics && course.topics.length > 3 && (
                         <span className="px-2 py-0.5 bg-secondary text-secondary-foreground rounded text-[10px]">
                           +{course.topics.length - 3}
                         </span>
                       )}
                     </div>
-                    <Button 
-                      size="sm" 
-                      className="w-full text-xs"
-                      onClick={() => handleEnroll(course.name)}
-                    >
-                      Enroll Now
-                    </Button>
+                    <div className="flex items-center justify-between">
+                      {course.price ? (
+                        <span className="text-sm font-bold text-primary">₹{course.discount_price || course.price}</span>
+                      ) : (
+                        <span className="text-sm font-bold text-primary">Free</span>
+                      )}
+                      <Button 
+                        size="sm" 
+                        className="text-xs"
+                        onClick={(e) => { e.preventDefault(); handleEnroll(course.title); }}
+                      >
+                        Enroll
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (
@@ -219,107 +235,6 @@ const Courses = () => {
               </Button>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Training Programs */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Internship Programs</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              40-Day <span className="text-primary">Training Programs</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Intensive, project-based internship programs designed to make you job-ready with real-world experience.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {trainingPrograms.map((program) => (
-              <div key={program.id} className="rounded-2xl bg-card border border-border p-6 hover:border-primary/40 hover:shadow-lg transition-all">
-                <div className="flex items-center gap-2 mb-4">
-                  <Calendar className="h-5 w-5 text-primary" />
-                  <span className="text-sm font-medium text-primary">{program.duration}</span>
-                  <span className="text-xs text-muted-foreground ml-auto">{program.domain}</span>
-                </div>
-                <h3 className="text-lg font-bold mb-3 text-foreground">{program.name}</h3>
-                <div className="space-y-2 mb-4">
-                  {program.focusAreas.slice(0, 3).map(area => (
-                    <div key={area} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <CheckCircle className="h-3 w-3 text-primary" />
-                      {area}
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {program.techStack.slice(0, 4).map(tech => (
-                    <span key={tech} className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs font-medium">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <Button className="w-full" onClick={() => handleEnroll(program.name)}>
-                  Apply Now <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-8">
-            <Button asChild variant="outline" size="lg">
-              <Link to="/bootcamps">View All Bootcamps <ArrowRight className="ml-2 h-5 w-5" /></Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Events & Workshops */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Events & Workshops</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              Quick-Fire <span className="text-primary">Learning Events</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              1-3 day workshops, bootcamps, and hackathons to jumpstart your learning journey.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {events.slice(0, 8).map((event) => (
-              <div key={event.id} className="rounded-xl bg-card border border-border p-4 hover:border-primary/40 hover:shadow-lg transition-all">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                    event.type === "Workshop" ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" :
-                    event.type === "Bootcamp" ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400" :
-                    "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400"
-                  }`}>
-                    {event.type}
-                  </span>
-                  <span className="text-xs text-muted-foreground ml-auto flex items-center gap-1">
-                    <Zap className="h-3 w-3" />{event.duration}
-                  </span>
-                </div>
-                <h3 className="text-sm font-bold mb-2 text-foreground line-clamp-2">{event.name}</h3>
-                <p className="text-xs text-muted-foreground mb-3">{event.domain}</p>
-                <div className="flex flex-wrap gap-1">
-                  {event.topics.slice(0, 2).map(topic => (
-                    <span key={topic} className="px-2 py-0.5 bg-secondary text-secondary-foreground rounded text-[10px]">
-                      {topic}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-8">
-            <Button onClick={() => setShowEnrollForm(true)} size="lg">
-              Register for Events <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
         </div>
       </section>
 
@@ -372,8 +287,8 @@ const Courses = () => {
       <PopupForm 
         isOpen={showEnrollForm} 
         onClose={() => setShowEnrollForm(false)} 
-        type="enrollment"
-        title={selectedCourse ? `Enroll in ${selectedCourse}` : "Course Enrollment"}
+        type="enrollment" 
+        title={selectedCourse ? `Enroll in ${selectedCourse}` : "Course Enrollment"} 
       />
     </Layout>
   );
