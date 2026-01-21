@@ -1,12 +1,14 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { GraduationCap, Rocket, Users, Briefcase, Award, BookOpen, Code2, Trophy, ArrowRight, CheckCircle, Phone, Clock } from "lucide-react";
+import { GraduationCap, Rocket, Users, Briefcase, Award, BookOpen, Code2, Trophy, ArrowRight, Phone, Clock } from "lucide-react";
 import { PopupForm, usePopupForm } from "@/components/shared/PopupForm";
 import collegeStudents from "@/assets/college-students.jpg";
 import careerSuccess from "@/assets/career-success.jpg";
 import { TechLogos } from "@/components/shared/TechLogos";
-import { courses, trainingPrograms } from "@/data/courses";
+import { useCourses } from "@/hooks/useCourses";
+import { useTrainingPrograms } from "@/hooks/useTrainingPrograms";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const benefits = [
   { icon: BookOpen, title: "Industry-Ready Courses", description: "Learn skills that employers actually want, with curriculum designed by tech professionals." },
@@ -27,6 +29,10 @@ const steps = [
 
 const ForStudents = () => {
   const { isOpen, formType, formTitle, openForm, closeForm } = usePopupForm();
+  const { courses, isLoading: coursesLoading } = useCourses();
+  const { programs } = useTrainingPrograms();
+
+  const beginnerCourses = courses.filter(c => c.level === "Beginner").slice(0, 4);
 
   return (
     <Layout>
@@ -166,19 +172,35 @@ const ForStudents = () => {
             <p className="text-muted-foreground">Start with these beginner-friendly courses</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {courses.filter(c => c.level === "Beginner").slice(0, 4).map(course => (
-              <div key={course.id} className="p-4 rounded-xl bg-card border border-border hover:border-primary/40 transition-all">
-                <span className="text-xs text-primary font-medium">{course.category}</span>
-                <h4 className="font-bold text-foreground mt-1 mb-2 text-sm line-clamp-2">{course.name}</h4>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Clock className="h-3 w-3" />
-                  <span>{course.duration}</span>
-                  <span className="ml-auto px-2 py-0.5 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                    {course.level}
-                  </span>
+            {coursesLoading ? (
+              [...Array(4)].map((_, i) => (
+                <div key={i} className="p-4 rounded-xl bg-card border border-border">
+                  <Skeleton className="h-3 w-1/3 mb-2" />
+                  <Skeleton className="h-5 w-full mb-3" />
+                  <Skeleton className="h-3 w-2/3" />
                 </div>
-              </div>
-            ))}
+              ))
+            ) : beginnerCourses.length > 0 ? (
+              beginnerCourses.map(course => (
+                <Link 
+                  to={`/courses/${course.slug}`}
+                  key={course.id} 
+                  className="p-4 rounded-xl bg-card border border-border hover:border-primary/40 transition-all"
+                >
+                  <span className="text-xs text-primary font-medium">{course.category}</span>
+                  <h4 className="font-bold text-foreground mt-1 mb-2 text-sm line-clamp-2">{course.title}</h4>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Clock className="h-3 w-3" />
+                    <span>{course.duration || "Self-paced"}</span>
+                    <span className="ml-auto px-2 py-0.5 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-full">
+                      {course.level}
+                    </span>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p className="col-span-4 text-center text-muted-foreground">No beginner courses available yet.</p>
+            )}
           </div>
           <div className="grid md:grid-cols-3 gap-6 text-center">
             <Link to="/courses" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
@@ -187,7 +209,7 @@ const ForStudents = () => {
             </Link>
             <Link to="/bootcamps" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
               <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Join Bootcamps</h3>
-              <p className="text-sm text-muted-foreground mt-1">{trainingPrograms.length} intensive programs available</p>
+              <p className="text-sm text-muted-foreground mt-1">{programs.length} intensive programs available</p>
             </Link>
             <Link to="/for-mentors" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
               <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Become a Mentor</h3>

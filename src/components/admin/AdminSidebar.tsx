@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   BookOpen,
   GraduationCap,
+  Rocket,
   Calendar,
   Users,
   Building2,
@@ -23,6 +24,7 @@ import { useState } from "react";
 const menuItems = [
   { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
   { name: "Courses", path: "/admin/courses", icon: BookOpen },
+  { name: "Bootcamps", path: "/admin/bootcamps", icon: Rocket },
   { name: "Training Programs", path: "/admin/training-programs", icon: GraduationCap },
   { name: "Events", path: "/admin/events", icon: Calendar },
   { name: "Users", path: "/admin/users", icon: Users },
