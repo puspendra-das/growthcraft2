@@ -62,17 +62,17 @@ export const TechLogos = ({
   const displayedLogos = techItems.slice(0, count);
 
   return (
-    <div className={`flex flex-wrap items-center justify-center gap-4 ${className}`}>
+    <div className={`flex flex-wrap items-center justify-center gap-2 md:gap-4 ${className}`}>
       {displayedLogos.map((tech, index) => (
         <div 
           key={`${tech.name}-${index}`}
-          className="flex flex-col items-center gap-2 group"
+          className="flex flex-col items-center gap-1 md:gap-2 group"
         >
-          <div className="p-3 rounded-xl bg-muted/50 hover:bg-muted transition-all duration-200 group-hover:scale-110">
+          <div className="p-2 md:p-3 rounded-lg md:rounded-xl bg-muted/50 hover:bg-muted transition-all duration-200 group-hover:scale-110">
             <tech.Icon className={`${sizeClasses[size]} ${tech.color}`} />
           </div>
           {showNames && (
-            <span className="text-xs text-muted-foreground font-medium">{tech.name}</span>
+            <span className="text-[10px] md:text-xs text-muted-foreground font-medium">{tech.name}</span>
           )}
         </div>
       ))}
@@ -82,14 +82,14 @@ export const TechLogos = ({
 
 export const TechLogosStrip = ({ className = "" }: { className?: string }) => {
   return (
-    <div className={`flex flex-wrap items-center justify-center gap-6 py-6 ${className}`}>
-      {techItems.slice(0, 12).map((tech, index) => (
+    <div className={`flex flex-wrap items-center justify-center gap-2 md:gap-6 py-4 md:py-6 ${className}`}>
+      {techItems.slice(0, 8).map((tech, index) => (
         <div 
           key={`${tech.name}-${index}`}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/40 border border-border/50"
+          className="flex items-center gap-1.5 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full bg-muted/40 border border-border/50"
         >
-          <tech.Icon className={`h-4 w-4 ${tech.color}`} />
-          <span className="text-sm text-muted-foreground font-medium">
+          <tech.Icon className={`h-3 w-3 md:h-4 md:w-4 ${tech.color}`} />
+          <span className="text-[10px] md:text-sm text-muted-foreground font-medium hidden sm:inline">
             {tech.name}
           </span>
         </div>

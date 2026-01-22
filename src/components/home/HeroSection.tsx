@@ -18,16 +18,16 @@ export const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 py-8 md:py-0">
         <div className="max-w-3xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border text-foreground text-sm font-medium mb-6 animate-fade-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-secondary border border-border text-foreground text-xs md:text-sm font-medium mb-4 md:mb-6 animate-fade-up">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             Your Career Transformation Starts Here
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-up text-foreground" style={{ animationDelay: "0.1s" }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 animate-fade-up text-foreground leading-tight" style={{ animationDelay: "0.1s" }}>
             Where{" "}
             <span className="text-primary">Learning</span>
             {" "}Meets{" "}
@@ -35,20 +35,20 @@ export const HeroSection = () => {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed animate-fade-up" style={{ animationDelay: "0.2s" }}>
+          <p className="text-base md:text-lg lg:text-xl text-muted-foreground mb-6 md:mb-8 leading-relaxed animate-fade-up" style={{ animationDelay: "0.2s" }}>
             GrowthCraft is your all-in-one platform to learn tech, master industry skills, 
             join hands-on bootcamps, connect with mentors, and land your dream job.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-wrap gap-4 animate-fade-up" style={{ animationDelay: "0.3s" }}>
-            <Button asChild variant="hero" size="xl">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-up" style={{ animationDelay: "0.3s" }}>
+            <Button asChild variant="hero" size="lg" className="w-full sm:w-auto">
               <Link to="/courses">
                 Explore Courses
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild variant="hero-outline" size="xl">
+            <Button asChild variant="hero-outline" size="lg" className="w-full sm:w-auto">
               <Link to="/bootcamps">
                 <Play className="mr-2 h-5 w-5" />
                 Join a Bootcamp
@@ -57,25 +57,25 @@ export const HeroSection = () => {
           </div>
 
           {/* Stats */}
-          <div className="mt-12 grid grid-cols-3 gap-8 pt-8 border-t border-border animate-fade-up" style={{ animationDelay: "0.4s" }}>
-            <div>
-              <p className="text-3xl font-bold text-primary">5000+</p>
-              <p className="text-muted-foreground text-sm">Students Trained</p>
+          <div className="mt-8 md:mt-12 grid grid-cols-3 gap-4 md:gap-8 pt-6 md:pt-8 border-t border-border animate-fade-up" style={{ animationDelay: "0.4s" }}>
+            <div className="text-center sm:text-left">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-primary">5000+</p>
+              <p className="text-muted-foreground text-xs sm:text-sm">Students Trained</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold text-primary">50+</p>
-              <p className="text-muted-foreground text-sm">College Partners</p>
+            <div className="text-center sm:text-left">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-primary">50+</p>
+              <p className="text-muted-foreground text-xs sm:text-sm">College Partners</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold text-primary">100+</p>
-              <p className="text-muted-foreground text-sm">Hiring Partners</p>
+            <div className="text-center sm:text-left">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-primary">100+</p>
+              <p className="text-muted-foreground text-xs sm:text-sm">Hiring Partners</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Tech Logos Strip at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm border-t border-border">
+      {/* Tech Logos Strip at bottom - hidden on small screens */}
+      <div className="hidden md:block absolute bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm border-t border-border">
         <div className="container mx-auto px-4">
           <TechLogosStrip />
         </div>

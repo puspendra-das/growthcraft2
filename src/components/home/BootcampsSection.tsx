@@ -19,24 +19,24 @@ export const BootcampsSection = () => {
   const displayBootcamps = bootcamps.slice(0, 3);
 
   return (
-    <section className="py-20 lg:py-28 bg-muted/30">
+    <section className="py-12 md:py-20 lg:py-28 bg-muted/30">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           {/* Left - Image */}
           <div className="relative order-2 lg:order-1">
             <img 
               src={bootcampScene} 
               alt="Bootcamp learning environment" 
-              className="rounded-2xl shadow-lg w-full"
+              className="rounded-xl md:rounded-2xl shadow-lg w-full"
             />
-            <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 shadow-card">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-lg bg-primary text-primary-foreground">
-                  <Users className="h-6 w-6" />
+            <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-card border border-border rounded-lg md:rounded-xl p-3 md:p-4 shadow-card">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="p-2 md:p-3 rounded-lg bg-primary text-primary-foreground">
+                  <Users className="h-4 w-4 md:h-6 md:w-6" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-foreground">500+</p>
-                  <p className="text-sm text-muted-foreground">Bootcamp Alumni</p>
+                  <p className="text-lg md:text-2xl font-bold text-foreground">500+</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">Bootcamp Alumni</p>
                 </div>
               </div>
             </div>
@@ -44,26 +44,26 @@ export const BootcampsSection = () => {
 
           {/* Right - Content */}
           <div className="order-1 lg:order-2">
-            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Bootcamps & Programs</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-foreground">
+            <span className="text-primary font-semibold mb-3 md:mb-4 block text-xs md:text-sm uppercase tracking-wide">Bootcamps & Programs</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-foreground leading-tight">
               High-Impact Bootcamps for{" "}
               <span className="text-primary">Real-World Readiness</span>
             </h2>
-            <p className="text-muted-foreground text-lg mb-8">
+            <p className="text-muted-foreground text-sm md:text-lg mb-6 md:mb-8">
               Intensive programs built to replicate real job experiences with mentorship, 
               collaboration, and outcome-based learning.
             </p>
 
             {/* Bootcamp Cards */}
-            <div className="space-y-4 mb-8">
+            <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
               {bootcampsLoading ? (
                 [...Array(3)].map((_, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-card border border-border">
-                    <div className="flex items-start gap-4">
-                      <Skeleton className="h-11 w-11 rounded-lg" />
-                      <div className="flex-1">
-                        <Skeleton className="h-5 w-2/3 mb-2" />
-                        <Skeleton className="h-4 w-full mb-3" />
+                  <div key={i} className="p-3 md:p-4 rounded-lg md:rounded-xl bg-card border border-border">
+                    <div className="flex items-start gap-3 md:gap-4">
+                      <Skeleton className="h-9 w-9 md:h-11 md:w-11 rounded-lg flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <Skeleton className="h-4 md:h-5 w-2/3 mb-2" />
+                        <Skeleton className="h-3 md:h-4 w-full mb-2 md:mb-3" />
                         <Skeleton className="h-3 w-1/2" />
                       </div>
                     </div>
@@ -119,11 +119,11 @@ export const BootcampsSection = () => {
 
             {/* 40-Day Programs Preview */}
             {programs.length > 0 && (
-              <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
-                <p className="text-sm font-medium text-foreground mb-2">Plus {programs.length} Internship Programs:</p>
-                <div className="flex flex-wrap gap-2">
+              <div className="mb-4 md:mb-6 p-3 md:p-4 rounded-lg md:rounded-xl bg-primary/5 border border-primary/20">
+                <p className="text-xs md:text-sm font-medium text-foreground mb-2">Plus {programs.length} Internship Programs:</p>
+                <div className="flex flex-wrap gap-1.5 md:gap-2">
                   {programs.slice(0, 3).map(p => (
-                    <span key={p.id} className="text-xs px-2 py-1 bg-card border border-border rounded-full text-muted-foreground">
+                    <span key={p.id} className="text-[10px] md:text-xs px-1.5 md:px-2 py-0.5 md:py-1 bg-card border border-border rounded-full text-muted-foreground">
                       {p.domain || p.category}
                     </span>
                   ))}
@@ -131,10 +131,10 @@ export const BootcampsSection = () => {
               </div>
             )}
 
-            <Button asChild size="lg">
+            <Button asChild size="lg" className="w-full sm:w-auto">
               <Link to="/bootcamps">
                 View All Programs
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
               </Link>
             </Button>
           </div>
