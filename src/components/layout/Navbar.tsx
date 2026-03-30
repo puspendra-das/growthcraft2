@@ -46,11 +46,14 @@ export const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button variant="default" size="default">
-              Get Started
-            </Button>
+            <Link to="/student/login">
+              <Button variant="outline" size="sm">Login</Button>
+            </Link>
+            <Link to="/student/login">
+              <Button variant="default" size="default">Get Started</Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -80,10 +83,13 @@ export const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <div className="pt-4 px-4">
-                <Button variant="default" className="w-full">
-                  Get Started
-                </Button>
+              <div className="pt-4 px-4 space-y-2">
+                <Link to="/student/login" onClick={() => setIsOpen(false)}>
+                  <Button variant="outline" className="w-full">Login</Button>
+                </Link>
+                <Link to="/student/login" onClick={() => setIsOpen(false)}>
+                  <Button variant="default" className="w-full">Get Started</Button>
+                </Link>
               </div>
             </div>
           </div>

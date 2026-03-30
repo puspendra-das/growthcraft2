@@ -31,6 +31,13 @@ import AdminEnquiries from "./pages/admin/AdminEnquiries";
 import AdminRegistrations from "./pages/admin/AdminRegistrations";
 import AdminContent from "./pages/admin/AdminContent";
 import AdminSettings from "./pages/admin/AdminSettings";
+import StudentAuth from "./pages/StudentAuth";
+import StudentLayout from "./layouts/StudentLayout";
+import StudentDashboard from "./pages/student/StudentDashboard";
+import StudentCourses from "./pages/student/StudentCourses";
+import StudentCertificates from "./pages/student/StudentCertificates";
+import StudentProfile from "./pages/student/StudentProfile";
+import StudentSupport from "./pages/student/StudentSupport";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +62,16 @@ const App = () => (
             <Route path="/for-mentors" element={<ForMentors />} />
             <Route path="/for-employers" element={<ForEmployers />} />
             
+            {/* Student Routes */}
+            <Route path="/student/login" element={<StudentAuth />} />
+            <Route path="/student" element={<StudentLayout />}>
+              <Route path="dashboard" element={<StudentDashboard />} />
+              <Route path="courses" element={<StudentCourses />} />
+              <Route path="certificates" element={<StudentCertificates />} />
+              <Route path="profile" element={<StudentProfile />} />
+              <Route path="support" element={<StudentSupport />} />
+            </Route>
+
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>

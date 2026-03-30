@@ -18,7 +18,7 @@ const footerLinks = {
   company: [
     { name: "About Us", path: "/about" },
     { name: "Contact", path: "/contact" },
-    { name: "FAQs", path: "/contact" },
+    { name: "Student Dashboard", path: "/student/login" },
     { name: "Admin Panel", path: "/admin" },
   ],
 };
