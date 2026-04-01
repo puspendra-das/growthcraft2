@@ -10,8 +10,10 @@ import { useToast } from "@/hooks/use-toast";
 
 const StudentAuth = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const defaultTab = location.pathname === "/student/register" ? "register" : "login";
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
