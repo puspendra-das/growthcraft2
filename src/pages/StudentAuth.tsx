@@ -48,7 +48,7 @@ const StudentAuth = () => {
         </div>
 
         <Card className="border-border/50 shadow-lg">
-          <Tabs defaultValue="login">
+          <Tabs defaultValue={defaultTab}>
             <CardHeader className="pb-4">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="login">Login</TabsTrigger>

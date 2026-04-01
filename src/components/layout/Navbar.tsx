@@ -87,7 +87,7 @@ export const Navbar = () => {
                 <Link to="/student/login" onClick={() => setIsOpen(false)}>
                   <Button variant="outline" className="w-full">Login</Button>
                 </Link>
-                <Link to="/student/login" onClick={() => setIsOpen(false)}>
+                <Link to="/student/register" onClick={() => setIsOpen(false)}>
                   <Button variant="default" className="w-full">Get Started</Button>
                 </Link>
               </div>
