@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,8 +10,10 @@ import { useToast } from "@/hooks/use-toast";
 
 const StudentAuth = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const defaultTab = location.pathname === "/student/register" ? "register" : "login";
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +48,7 @@ const StudentAuth = () => {
         </div>
 
         <Card className="border-border/50 shadow-lg">
-          <Tabs defaultValue="login">
+          <Tabs defaultValue={defaultTab}>
             <CardHeader className="pb-4">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="login">Login</TabsTrigger>
