@@ -51,7 +51,7 @@ export const Navbar = () => {
             <Link to="/student/login">
               <Button variant="outline" size="sm">Login</Button>
             </Link>
-            <Link to="/student/login">
+            <Link to="/student/register">
               <Button variant="default" size="default">Get Started</Button>
             </Link>
           </div>
