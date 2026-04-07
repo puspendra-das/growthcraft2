@@ -59,8 +59,8 @@ const ForStudents = () => {
               with our comprehensive learning platform and placement support.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" onClick={() => openForm("enrollment", "Student Registration")}>
-                Start Learning
+              <Button variant="hero" size="xl" asChild>
+                <Link to="/student/register">Start Learning</Link>
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button asChild variant="hero-outline" size="xl">
