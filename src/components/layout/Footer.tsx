@@ -15,10 +15,15 @@ const footerLinks = {
     { name: "For Mentors", path: "/for-mentors" },
     { name: "For Employers", path: "/for-employers" },
   ],
+  portals: [
+    { name: "Student Dashboard", path: "/student/login" },
+    { name: "College Dashboard", path: "/college/login" },
+    { name: "Mentor Dashboard", path: "/mentor/login" },
+    { name: "Employer Dashboard", path: "/employer/login" },
+  ],
   company: [
     { name: "About Us", path: "/about" },
     { name: "Contact", path: "/contact" },
-    { name: "Student Dashboard", path: "/student/login" },
     { name: "Admin Panel", path: "/admin" },
   ],
 };
@@ -27,7 +32,7 @@ export const Footer = () => {
   return (
     <footer className="bg-foreground text-background">
       <div className="container mx-auto px-4 py-10 md:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-8">
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="inline-block mb-4 md:mb-6">
@@ -81,10 +86,24 @@ export const Footer = () => {
             </ul>
           </div>
 
+          {/* Portals */}
+          <div>
+            <h4 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-background">Portals</h4>
+            <ul className="space-y-2 md:space-y-3">
+              {footerLinks.portals.map((link) => (
+                <li key={link.name}>
+                  <Link to={link.path} className="text-background/70 hover:text-background transition-colors text-sm md:text-base">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           {/* Company Links */}
-          <div className="col-span-2 md:col-span-1">
+          <div>
             <h4 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-background">Company</h4>
-            <ul className="grid grid-cols-2 md:grid-cols-1 gap-2 md:space-y-3">
+            <ul className="space-y-2 md:space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link to={link.path} className="text-background/70 hover:text-background transition-colors text-sm md:text-base">

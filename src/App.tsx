@@ -31,6 +31,8 @@ import AdminEnquiries from "./pages/admin/AdminEnquiries";
 import AdminRegistrations from "./pages/admin/AdminRegistrations";
 import AdminContent from "./pages/admin/AdminContent";
 import AdminSettings from "./pages/admin/AdminSettings";
+
+// Student
 import StudentAuth from "./pages/StudentAuth";
 import StudentLayout from "./layouts/StudentLayout";
 import StudentDashboard from "./pages/student/StudentDashboard";
@@ -38,6 +40,38 @@ import StudentCourses from "./pages/student/StudentCourses";
 import StudentCertificates from "./pages/student/StudentCertificates";
 import StudentProfile from "./pages/student/StudentProfile";
 import StudentSupport from "./pages/student/StudentSupport";
+
+// College
+import CollegeAuth from "./pages/CollegeAuth";
+import CollegeLayout from "./layouts/CollegeLayout";
+import CollegeDashboard from "./pages/college/CollegeDashboard";
+import CollegePrograms from "./pages/college/CollegePrograms";
+import CollegeStudents from "./pages/college/CollegeStudents";
+import CollegeSchedule from "./pages/college/CollegeSchedule";
+import CollegeReports from "./pages/college/CollegeReports";
+import CollegeProfile from "./pages/college/CollegeProfile";
+import CollegeSupport from "./pages/college/CollegeSupport";
+
+// Mentor
+import MentorAuth from "./pages/MentorAuth";
+import MentorLayout from "./layouts/MentorLayout";
+import MentorDashboard from "./pages/mentor/MentorDashboard";
+import MentorStudents from "./pages/mentor/MentorStudents";
+import MentorCourses from "./pages/mentor/MentorCourses";
+import MentorSchedule from "./pages/mentor/MentorSchedule";
+import MentorResources from "./pages/mentor/MentorResources";
+import MentorProfile from "./pages/mentor/MentorProfile";
+import MentorSupport from "./pages/mentor/MentorSupport";
+
+// Employer
+import EmployerAuth from "./pages/EmployerAuth";
+import EmployerLayout from "./layouts/EmployerLayout";
+import EmployerDashboard from "./pages/employer/EmployerDashboard";
+import EmployerTalent from "./pages/employer/EmployerTalent";
+import EmployerJobs from "./pages/employer/EmployerJobs";
+import EmployerApplications from "./pages/employer/EmployerApplications";
+import EmployerProfile from "./pages/employer/EmployerProfile";
+import EmployerSupport from "./pages/employer/EmployerSupport";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +105,44 @@ const App = () => (
               <Route path="certificates" element={<StudentCertificates />} />
               <Route path="profile" element={<StudentProfile />} />
               <Route path="support" element={<StudentSupport />} />
+            </Route>
+
+            {/* College Routes */}
+            <Route path="/college/login" element={<CollegeAuth />} />
+            <Route path="/college/register" element={<CollegeAuth />} />
+            <Route path="/college" element={<CollegeLayout />}>
+              <Route path="dashboard" element={<CollegeDashboard />} />
+              <Route path="programs" element={<CollegePrograms />} />
+              <Route path="students" element={<CollegeStudents />} />
+              <Route path="schedule" element={<CollegeSchedule />} />
+              <Route path="reports" element={<CollegeReports />} />
+              <Route path="profile" element={<CollegeProfile />} />
+              <Route path="support" element={<CollegeSupport />} />
+            </Route>
+
+            {/* Mentor Routes */}
+            <Route path="/mentor/login" element={<MentorAuth />} />
+            <Route path="/mentor/register" element={<MentorAuth />} />
+            <Route path="/mentor" element={<MentorLayout />}>
+              <Route path="dashboard" element={<MentorDashboard />} />
+              <Route path="students" element={<MentorStudents />} />
+              <Route path="courses" element={<MentorCourses />} />
+              <Route path="schedule" element={<MentorSchedule />} />
+              <Route path="resources" element={<MentorResources />} />
+              <Route path="profile" element={<MentorProfile />} />
+              <Route path="support" element={<MentorSupport />} />
+            </Route>
+
+            {/* Employer Routes */}
+            <Route path="/employer/login" element={<EmployerAuth />} />
+            <Route path="/employer/register" element={<EmployerAuth />} />
+            <Route path="/employer" element={<EmployerLayout />}>
+              <Route path="dashboard" element={<EmployerDashboard />} />
+              <Route path="talent" element={<EmployerTalent />} />
+              <Route path="jobs" element={<EmployerJobs />} />
+              <Route path="applications" element={<EmployerApplications />} />
+              <Route path="profile" element={<EmployerProfile />} />
+              <Route path="support" element={<EmployerSupport />} />
             </Route>
 
             {/* Admin Routes */}

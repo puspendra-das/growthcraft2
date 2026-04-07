@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import logoMain from "@/assets/logo-main.png";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -16,6 +22,20 @@ const navLinks = [
   { name: "Contact", path: "/contact" },
 ];
 
+const loginOptions = [
+  { label: "Student Login", path: "/student/login" },
+  { label: "College Login", path: "/college/login" },
+  { label: "Mentor Login", path: "/mentor/login" },
+  { label: "Employer Login", path: "/employer/login" },
+];
+
+const registerOptions = [
+  { label: "Student Signup", path: "/student/register" },
+  { label: "College Signup", path: "/college/register" },
+  { label: "Mentor Application", path: "/mentor/register" },
+  { label: "Employer Signup", path: "/employer/register" },
+];
+
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -24,12 +44,10 @@ export const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
           <Link to="/" className="flex items-center">
             <img src={logoMain} alt="GrowthCraft" className="h-8 lg:h-10" />
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
@@ -46,17 +64,37 @@ export const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Buttons */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link to="/student/login">
-              <Button variant="outline" size="sm">Login</Button>
-            </Link>
-            <Link to="/student/register">
-              <Button variant="default" size="default">Get Started</Button>
-            </Link>
+          <div className="hidden lg:flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  Login <ChevronDown className="ml-1 h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {loginOptions.map((opt) => (
+                  <DropdownMenuItem key={opt.path} asChild>
+                    <Link to={opt.path}>{opt.label}</Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="default" size="default">
+                  Get Started <ChevronDown className="ml-1 h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {registerOptions.map((opt) => (
+                  <DropdownMenuItem key={opt.path} asChild>
+                    <Link to={opt.path}>{opt.label}</Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             className="lg:hidden p-2 rounded-lg hover:bg-muted"
             onClick={() => setIsOpen(!isOpen)}
@@ -65,7 +103,6 @@ export const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {isOpen && (
           <div className="lg:hidden py-4 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-2">
@@ -84,12 +121,22 @@ export const Navbar = () => {
                 </Link>
               ))}
               <div className="pt-4 px-4 space-y-2">
-                <Link to="/student/login" onClick={() => setIsOpen(false)}>
-                  <Button variant="outline" className="w-full">Login</Button>
-                </Link>
-                <Link to="/student/register" onClick={() => setIsOpen(false)}>
-                  <Button variant="default" className="w-full">Get Started</Button>
-                </Link>
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-2">Login As</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {loginOptions.map((opt) => (
+                    <Link key={opt.path} to={opt.path} onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full text-xs">{opt.label}</Button>
+                    </Link>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-2 mt-4">Register As</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {registerOptions.map((opt) => (
+                    <Link key={opt.path} to={opt.path} onClick={() => setIsOpen(false)}>
+                      <Button variant="default" size="sm" className="w-full text-xs">{opt.label}</Button>
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
