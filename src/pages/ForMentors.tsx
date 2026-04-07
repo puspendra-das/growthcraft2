@@ -51,8 +51,8 @@ const ForMentors = () => {
               impact while earning on your own schedule.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" onClick={() => openForm("mentor", "Mentor Application")}>
-                Apply to Mentor
+              <Button variant="hero" size="xl" asChild>
+                <Link to="/mentor/register">Apply to Mentor</Link>
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button variant="hero-outline" size="xl" onClick={() => openForm("enquiry", "Mentor Program Enquiry")}>

@@ -46,8 +46,8 @@ const ForEmployers = () => {
               who are equipped with the skills your organization needs.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" onClick={() => openForm("partner", "Employer Partnership Request")}>
-                Hire From Us
+              <Button variant="hero" size="xl" asChild>
+                <Link to="/employer/register">Hire From Us</Link>
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button variant="hero-outline" size="xl" onClick={() => openForm("callback")}>

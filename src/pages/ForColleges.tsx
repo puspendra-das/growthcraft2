@@ -52,8 +52,8 @@ const ForColleges = () => {
               bootcamps, workshops, and training programs delivered on your campus.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" onClick={() => openForm("partner", "College Partnership Request")}>
-                Partner With Us
+              <Button variant="hero" size="xl" asChild>
+                <Link to="/college/register">Partner With Us</Link>
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button variant="hero-outline" size="xl">
