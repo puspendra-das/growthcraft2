@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Profile {
   id: string;
@@ -48,6 +49,8 @@ const AdminUsers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<Profile | null>(null);
+  const [viewUser, setViewUser] = useState<Profile | null>(null);
+  const [roleFilter, setRoleFilter] = useState("all");
   const [formData, setFormData] = useState({
     email: "",
     full_name: "",
@@ -90,6 +93,10 @@ const AdminUsers = () => {
       is_active: user.is_active,
     });
     setIsDialogOpen(true);
+  };
+
+  const handleView = (user: Profile) => {
+    setViewUser(user);
   };
 
   const handleDelete = async (user: Profile) => {
@@ -157,12 +164,14 @@ const AdminUsers = () => {
     }
   };
 
+  const filteredUsers = roleFilter === "all" ? users : users.filter(u => u.role === roleFilter);
+
   const columns = [
     {
       key: "full_name",
       label: "User",
       render: (value: string, row: Profile) => (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleView(row)}>
           <Avatar className="h-8 w-8">
             <AvatarImage src={row.avatar_url || ""} />
             <AvatarFallback className="text-xs">
@@ -170,7 +179,7 @@ const AdminUsers = () => {
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="font-medium">{value || "No name"}</p>
+            <p className="font-medium hover:text-primary transition-colors">{value || "No name"}</p>
             <p className="text-xs text-muted-foreground">{row.email}</p>
           </div>
         </div>
@@ -214,15 +223,83 @@ const AdminUsers = () => {
         <p className="text-muted-foreground mt-1">Manage all platform users</p>
       </div>
 
+      {/* Role Filter Tabs */}
+      <Tabs value={roleFilter} onValueChange={setRoleFilter}>
+        <TabsList>
+          <TabsTrigger value="all">All ({users.length})</TabsTrigger>
+          <TabsTrigger value="student">Students ({users.filter(u => u.role === "student").length})</TabsTrigger>
+          <TabsTrigger value="college_admin">Colleges ({users.filter(u => u.role === "college_admin").length})</TabsTrigger>
+          <TabsTrigger value="mentor">Mentors ({users.filter(u => u.role === "mentor").length})</TabsTrigger>
+          <TabsTrigger value="employer">Employers ({users.filter(u => u.role === "employer").length})</TabsTrigger>
+          <TabsTrigger value="platform_admin">Admins ({users.filter(u => u.role === "platform_admin").length})</TabsTrigger>
+        </TabsList>
+      </Tabs>
+
       <DataTable
         columns={columns}
-        data={users}
+        data={filteredUsers}
         searchPlaceholder="Search users..."
         onEdit={handleEdit}
         onDelete={handleDelete}
         isLoading={isLoading}
       />
 
+      {/* View User Dialog */}
+      <Dialog open={!!viewUser} onOpenChange={() => setViewUser(null)}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>User Profile</DialogTitle>
+          </DialogHeader>
+          {viewUser && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <Avatar className="h-16 w-16">
+                  <AvatarImage src={viewUser.avatar_url || ""} />
+                  <AvatarFallback className="text-xl">
+                    {(viewUser.full_name || viewUser.email)?.[0]?.toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="text-lg font-semibold text-foreground">{viewUser.full_name || "No name"}</p>
+                  <p className="text-sm text-muted-foreground">{viewUser.email}</p>
+                  <div className="flex gap-2 mt-1">
+                    <Badge variant={getRoleBadgeVariant(viewUser.role)}>
+                      {roles.find(r => r.value === viewUser.role)?.label}
+                    </Badge>
+                    <Badge variant={viewUser.is_active ? "default" : "secondary"}>
+                      {viewUser.is_active ? "Active" : "Inactive"}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-muted-foreground">Phone</span>
+                  <p className="font-medium text-foreground">{viewUser.phone || "Not provided"}</p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Organization</span>
+                  <p className="font-medium text-foreground">{viewUser.organization || "Not provided"}</p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Joined</span>
+                  <p className="font-medium text-foreground">{new Date(viewUser.created_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">User ID</span>
+                  <p className="font-mono text-xs text-foreground truncate">{viewUser.id}</p>
+                </div>
+              </div>
+              <div className="flex gap-2 pt-2 border-t border-border">
+                <Button size="sm" onClick={() => { setViewUser(null); handleEdit(viewUser); }}>Edit Profile</Button>
+                <Button size="sm" variant="destructive" onClick={() => { setViewUser(null); handleDelete(viewUser); }}>Delete</Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit User Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
