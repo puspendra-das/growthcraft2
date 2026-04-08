@@ -41,7 +41,7 @@ const initialJobs: Job[] = [
 const EmployerJobs = () => {
   const [jobs, setJobs] = useState(initialJobs);
   const [postOpen, setPostOpen] = useState(false);
-  const [detailJob, setDetailJob] = useState<Job | null>(null);
+  
   const [editJob, setEditJob] = useState<Job | null>(null);
   const { toast } = useToast();
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, Video, MapPin } from "lucide-react";
+import { Calendar, Clock, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

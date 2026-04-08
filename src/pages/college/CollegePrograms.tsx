@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Clock, Users, ArrowRight, Eye, X } from "lucide-react";
+import { BookOpen, Clock, Users, Eye } from "lucide-react";
 import {
   Dialog,
   DialogContent,
