@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -125,7 +125,7 @@ const StudentAuth = () => {
         </Card>
 
         <p className="text-center text-xs text-muted-foreground mt-6">
-          By continuing, you agree to our Terms of Service and Privacy Policy.
+          Not a student? <Link to="/college/login" className="text-primary hover:underline">College Login</Link> · <Link to="/mentor/login" className="text-primary hover:underline">Mentor Login</Link> · <Link to="/employer/login" className="text-primary hover:underline">Employer Login</Link>
         </p>
       </div>
     </div>
