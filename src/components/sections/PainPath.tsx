@@ -6,7 +6,7 @@ const pains = [
   { icon: BookX, text: "Tutorial hell — watching hours, building nothing" },
   { icon: FolderX, text: "No real projects to show in interviews" },
   { icon: UserX, text: "No access to industry mentors" },
-  { icon: BriefcaseOff, text: "No hiring pipeline after completion" },
+  { icon: Briefcase, text: "No hiring pipeline after completion" },
 ];
 
 const pillars = [
