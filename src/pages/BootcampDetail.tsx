@@ -1,304 +1,179 @@
 import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { useBootcamp } from "@/hooks/useBootcamps";
+import Section from "@/components/ui-extensions/Section";
+import DataCard from "@/components/ui-extensions/DataCard";
+import { bootcampsMock } from "@/data/bootcamps.mock";
+import { mentorsMock } from "@/data/mentors.mock";
+import { ArrowLeft, ArrowRight, Calendar, Users, Star } from "lucide-react";
 import { PopupForm, usePopupForm } from "@/components/shared/PopupForm";
-import { 
-  Clock, Users, ArrowRight, CheckCircle, ArrowLeft, 
-  GraduationCap, Target, Award, Calendar, Monitor, Download
-} from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import bootcampGeneral from "@/assets/bootcamp-general.jpg";
+
+const toolLogos = ["React", "Node.js", "MongoDB", "Express", "TypeScript", "Docker", "AWS", "Git"];
 
 const BootcampDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { bootcamp, isLoading, error } = useBootcamp(slug || "");
+  const bootcamp = bootcampsMock.find((b) => b.slug === slug);
   const { isOpen, formType, formTitle, openForm, closeForm } = usePopupForm();
 
-  if (isLoading) {
+  if (!bootcamp) {
     return (
       <Layout>
-        <div className="container mx-auto px-4 py-16">
-          <Skeleton className="h-96 w-full rounded-2xl mb-8" />
-          <Skeleton className="h-8 w-2/3 mb-4" />
-          <Skeleton className="h-4 w-1/2 mb-8" />
-        </div>
+        <Section variant="white">
+          <div className="text-center py-16">
+            <h1 className="text-2xl font-bold mb-4">Bootcamp Not Found</h1>
+            <Button asChild><Link to="/bootcamps">Browse Bootcamps</Link></Button>
+          </div>
+        </Section>
       </Layout>
     );
   }
 
-  if (error || !bootcamp) {
-    return (
-      <Layout>
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Bootcamp Not Found</h1>
-          <p className="text-muted-foreground mb-8">The bootcamp you're looking for doesn't exist.</p>
-          <Button asChild>
-            <Link to="/bootcamps">Browse Bootcamps</Link>
-          </Button>
-        </div>
-      </Layout>
-    );
-  }
+  const seatsLeft = bootcamp.maxSeats - bootcamp.enrolledCount;
+  const mentors = mentorsMock.filter((m) => bootcamp.mentorNames.includes(m.name));
 
-  const imageUrl = bootcamp.image_url || bootcampGeneral;
+  // Generate session timeline from skills
+  const sessions = bootcamp.skillsCovered.map((skill, i) => ({
+    week: i + 1,
+    title: `${skill} — Deep Dive & Projects`,
+    mentor: bootcamp.mentorNames[i % bootcamp.mentorNames.length],
+    duration: "3 sessions × 2 hours",
+  }));
 
   return (
     <Layout>
       <PopupForm isOpen={isOpen} onClose={closeForm} type={formType} title={formTitle} />
 
-      {/* Hero Section */}
-      <section className="relative py-16 lg:py-24 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <Link to="/bootcamps" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-6 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Bootcamps
-          </Link>
-          
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              {bootcamp.category && (
-                <Badge variant="secondary" className="mb-4">{bootcamp.category}</Badge>
-              )}
-              
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-foreground">
-                {bootcamp.title}
-              </h1>
-              
-              <p className="text-lg text-muted-foreground mb-6">
-                {bootcamp.description || "Intensive, hands-on training to transform your career."}
-              </p>
-
-              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-8">
-                {bootcamp.duration && (
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-primary" />
-                    <span>{bootcamp.duration}</span>
-                  </div>
-                )}
-                <div className="flex items-center gap-2">
-                  <Monitor className="h-4 w-4 text-primary" />
-                  <span>{bootcamp.format || "Online"}</span>
-                </div>
-                {bootcamp.batch_size && (
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-primary" />
-                    <span>{bootcamp.batch_size} students/batch</span>
-                  </div>
-                )}
-                {bootcamp.next_batch_date && (
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-primary" />
-                    <span>Next: {new Date(bootcamp.next_batch_date).toLocaleDateString()}</span>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                {bootcamp.price ? (
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-primary">
-                      ₹{bootcamp.discount_price || bootcamp.price}
-                    </span>
-                    {bootcamp.discount_price && (
-                      <span className="text-lg text-muted-foreground line-through">₹{bootcamp.price}</span>
-                    )}
-                  </div>
-                ) : (
-                  <span className="text-muted-foreground">Contact for pricing</span>
-                )}
-                
-                <Button size="lg" onClick={() => openForm("enrollment", `Enroll in ${bootcamp.title}`)}>
-                  Enroll Now <ArrowRight className="ml-2 h-5 w-5" />
+      {/* Hero */}
+      <Section variant="graphite">
+        <Link to="/bootcamps" className="inline-flex items-center gap-2 text-white/60 hover:text-white mb-6 text-sm transition-colors">
+          <ArrowLeft className="h-4 w-4" /> Back to Bootcamps
+        </Link>
+        <div className="grid lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-7">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-success/20 text-success">{bootcamp.status}</span>
+              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-lavender/20 text-lavender">{bootcamp.mode}</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">{bootcamp.title}</h1>
+            <div className="flex items-center gap-4 text-sm text-white/60 mb-6">
+              <span className="flex items-center gap-1"><Calendar className="h-4 w-4" />{bootcamp.startDate} — {bootcamp.endDate}</span>
+              <span className="flex items-center gap-1"><Users className="h-4 w-4" />{bootcamp.maxSeats} seats</span>
+            </div>
+            {bootcamp.status === "Open" && (
+              <p className="text-lg font-bold text-magenta mb-6">{seatsLeft} seats remaining</p>
+            )}
+            <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" onClick={() => openForm("enrollment", `Reserve seat — ${bootcamp.title}`)}>
+              Reserve Your Seat <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+          <div className="lg:col-span-5">
+            {/* Sticky enroll card */}
+            <DataCard variant="dark" className="border border-white/10">
+              <div className="text-center">
+                <p className="text-3xl font-extrabold text-white mb-1">₹{bootcamp.price.toLocaleString()}</p>
+                <p className="text-sm text-white/50 mb-4">EMI from ₹{Math.round(bootcamp.price / 6).toLocaleString()}/mo</p>
+                <Button className="w-full bg-magenta text-white hover:bg-magenta/90 mb-3" size="lg" onClick={() => openForm("enrollment", `Reserve seat — ${bootcamp.title}`)}>
+                  Enroll Now
+                </Button>
+                <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10" onClick={() => openForm("callback")}>
+                  Request Callback
                 </Button>
               </div>
-            </div>
-
-            <div className="relative">
-              <img 
-                src={imageUrl} 
-                alt={bootcamp.title}
-                className="w-full h-80 lg:h-96 object-cover rounded-2xl shadow-lg"
-              />
-              {bootcamp.is_featured && (
-                <Badge className="absolute top-4 right-4 bg-primary">Featured</Badge>
-              )}
-            </div>
+            </DataCard>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Content Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-12">
-              {/* What You'll Learn */}
-              {bootcamp.learning_outcomes && bootcamp.learning_outcomes.length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-                    <Target className="h-6 w-6 text-primary" />
-                    What You'll Learn
-                  </h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {bootcamp.learning_outcomes.map((outcome, index) => (
-                      <div key={index} className="flex items-start gap-3 p-4 rounded-lg bg-muted/50">
-                        <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-foreground">{outcome}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+      {/* Skills */}
+      <Section variant="white">
+        <h2 className="text-2xl font-extrabold mb-6">What you'll learn</h2>
+        <div className="flex flex-wrap gap-2">
+          {bootcamp.skillsCovered.map((skill) => (
+            <span key={skill} className="px-3 py-1.5 rounded-full text-sm bg-lavender/10 text-lavender font-medium">{skill}</span>
+          ))}
+        </div>
+      </Section>
 
-              {/* Tech Stack */}
-              {bootcamp.tech_stack && bootcamp.tech_stack.length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground mb-6">Technologies You'll Master</h2>
-                  <div className="flex flex-wrap gap-2">
-                    {bootcamp.tech_stack.map((tech, index) => (
-                      <Badge key={index} variant="outline" className="px-4 py-2 text-sm">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Curriculum */}
-              {Array.isArray(bootcamp.curriculum) && bootcamp.curriculum.length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-                    <GraduationCap className="h-6 w-6 text-primary" />
-                    Curriculum
-                  </h2>
-                  <div className="space-y-4">
-                    {(bootcamp.curriculum as any[]).map((module: any, index: number) => (
-                      <div key={index} className="rounded-xl border border-border bg-card p-4">
-                        <h3 className="font-semibold text-foreground mb-2">
-                          Week {index + 1}: {module.title || module}
-                        </h3>
-                        {module.topics && (
-                          <ul className="space-y-1 text-sm text-muted-foreground">
-                            {module.topics.map((topic: string, i: number) => (
-                              <li key={i} className="flex items-center gap-2">
-                                <CheckCircle className="h-3 w-3 text-primary" />
-                                {topic}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Prerequisites */}
-              {bootcamp.prerequisites && bootcamp.prerequisites.length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground mb-6">Prerequisites</h2>
-                  <ul className="space-y-2">
-                    {bootcamp.prerequisites.map((prereq, index) => (
-                      <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                        <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                        {prereq}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-24 space-y-6">
-                {/* Enrollment Card */}
-                <div className="rounded-2xl border border-border bg-card p-6 shadow-lg">
-                  <h3 className="text-xl font-bold text-foreground mb-4">Enroll Now</h3>
-                  
-                  {bootcamp.price ? (
-                    <div className="mb-4">
-                      <span className="text-3xl font-bold text-primary">
-                        ₹{bootcamp.discount_price || bootcamp.price}
-                      </span>
-                      {bootcamp.discount_price && (
-                        <span className="text-lg text-muted-foreground line-through ml-2">₹{bootcamp.price}</span>
-                      )}
-                      {bootcamp.discount_label && (
-                        <Badge variant="destructive" className="ml-2">{bootcamp.discount_label}</Badge>
-                      )}
+      {/* Timeline */}
+      <Section variant="marble">
+        <h2 className="text-2xl font-extrabold mb-8">Sessions Timeline</h2>
+        <div className="relative pl-8">
+          <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-gradient-to-b from-magenta to-lavender" />
+          <div className="space-y-6">
+            {sessions.map((session) => (
+              <div key={session.week} className="relative">
+                <div className="absolute -left-5 top-1 w-4 h-4 rounded-full bg-magenta border-2 border-background" />
+                <DataCard>
+                  <div className="flex items-start justify-between flex-wrap gap-2">
+                    <div>
+                      <p className="text-xs text-muted-foreground font-afacad">Week {session.week}</p>
+                      <h3 className="font-bold">{session.title}</h3>
+                      <p className="text-sm text-muted-foreground">{session.duration}</p>
                     </div>
-                  ) : (
-                    <p className="text-muted-foreground mb-4">Contact us for pricing</p>
-                  )}
-
-                  <Button className="w-full mb-4" size="lg" onClick={() => openForm("enrollment", `Enroll in ${bootcamp.title}`)}>
-                    Enroll Now
-                  </Button>
-
-                  <Button variant="outline" className="w-full mb-2">
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Syllabus
-                  </Button>
-
-                  <Button variant="ghost" className="w-full" onClick={() => openForm("callback")}>
-                    Request Callback
-                  </Button>
-                </div>
-
-                {/* Bootcamp Highlights */}
-                {bootcamp.highlights && bootcamp.highlights.length > 0 && (
-                  <div className="rounded-2xl border border-border bg-card p-6">
-                    <h3 className="text-lg font-bold text-foreground mb-4">Program Highlights</h3>
-                    <ul className="space-y-3">
-                      {bootcamp.highlights.map((highlight, index) => (
-                        <li key={index} className="flex items-start gap-3 text-sm text-muted-foreground">
-                          <Award className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Instructor */}
-                {bootcamp.instructor_name && (
-                  <div className="rounded-2xl border border-border bg-card p-6">
-                    <h3 className="text-lg font-bold text-foreground mb-4">Your Instructor</h3>
-                    <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Users className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-foreground">{bootcamp.instructor_name}</p>
-                        {bootcamp.instructor_bio && (
-                          <p className="text-sm text-muted-foreground line-clamp-2">{bootcamp.instructor_bio}</p>
-                        )}
-                      </div>
+                    <div className="flex items-center gap-2">
+                      <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${session.mentor}`} alt={session.mentor} className="h-6 w-6 rounded-full" />
+                      <span className="text-xs text-muted-foreground">{session.mentor}</span>
                     </div>
                   </div>
-                )}
+                </DataCard>
               </div>
-            </div>
+            ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-primary">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4 text-primary-foreground">Transform Your Career</h2>
-          <p className="text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Join our intensive bootcamp and become job-ready in weeks, not years.
-          </p>
-          <Button size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90" onClick={() => openForm("enrollment", `Enroll in ${bootcamp.title}`)}>
-            Enroll Now <ArrowRight className="ml-2 h-5 w-5" />
+      {/* Mentors */}
+      <Section variant="white">
+        <h2 className="text-2xl font-extrabold mb-8">Meet your mentors</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mentors.map((mentor) => (
+            <DataCard key={mentor._id}>
+              <div className="flex items-center gap-4 mb-3">
+                <img src={mentor.photo} alt={mentor.name} className="h-12 w-12 rounded-full" />
+                <div>
+                  <h3 className="font-bold">{mentor.name}</h3>
+                  <p className="text-xs text-muted-foreground">{mentor.company}</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {mentor.expertiseTags.map((tag) => (
+                  <span key={tag} className="px-2 py-0.5 rounded text-[10px] bg-lavender/10 text-lavender font-medium">{tag}</span>
+                ))}
+              </div>
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <span>{mentor.sessionsDelivered} sessions</span>
+                <span className="flex items-center gap-0.5"><Star className="h-3 w-3 text-warning" />{mentor.rating}</span>
+              </div>
+            </DataCard>
+          ))}
+        </div>
+      </Section>
+
+      {/* Tools */}
+      <Section variant="marble">
+        <h2 className="text-2xl font-extrabold mb-6">Tools you'll use</h2>
+        <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
+          {toolLogos.map((tool) => (
+            <div key={tool} className="flex flex-col items-center gap-2 p-4 rounded-lg bg-card border border-border">
+              <div className="h-8 w-8 rounded bg-muted flex items-center justify-center text-xs font-mono font-bold text-muted-foreground">
+                {tool.charAt(0)}
+              </div>
+              <span className="text-[10px] text-muted-foreground">{tool}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Final CTA */}
+      <Section variant="graphite">
+        <div className="text-center py-8">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">Transform your career in {bootcamp.skillsCovered.length * 2} weeks</h2>
+          <p className="text-white/60 mb-6">Limited seats. Enroll now to secure your spot.</p>
+          <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" onClick={() => openForm("enrollment", `Reserve seat — ${bootcamp.title}`)}>
+            Reserve Your Seat <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
-      </section>
+      </Section>
     </Layout>
   );
 };

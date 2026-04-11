@@ -1,25 +1,33 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Target, Users, Award, Building, Heart, Lightbulb, ArrowRight, Phone } from "lucide-react";
+import Section from "@/components/ui-extensions/Section";
+import DataCard from "@/components/ui-extensions/DataCard";
+import { StatCounter } from "@/components/ui-extensions";
 import { PopupForm, usePopupForm } from "@/components/shared/PopupForm";
-import teamCollaboration from "@/assets/team-collaboration.jpg";
-import techPattern from "@/assets/tech-pattern.jpg";
+import { ArrowRight, Target, Users, Heart, Lightbulb, Linkedin, Twitter } from "lucide-react";
 
-const stats = [
-  { value: "5000+", label: "Students Trained" },
-  { value: "50+", label: "College Partners" },
-  { value: "100+", label: "Hiring Partners" },
-  { value: "95%", label: "Placement Rate" },
+const milestones = [
+  { year: "2021", title: "Founded", desc: "GrowthCraft started as a weekend bootcamp in Guwahati." },
+  { year: "2022", title: "First 100 students", desc: "Launched the MERN Full-Stack program. 100 students enrolled in month one." },
+  { year: "2023", title: "College partnerships", desc: "Signed 20+ colleges across Northeast India for campus programs." },
+  { year: "2024", title: "1000+ placements", desc: "Crossed 1000 successful placements at top tech companies." },
+  { year: "2025", title: "100 hiring partners", desc: "Expanded to 100+ hiring partners nationwide." },
+  { year: "2026", title: "5000+ alumni", desc: "Growing community of 5000+ trained professionals." },
 ];
 
-const values = [
-  { icon: Target, title: "Outcome-Focused", description: "Every course, bootcamp, and program is designed with clear career outcomes in mind." },
-  { icon: Users, title: "Community-Driven", description: "Learn alongside peers, get support from mentors, and grow together as a community." },
-  { icon: Award, title: "Quality First", description: "Industry-vetted curriculum designed by experts with real-world experience." },
-  { icon: Heart, title: "Student-Centric", description: "Your success is our priority. We're here to support you at every step." },
-  { icon: Lightbulb, title: "Innovation", description: "Constantly evolving our programs to match industry trends and demands." },
-  { icon: Building, title: "Industry Aligned", description: "Strong partnerships with leading tech companies for placements and hiring." },
+const beliefs = [
+  { icon: Target, title: "Outcomes over theory", desc: "Every program is designed with a clear career outcome. No fluff." },
+  { icon: Users, title: "Community over isolation", desc: "Learning is better together. Our community is your unfair advantage." },
+  { icon: Heart, title: "Access over exclusivity", desc: "Great tech education shouldn't require an IIT admission letter." },
+  { icon: Lightbulb, title: "Craft over credentials", desc: "What you can build matters more than where you studied." },
+];
+
+const team = [
+  { name: "Founder", role: "CEO & Lead Instructor", photo: "founder", social: "#" },
+  { name: "Co-Founder", role: "Head of Partnerships", photo: "cofounder", social: "#" },
+  { name: "Head of Curriculum", role: "Curriculum Design", photo: "curriculum", social: "#" },
+  { name: "Head of Placements", role: "Placement Operations", photo: "placements", social: "#" },
 ];
 
 const About = () => {
@@ -28,100 +36,102 @@ const About = () => {
   return (
     <Layout>
       <PopupForm isOpen={isOpen} onClose={closeForm} type={formType} title={formTitle} />
-      
+
       {/* Hero */}
-      <section className="py-20 lg:py-28 bg-muted/30 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={techPattern} alt="" className="w-full h-full object-cover opacity-10" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
-              About <span className="text-primary">GrowthCraft</span>
+      <Section variant="white">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-sm font-afacad text-muted-foreground uppercase tracking-wide mb-4">About GrowthCraft</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
+              We bridge the gap between education and{" "}
+              <span className="text-magenta">employment</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground">
-              We're on a mission to bridge the gap between education and employment 
-              by creating industry-ready tech professionals.
+            <p className="text-lg text-muted-foreground">
+              GrowthCraft creates industry-ready tech professionals by combining live mentorship, real projects, and a direct hiring pipeline.
             </p>
           </div>
+          <div className="grid grid-cols-2 gap-4">
+            <StatCounter value={5000} suffix="+" label="Students Trained" />
+            <StatCounter value={50} suffix="+" label="College Partners" />
+            <StatCounter value={100} suffix="+" label="Hiring Partners" />
+            <StatCounter value={95} suffix="%" label="Placement Rate" />
+          </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Stats */}
-      <section className="py-16 border-b border-border">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="text-4xl md:text-5xl font-bold text-primary mb-2">{stat.value}</p>
-                <p className="text-muted-foreground">{stat.label}</p>
+      {/* Timeline */}
+      <Section variant="marble">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">Our story</h2>
+        <div className="relative pl-8">
+          <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-gradient-to-b from-magenta to-lavender" />
+          <div className="space-y-8">
+            {milestones.map((m) => (
+              <div key={m.year} className="relative">
+                <div className="absolute -left-5 top-1 w-4 h-4 rounded-full bg-magenta border-2 border-background" />
+                <p className="text-sm font-afacad text-muted-foreground mb-1">{m.year}</p>
+                <h3 className="font-bold text-lg">{m.title}</h3>
+                <p className="text-sm text-muted-foreground">{m.desc}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Story */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Our Story</span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                More Than Courses. <span className="text-primary">A Complete Ecosystem.</span>
-              </h2>
-              <div className="space-y-4 text-muted-foreground text-lg">
-                <p>GrowthCraft was born from a simple observation: traditional education wasn't preparing students for the real demands of the tech industry.</p>
-                <p>We set out to create something different — a platform where learning leads to transformation. Where every course is designed with job outcomes in mind.</p>
-                <p>Today, we work closely with students, colleges, mentors, and hiring companies to build a holistic ecosystem that creates job-ready talent.</p>
-              </div>
-            </div>
-            <div className="relative">
-              <img src={teamCollaboration} alt="Team collaboration" className="rounded-2xl shadow-lg" />
-            </div>
-          </div>
+      {/* Beliefs */}
+      <Section variant="white">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">What we believe</h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          {beliefs.map((b) => (
+            <DataCard key={b.title}>
+              <b.icon className="h-8 w-8 text-lavender mb-4" />
+              <h3 className="font-bold mb-2">{b.title}</h3>
+              <p className="text-sm text-muted-foreground">{b.desc}</p>
+            </DataCard>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Values */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Our Values</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">What Drives Us Every Day</h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {values.map((value) => (
-              <div key={value.title} className="p-6 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all duration-300 group">
-                <div className="p-3 rounded-lg bg-primary/10 text-primary w-fit mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <value.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">{value.title}</h3>
-                <p className="text-muted-foreground text-sm">{value.description}</p>
+      {/* Team */}
+      <Section variant="marble">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">Meet the team</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {team.map((t) => (
+            <DataCard key={t.name} className="text-center">
+              <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${t.photo}`} alt={t.name} className="h-20 w-20 rounded-full mx-auto mb-4" />
+              <h3 className="font-bold">{t.name}</h3>
+              <p className="text-sm text-muted-foreground mb-3">{t.role}</p>
+              <div className="flex items-center justify-center gap-2">
+                <a href={t.social} className="p-1.5 rounded hover:bg-muted transition-colors"><Linkedin className="h-4 w-4 text-lavender" /></a>
+                <a href={t.social} className="p-1.5 rounded hover:bg-muted transition-colors"><Twitter className="h-4 w-4 text-lavender" /></a>
               </div>
-            ))}
-          </div>
+            </DataCard>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* CTA */}
-      <section className="py-20 bg-primary">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary-foreground">Built by SYNTHWEB</h2>
-          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto mb-8">
-            GrowthCraft is built and maintained by SYNTHWEB, a team passionate about 
-            creating impactful tech education solutions. We're based in Guwahati, Assam.
-          </p>
+      {/* Backers */}
+      <Section variant="white">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8 text-center">Built by SYNTHWEB</h2>
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto">
+          GrowthCraft is built and maintained by SYNTHWEB, a team passionate about creating impactful tech education solutions. Based in Guwahati, Assam.
+        </p>
+      </Section>
+
+      {/* Final CTA */}
+      <Section variant="graphite">
+        <div className="text-center py-8">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">Join the GrowthCraft community</h2>
+          <p className="text-white/60 mb-6">Whether you're a student, mentor, college, or employer — there's a place for you.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90" onClick={() => openForm("enquiry")}>
+            <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" onClick={() => openForm("enquiry")}>
               Get in Touch <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button asChild variant="hero-outline" size="lg" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+            <Button asChild variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
               <Link to="/contact">Contact Us</Link>
             </Button>
           </div>
         </div>
-      </section>
+      </Section>
     </Layout>
   );
 };

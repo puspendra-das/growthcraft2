@@ -1,222 +1,193 @@
+import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { GraduationCap, Rocket, Users, Briefcase, Award, BookOpen, Code2, Trophy, ArrowRight, Phone, Clock } from "lucide-react";
+import Section from "@/components/ui-extensions/Section";
+import DataCard from "@/components/ui-extensions/DataCard";
+import { StatCounter } from "@/components/ui-extensions";
 import { PopupForm, usePopupForm } from "@/components/shared/PopupForm";
-import collegeStudents from "@/assets/college-students.jpg";
-import careerSuccess from "@/assets/career-success.jpg";
-import { TechLogos } from "@/components/shared/TechLogos";
-import { useCourses } from "@/hooks/useCourses";
-import { useTrainingPrograms } from "@/hooks/useTrainingPrograms";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Slider } from "@/components/ui/slider";
+import { GraduationCap, AlertTriangle, BookOpen, Users, Briefcase, ArrowRight, Award } from "lucide-react";
 
-const benefits = [
-  { icon: BookOpen, title: "Industry-Ready Courses", description: "Learn skills that employers actually want, with curriculum designed by tech professionals." },
-  { icon: Code2, title: "Hands-On Projects", description: "Build real-world projects that you can showcase in your portfolio and interviews." },
-  { icon: Users, title: "Mentor Support", description: "Get guidance from experienced developers, designers, and data scientists." },
-  { icon: Briefcase, title: "Placement Assistance", description: "We connect you with our network of 100+ hiring partners for job opportunities." },
-  { icon: Award, title: "Certifications", description: "Earn industry-recognized certificates that add value to your resume." },
-  { icon: Trophy, title: "Community & Networking", description: "Join a community of learners and professionals for collaboration and growth." },
+const pains = [
+  { icon: AlertTriangle, text: "Tutorial hell — you watch videos but can't build anything real." },
+  { icon: AlertTriangle, text: "No mentor to review your code or guide your learning path." },
+  { icon: AlertTriangle, text: "Job applications go unanswered because your portfolio is empty." },
 ];
 
-const steps = [
-  { step: 1, title: "Sign Up", description: "Create your GrowthCraft Seeker account for free" },
-  { step: 2, title: "Explore", description: "Browse courses and bootcamps that match your goals" },
-  { step: 3, title: "Enroll", description: "Join a program and start your learning journey" },
-  { step: 4, title: "Learn & Build", description: "Complete projects and build your portfolio" },
-  { step: 5, title: "Get Placed", description: "Apply for jobs with our placement support" },
+const solutions = [
+  { icon: BookOpen, title: "Project-First Learning", desc: "Every course is built around shipping real projects, not watching lectures." },
+  { icon: Users, title: "Live Mentorship", desc: "1-on-1 code reviews and career guidance from engineers at top companies." },
+  { icon: Briefcase, title: "Placement Pipeline", desc: "Direct access to 100+ hiring partners. We prepare you and connect you." },
+];
+
+const referralTiers = [
+  { name: "Bronze", referrals: "1–5", commission: "₹500 per referral" },
+  { name: "Silver", referrals: "6–15", commission: "₹750 per referral" },
+  { name: "Gold", referrals: "16+", commission: "₹1,000 per referral" },
+];
+
+const testimonials = [
+  { name: "Rahul Nair", role: "Full-Stack Developer", org: "Razorpay", quote: "Went from building todo apps to shipping payment integrations in 6 months.", photo: "rahul" },
+  { name: "Meera Krishnan", role: "Frontend Engineer", org: "Swiggy", quote: "The project-based approach made my portfolio stand out. Got 3 offers in 2 weeks.", photo: "meera" },
+  { name: "Aditya Bhatt", role: "Backend Engineer", org: "Flipkart", quote: "The mentorship was the game-changer. My mentor reviewed my code like a tech lead.", photo: "aditya" },
+];
+
+const faqs = [
+  { q: "I'm a complete beginner — is this for me?", a: "Yes! We have beginner-friendly courses and our mentors will guide you step by step." },
+  { q: "What if I can't get a job after the program?", a: "We offer extended placement support until you're placed, at no extra cost." },
+  { q: "How is this different from free YouTube tutorials?", a: "Structure, accountability, real projects, code reviews, and direct hiring pipeline." },
+  { q: "Do I get a certificate?", a: "Yes. Verifiable certificates for every course and bootcamp completed." },
+  { q: "Can I earn while learning?", a: "Yes! Our Ambassador program lets you earn by referring friends." },
+  { q: "How much time per week do I need?", a: "10–15 hours/week for courses, 20+ hours/week for bootcamps." },
 ];
 
 const ForStudents = () => {
   const { isOpen, formType, formTitle, openForm, closeForm } = usePopupForm();
-  const { courses, isLoading: coursesLoading } = useCourses();
-  const { programs } = useTrainingPrograms();
-
-  const beginnerCourses = courses.filter(c => c.level === "Beginner").slice(0, 4);
+  const [referralsPerMonth, setReferralsPerMonth] = useState(5);
+  const getRate = (r: number) => r <= 5 ? 500 : r <= 15 ? 750 : 1000;
+  const monthlyEarnings = referralsPerMonth * getRate(referralsPerMonth);
 
   return (
     <Layout>
       <PopupForm isOpen={isOpen} onClose={closeForm} type={formType} title={formTitle} />
-      
+
       {/* Hero */}
-      <section className="py-20 lg:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={collegeStudents} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/70" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border text-foreground text-sm font-medium mb-6">
-              <GraduationCap className="h-4 w-4" />
-              GrowthCraft Seeker
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
-              Launch Your Tech Career with{" "}
-              <span className="text-primary">GrowthCraft</span>
+      <Section variant="white">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-sm font-afacad text-muted-foreground uppercase tracking-wide mb-4">For Students & Ambassadors</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
+              From zero to hired in{" "}
+              <span className="font-script text-magenta">six</span> months
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              Learn in-demand tech skills, build real projects, and land your dream job 
-              with our comprehensive learning platform and placement support.
+            <p className="text-lg text-muted-foreground mb-8">
+              Learn by building. Get mentored by engineers. Land your first tech job through our hiring pipeline.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" asChild>
-                <Link to="/student/register">Start Learning <ArrowRight className="ml-2 h-5 w-5" /></Link>
-              </Button>
-              <Button asChild variant="hero-outline" size="xl">
-                <Link to="/bootcamps">View Bootcamps</Link>
-              </Button>
+            <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" asChild>
+              <Link to="/courses">Explore Courses <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            </Button>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="w-full max-w-md p-8 rounded-2xl bg-marble border border-border text-center">
+              <GraduationCap className="h-16 w-16 mx-auto text-lavender mb-4" />
+              <p className="text-lg font-bold">5,000+ students placed</p>
+              <p className="text-sm text-muted-foreground">at top tech companies</p>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Tech Logos */}
-      <section className="py-12 border-b border-border bg-muted/20">
-        <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-muted-foreground mb-6">Technologies you'll master:</p>
-          <TechLogos count={12} size="sm" showNames />
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Why Choose Us</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-              Everything You Need to <span className="text-primary">Succeed</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((benefit) => (
-              <div key={benefit.title} className="p-6 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all duration-300 group">
-                <div className="p-3 rounded-lg bg-primary/10 text-primary w-fit mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <benefit.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">{benefit.title}</h3>
-                <p className="text-muted-foreground text-sm">{benefit.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Your Journey</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8">How It Works</h2>
-              <div className="space-y-6">
-                {steps.map((item) => (
-                  <div key={item.step} className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
-                      {item.step}
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-foreground">{item.title}</h3>
-                      <p className="text-muted-foreground text-sm">{item.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* Pain */}
+      <Section variant="marble">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">The problem you face today</h2>
+        <div className="space-y-4">
+          {pains.map((p, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <p.icon className="h-5 w-5 text-lavender mt-0.5 flex-shrink-0" />
+              <p className="text-muted-foreground">{p.text}</p>
             </div>
-            <div className="relative">
-              <img src={careerSuccess} alt="Career success" className="rounded-2xl shadow-lg" />
-              <div className="absolute -bottom-6 -left-6 bg-card border border-border rounded-xl p-4 shadow-card">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary text-primary-foreground">
-                    <Trophy className="h-5 w-5" />
-                  </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Solutions */}
+      <Section variant="white">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">How GrowthCraft solves it</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {solutions.map((s) => (
+            <DataCard key={s.title}>
+              <s.icon className="h-8 w-8 text-lavender mb-4" />
+              <h3 className="font-bold mb-2">{s.title}</h3>
+              <p className="text-sm text-muted-foreground">{s.desc}</p>
+            </DataCard>
+          ))}
+        </div>
+      </Section>
+
+      {/* Ambassador Program (graphite) */}
+      <Section variant="graphite">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Ambassador Program</h2>
+        <p className="text-white/60 mb-8">Earn while your friends learn. Refer and get paid.</p>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4">Referral commission tiers</h3>
+            <div className="space-y-3">
+              {referralTiers.map((tier) => (
+                <DataCard key={tier.name} variant="dark" className="border border-white/10 flex items-center justify-between">
                   <div>
-                    <p className="text-xl font-bold text-foreground">95%</p>
-                    <p className="text-xs text-muted-foreground">Placement Rate</p>
+                    <p className="font-bold text-white">{tier.name}</p>
+                    <p className="text-xs text-white/50">{tier.referrals} referrals</p>
                   </div>
-                </div>
-              </div>
+                  <p className="font-extrabold text-magenta">{tier.commission}</p>
+                </DataCard>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4">Earnings calculator</h3>
+            <div className="mb-6">
+              <label className="text-white/80 text-sm mb-3 block">Referrals per month: <span className="text-magenta font-extrabold text-lg">{referralsPerMonth}</span></label>
+              <Slider
+                value={[referralsPerMonth]}
+                onValueChange={(v) => setReferralsPerMonth(v[0])}
+                min={1}
+                max={30}
+                step={1}
+                className="my-4"
+              />
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-white/60 mb-1">Estimated monthly earnings</p>
+              <p className="text-4xl font-extrabold text-magenta">₹{monthlyEarnings.toLocaleString()}</p>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* CTA */}
-      <section className="py-20 bg-primary">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary-foreground">
-            Ready to Start Your Journey?
-          </h2>
-          <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-            Join thousands of students who have transformed their careers with GrowthCraft.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button size="xl" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90" onClick={() => openForm("enrollment")}>
-              <Rocket className="mr-2 h-5 w-5" />
-              Register Now
-            </Button>
-            <Button size="xl" variant="hero-outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" onClick={() => openForm("callback")}>
-              <Phone className="mr-2 h-5 w-5" />
-              Request Callback
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Popular Courses Section */}
-      <section className="py-16 border-t border-border">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold text-foreground mb-2">Popular Courses for Students</h2>
-            <p className="text-muted-foreground">Start with these beginner-friendly courses</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {coursesLoading ? (
-              [...Array(4)].map((_, i) => (
-                <div key={i} className="p-4 rounded-xl bg-card border border-border">
-                  <Skeleton className="h-3 w-1/3 mb-2" />
-                  <Skeleton className="h-5 w-full mb-3" />
-                  <Skeleton className="h-3 w-2/3" />
+      {/* Testimonials */}
+      <Section variant="white">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">Success stories</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {testimonials.map((t) => (
+            <DataCard key={t.name}>
+              <p className="text-sm text-muted-foreground mb-4 italic">"{t.quote}"</p>
+              <div className="flex items-center gap-3">
+                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${t.photo}`} alt="" className="h-10 w-10 rounded-full" />
+                <div>
+                  <p className="font-bold text-sm">{t.name}</p>
+                  <p className="text-xs text-muted-foreground">{t.role}, {t.org}</p>
                 </div>
-              ))
-            ) : beginnerCourses.length > 0 ? (
-              beginnerCourses.map(course => (
-                <Link 
-                  to={`/courses/${course.slug}`}
-                  key={course.id} 
-                  className="p-4 rounded-xl bg-card border border-border hover:border-primary/40 transition-all"
-                >
-                  <span className="text-xs text-primary font-medium">{course.category}</span>
-                  <h4 className="font-bold text-foreground mt-1 mb-2 text-sm line-clamp-2">{course.title}</h4>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Clock className="h-3 w-3" />
-                    <span>{course.duration || "Self-paced"}</span>
-                    <span className="ml-auto px-2 py-0.5 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                      {course.level}
-                    </span>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <p className="col-span-4 text-center text-muted-foreground">No beginner courses available yet.</p>
-            )}
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 text-center">
-            <Link to="/courses" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Explore All Courses</h3>
-              <p className="text-sm text-muted-foreground mt-1">Browse our catalog of {courses.length}+ courses</p>
-            </Link>
-            <Link to="/bootcamps" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Join Bootcamps</h3>
-              <p className="text-sm text-muted-foreground mt-1">{programs.length} intensive programs available</p>
-            </Link>
-            <Link to="/for-mentors" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Become a Mentor</h3>
-              <p className="text-sm text-muted-foreground mt-1">Already experienced? Give back!</p>
-            </Link>
-          </div>
+              </div>
+            </DataCard>
+          ))}
         </div>
-      </section>
+      </Section>
+
+      {/* FAQ */}
+      <Section variant="marble">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">Frequently asked questions</h2>
+        <Accordion type="single" collapsible className="max-w-2xl space-y-2">
+          {faqs.map((f, i) => (
+            <AccordionItem key={i} value={`faq-${i}`} className="border rounded-lg px-4 bg-card">
+              <AccordionTrigger className="text-sm font-semibold">{f.q}</AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Section>
+
+      {/* Final CTA */}
+      <Section variant="graphite">
+        <div className="text-center py-8">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">Your journey starts here</h2>
+          <p className="text-white/60 mb-6">Join 5,000+ students who transformed their careers with GrowthCraft.</p>
+          <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" asChild>
+            <Link to="/courses">Start Learning <ArrowRight className="ml-2 h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </Section>
     </Layout>
   );
 };
