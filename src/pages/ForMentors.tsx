@@ -1,177 +1,197 @@
+import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { UserCheck, Heart, DollarSign, Clock, Globe, Award, CheckCircle, ArrowRight, Phone } from "lucide-react";
+import Section from "@/components/ui-extensions/Section";
+import DataCard from "@/components/ui-extensions/DataCard";
 import { PopupForm, usePopupForm } from "@/components/shared/PopupForm";
-import mentorScene from "@/assets/mentor-scene.jpg";
-import teamCollaboration from "@/assets/team-collaboration.jpg";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Slider } from "@/components/ui/slider";
+import { UserCheck, AlertTriangle, Heart, DollarSign, Globe, ArrowRight } from "lucide-react";
 
-const benefits = [
-  { icon: Heart, title: "Make an Impact", description: "Guide the next generation of tech professionals and shape their careers." },
-  { icon: DollarSign, title: "Earn While You Teach", description: "Competitive compensation for your time and expertise." },
-  { icon: Clock, title: "Flexible Schedule", description: "Mentor on your own time, from anywhere in the world." },
-  { icon: Globe, title: "Global Reach", description: "Connect with students from across India and beyond." },
-  { icon: Award, title: "Build Your Brand", description: "Establish yourself as a thought leader in your domain." },
-  { icon: UserCheck, title: "Curated Matching", description: "We match you with students that align with your expertise." },
+const pains = [
+  { icon: AlertTriangle, text: "You've mastered your craft but have no platform to teach." },
+  { icon: AlertTriangle, text: "Freelance mentoring is unpredictable and hard to scale." },
+  { icon: AlertTriangle, text: "Finding the right students who value your time is difficult." },
 ];
 
-const requirements = [
-  "3+ years of industry experience in your domain",
-  "Strong communication skills",
-  "Passion for teaching and mentoring",
-  "Availability for at least 5 hours per week",
-  "Portfolio or track record of work",
+const solutions = [
+  { icon: Heart, title: "Make Impact", desc: "Guide aspiring engineers through real projects, not textbook exercises." },
+  { icon: DollarSign, title: "Earn Predictably", desc: "Fixed rates per session. No chasing invoices. Monthly payouts." },
+  { icon: Globe, title: "Teach Anywhere", desc: "All sessions are remote. Mentor from wherever you ship code." },
+];
+
+const sessionRates = [
+  { type: "1-on-1 Mentoring", rate: 1500 },
+  { type: "Group Workshop (10+)", rate: 3000 },
+  { type: "Code Review Session", rate: 1000 },
+  { type: "Mock Interview", rate: 2000 },
+];
+
+const testimonials = [
+  { name: "Arjun Mehta", role: "Senior Engineer", org: "Razorpay", quote: "I mentor 8 hours a week and earn more than my side projects ever paid.", photo: "arjun" },
+  { name: "Priya Sharma", role: "Tech Lead", org: "Swiggy", quote: "Seeing my students get hired at companies I admire is incredibly rewarding.", photo: "priya" },
+  { name: "Karan Gupta", role: "DevOps Engineer", org: "Flipkart", quote: "GrowthCraft handles everything. I just show up and teach.", photo: "karan" },
+];
+
+const faqs = [
+  { q: "How many hours per week do I need to commit?", a: "Minimum 5 hours/week. Most mentors do 5–15 hours." },
+  { q: "When and how do I get paid?", a: "Monthly bank transfers. Rates are fixed per session type." },
+  { q: "Can I choose which students I mentor?", a: "Yes. You set your expertise areas and we match accordingly." },
+  { q: "Do I need teaching experience?", a: "No. Industry experience and communication skills matter most." },
+  { q: "What tools do you provide?", a: "Scheduling, video calls, code review platform — all built in." },
 ];
 
 const ForMentors = () => {
   const { isOpen, formType, formTitle, openForm, closeForm } = usePopupForm();
+  const [sessionsPerWeek, setSessionsPerWeek] = useState(5);
+  const avgRate = 1500;
+  const monthlyEarnings = sessionsPerWeek * avgRate * 4;
 
   return (
     <Layout>
       <PopupForm isOpen={isOpen} onClose={closeForm} type={formType} title={formTitle} />
-      
+
       {/* Hero */}
-      <section className="py-20 lg:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={mentorScene} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/70" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border text-foreground text-sm font-medium mb-6">
-              <UserCheck className="h-4 w-4" />
-              GrowthCraft Mentor
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
-              Inspire the Next Wave of{" "}
-              <span className="text-primary">Tech Talent</span>
+      <Section variant="white">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-sm font-afacad text-muted-foreground uppercase tracking-wide mb-4">Become a Mentor</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
+              Teach what you've{" "}
+              <span className="font-script text-magenta">mastered</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              Share your expertise, guide aspiring professionals, and make a lasting 
-              impact while earning on your own schedule.
+            <p className="text-lg text-muted-foreground mb-8">
+              Share your production experience. Get paid. Build your brand as a mentor.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" asChild>
-                <Link to="/mentor/register">Apply to Mentor <ArrowRight className="ml-2 h-5 w-5" /></Link>
-              </Button>
-              <Button variant="hero-outline" size="xl" onClick={() => openForm("enquiry", "Mentor Program Enquiry")}>
-                Learn More
-              </Button>
+            <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" asChild>
+              <Link to="/apply/mentor">Apply to Mentor <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            </Button>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="w-full max-w-md p-8 rounded-2xl bg-marble border border-border text-center">
+              <UserCheck className="h-16 w-16 mx-auto text-lavender mb-4" />
+              <p className="text-lg font-bold">100+ active mentors</p>
+              <p className="text-sm text-muted-foreground">earning ₹30k–₹1.5L/month</p>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Benefits */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Why Become a Mentor</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-              Benefits of Joining <span className="text-primary">GrowthCraft</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((benefit) => (
-              <div key={benefit.title} className="p-6 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all duration-300 group">
-                <div className="p-3 rounded-lg bg-primary/10 text-primary w-fit mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <benefit.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">{benefit.title}</h3>
-                <p className="text-muted-foreground text-sm">{benefit.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Requirements */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative order-2 lg:order-1">
-              <img src={teamCollaboration} alt="Team collaboration" className="rounded-2xl shadow-lg" />
-              <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 shadow-card">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary text-primary-foreground">
-                    <UserCheck className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-xl font-bold text-foreground">100+</p>
-                    <p className="text-xs text-muted-foreground">Active Mentors</p>
-                  </div>
-                </div>
-              </div>
+      {/* Pain */}
+      <Section variant="marble">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">The problem you face today</h2>
+        <div className="space-y-4">
+          {pains.map((p, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <p.icon className="h-5 w-5 text-lavender mt-0.5 flex-shrink-0" />
+              <p className="text-muted-foreground">{p.text}</p>
             </div>
-            <div className="order-1 lg:order-2">
-              <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Requirements</span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                What We Look For
-              </h2>
-              <p className="text-muted-foreground text-lg mb-8">
-                We're looking for passionate professionals who want to give back 
-                and help the next generation succeed.
-              </p>
-              <div className="space-y-4 mb-8">
-                {requirements.map((req) => (
-                  <div key={req} className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-foreground">{req}</span>
-                  </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Solutions */}
+      <Section variant="white">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">How GrowthCraft solves it</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {solutions.map((s) => (
+            <DataCard key={s.title}>
+              <s.icon className="h-8 w-8 text-lavender mb-4" />
+              <h3 className="font-bold mb-2">{s.title}</h3>
+              <p className="text-sm text-muted-foreground">{s.desc}</p>
+            </DataCard>
+          ))}
+        </div>
+      </Section>
+
+      {/* Earnings Calculator (graphite) */}
+      <Section variant="graphite">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Earnings calculator</h2>
+        <p className="text-white/60 mb-8">See how much you could earn as a GrowthCraft Mentor.</p>
+        <div className="max-w-lg mx-auto">
+          <div className="mb-8">
+            <label className="text-white/80 text-sm mb-3 block">Sessions per week: <span className="text-magenta font-extrabold text-lg">{sessionsPerWeek}</span></label>
+            <Slider
+              value={[sessionsPerWeek]}
+              onValueChange={(v) => setSessionsPerWeek(v[0])}
+              min={1}
+              max={20}
+              step={1}
+              className="my-4"
+            />
+            <div className="flex justify-between text-xs text-white/40">
+              <span>1 session</span>
+              <span>20 sessions</span>
+            </div>
+          </div>
+          <div className="text-center mb-8">
+            <p className="text-sm text-white/60 mb-1">Estimated monthly earnings</p>
+            <p className="text-5xl font-extrabold text-magenta">₹{monthlyEarnings.toLocaleString()}</p>
+          </div>
+          <div className="rounded-lg border border-white/10 overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="text-left p-3 text-white/60">Session Type</th>
+                  <th className="text-right p-3 text-white/60">Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sessionRates.map((r) => (
+                  <tr key={r.type} className="border-b border-white/5">
+                    <td className="p-3 text-white/80">{r.type}</td>
+                    <td className="p-3 text-right text-white font-semibold">₹{r.rate.toLocaleString()}</td>
+                  </tr>
                 ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Section>
+
+      {/* Testimonials */}
+      <Section variant="white">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">What our mentors say</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {testimonials.map((t) => (
+            <DataCard key={t.name}>
+              <p className="text-sm text-muted-foreground mb-4 italic">"{t.quote}"</p>
+              <div className="flex items-center gap-3">
+                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${t.photo}`} alt="" className="h-10 w-10 rounded-full" />
+                <div>
+                  <p className="font-bold text-sm">{t.name}</p>
+                  <p className="text-xs text-muted-foreground">{t.role}, {t.org}</p>
+                </div>
               </div>
-              <Button variant="default" size="lg" onClick={() => openForm("mentor")}>
-                Apply Now
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+            </DataCard>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* CTA */}
-      <section className="py-20 bg-primary">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary-foreground">
-            Ready to Make a Difference?
-          </h2>
-          <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-            Apply to become a GrowthCraft Mentor today and start inspiring 
-            the next generation of tech professionals.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button size="xl" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90" onClick={() => openForm("mentor")}>
-              Apply Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button size="xl" variant="hero-outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" onClick={() => openForm("callback")}>
-              <Phone className="mr-2 h-5 w-5" />
-              Schedule a Call
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* FAQ */}
+      <Section variant="marble">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">Frequently asked questions</h2>
+        <Accordion type="single" collapsible className="max-w-2xl space-y-2">
+          {faqs.map((f, i) => (
+            <AccordionItem key={i} value={`faq-${i}`} className="border rounded-lg px-4 bg-card">
+              <AccordionTrigger className="text-sm font-semibold">{f.q}</AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Section>
 
-      {/* Cross-links */}
-      <section className="py-16 border-t border-border">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-6 text-center">
-            <Link to="/for-students" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">For Students</h3>
-              <p className="text-sm text-muted-foreground mt-1">See how students benefit from mentors</p>
-            </Link>
-            <Link to="/bootcamps" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Our Bootcamps</h3>
-              <p className="text-sm text-muted-foreground mt-1">Programs you could mentor in</p>
-            </Link>
-            <Link to="/for-employers" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Hiring Partners</h3>
-              <p className="text-sm text-muted-foreground mt-1">Connect your company as a partner</p>
-            </Link>
-          </div>
+      {/* Final CTA */}
+      <Section variant="graphite">
+        <div className="text-center py-8">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">Ready to start mentoring?</h2>
+          <p className="text-white/60 mb-6">Apply now. We'll review your profile within 48 hours.</p>
+          <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" asChild>
+            <Link to="/apply/mentor">Apply Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
+          </Button>
         </div>
-      </section>
+      </Section>
     </Layout>
   );
 };

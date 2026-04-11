@@ -1,27 +1,43 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { School, Users, GraduationCap, Award, Briefcase, Calendar, CheckCircle, ArrowRight, Building, Phone, Download } from "lucide-react";
+import Section from "@/components/ui-extensions/Section";
+import DataCard from "@/components/ui-extensions/DataCard";
+import { StatCounter } from "@/components/ui-extensions";
 import { PopupForm, usePopupForm } from "@/components/shared/PopupForm";
-import campusBuilding from "@/assets/campus-building.jpg";
-import collegeStudents from "@/assets/college-students.jpg";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { School, AlertTriangle, BookOpen, Users, Award, ArrowRight, Check, Minus } from "lucide-react";
 
-const benefits = [
-  { icon: GraduationCap, title: "Custom Workshops", description: "Tailored bootcamps and workshops designed for your students' needs and industry demands." },
-  { icon: Users, title: "Expert Trainers", description: "Our mentors are industry professionals with years of hands-on experience." },
-  { icon: Award, title: "Certifications", description: "Students receive industry-recognized certificates upon completion." },
-  { icon: Briefcase, title: "Placement Support", description: "Direct access to our network of hiring partners for your students." },
-  { icon: Calendar, title: "Flexible Scheduling", description: "We work around your academic calendar for seamless integration." },
-  { icon: Building, title: "On-Campus Delivery", description: "We bring the training to your campus, online or in-person." },
+const pains = [
+  { icon: AlertTriangle, text: "Students graduate without industry-ready skills." },
+  { icon: AlertTriangle, text: "Placement rates are dropping every year." },
+  { icon: AlertTriangle, text: "Faculty lack exposure to modern tech stacks." },
 ];
 
-const programs = [
-  "Full Stack Development Bootcamp",
-  "Data Science & AI Workshop",
-  "UI/UX Design Sprint",
-  "Career Readiness Program",
-  "Aptitude & Interview Prep",
-  "Hackathon Facilitation",
+const solutions = [
+  { icon: BookOpen, title: "Custom Curriculum", desc: "Industry-aligned courses designed for your campus. We adapt to your semester calendar." },
+  { icon: Users, title: "Expert Mentors", desc: "Our engineers conduct live workshops and project sprints with your students." },
+  { icon: Award, title: "Placement Pipeline", desc: "Direct access to 100+ hiring partners. We don't just train — we place." },
+];
+
+const tiers = [
+  { name: "Silver", students: "Up to 50", mentorSessions: "4/month", brandedPortal: false, spoc: false, placement: true, analytics: false },
+  { name: "Gold", students: "Up to 150", mentorSessions: "12/month", brandedPortal: true, spoc: true, placement: true, analytics: false },
+  { name: "Platinum", students: "Unlimited", mentorSessions: "Unlimited", brandedPortal: true, spoc: true, placement: true, analytics: true },
+];
+
+const testimonials = [
+  { name: "Dr. Anu Sharma", role: "Dean, CSE", org: "NIT Silchar", quote: "GrowthCraft transformed our campus placement numbers. 40% improvement in first year.", photo: "anu" },
+  { name: "Prof. Rajiv Kapoor", role: "HOD, IT", org: "Tezpur University", quote: "The quality of workshops is on par with what top IITs offer.", photo: "rajiv" },
+  { name: "Dr. Meena Das", role: "Principal", org: "Assam Engineering College", quote: "Our students now compete for roles at product companies, not just service firms.", photo: "meena" },
+];
+
+const faqs = [
+  { q: "What's the minimum batch size?", a: "We recommend at least 30 students per cohort for optimal economics, but we're flexible." },
+  { q: "Can we customize the curriculum?", a: "Absolutely. Gold and Platinum tiers include full curriculum customization." },
+  { q: "How do you handle assessments?", a: "We provide project-based assessments, code reviews, and mock interviews." },
+  { q: "What's the partnership duration?", a: "Minimum 6 months. Most partners renew for 2+ years." },
+  { q: "Do you provide certificates?", a: "Yes. Co-branded certificates for students and institutional partnership certificates for the college." },
 ];
 
 const ForColleges = () => {
@@ -30,163 +46,142 @@ const ForColleges = () => {
   return (
     <Layout>
       <PopupForm isOpen={isOpen} onClose={closeForm} type={formType} title={formTitle} />
-      
-      {/* Hero */}
-      <section className="py-20 lg:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={campusBuilding} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/70" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border text-foreground text-sm font-medium mb-6">
-              <School className="h-4 w-4" />
-              GrowthCraft Campus
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
-              Partner With{" "}
-              <span className="text-primary">GrowthCraft</span>
+
+      {/* 1. Hero */}
+      <Section variant="white">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-sm font-afacad text-muted-foreground uppercase tracking-wide mb-4">GrowthCraft Campus</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
+              Industry-ready graduates, taught on your{" "}
+              <span className="font-script text-magenta">campus</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              Empower your students with industry-ready skills through our customized 
-              bootcamps, workshops, and training programs delivered on your campus.
+            <p className="text-lg text-muted-foreground mb-8">
+              Partner with GrowthCraft to bring live workshops, bootcamps, and placement pipelines directly to your institution.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" asChild>
-                <Link to="/college/register">Partner With Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
-              </Button>
-              <Button variant="hero-outline" size="xl">
-                <Download className="mr-2 h-5 w-5" />
-                Download Brochure
-              </Button>
+            <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" asChild>
+              <Link to="/apply/college">Partner With Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            </Button>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="w-full max-w-md p-8 rounded-2xl bg-marble border border-border text-center">
+              <School className="h-16 w-16 mx-auto text-lavender mb-4" />
+              <p className="text-lg font-bold">50+ colleges trust us</p>
+              <p className="text-sm text-muted-foreground">across Northeast India</p>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Stats */}
-      <section className="py-16 border-b border-border bg-muted/20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div>
-              <p className="text-4xl font-bold text-primary mb-2">50+</p>
-              <p className="text-muted-foreground text-sm">College Partners</p>
+      {/* 2. Pain */}
+      <Section variant="marble">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">The problem your campus faces today</h2>
+        <div className="space-y-4">
+          {pains.map((p, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <p.icon className="h-5 w-5 text-lavender mt-0.5 flex-shrink-0" />
+              <p className="text-muted-foreground">{p.text}</p>
             </div>
-            <div>
-              <p className="text-4xl font-bold text-primary mb-2">200+</p>
-              <p className="text-muted-foreground text-sm">Workshops Conducted</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold text-primary mb-2">10,000+</p>
-              <p className="text-muted-foreground text-sm">Students Trained</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold text-primary mb-2">95%</p>
-              <p className="text-muted-foreground text-sm">Satisfaction Rate</p>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Benefits */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Why Partner With Us</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-              Benefits for Your <span className="text-primary">Institution</span>
-            </h2>
-          </div>
+      {/* 3. Solutions */}
+      <Section variant="white">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">How GrowthCraft solves it</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {solutions.map((s) => (
+            <DataCard key={s.title}>
+              <s.icon className="h-8 w-8 text-lavender mb-4" />
+              <h3 className="font-bold mb-2">{s.title}</h3>
+              <p className="text-sm text-muted-foreground">{s.desc}</p>
+            </DataCard>
+          ))}
+        </div>
+      </Section>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((benefit) => (
-              <div key={benefit.title} className="p-6 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all duration-300 group">
-                <div className="p-3 rounded-lg bg-primary/10 text-primary w-fit mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  <benefit.icon className="h-6 w-6" />
+      {/* 4. Partnership Tiers (graphite) */}
+      <Section variant="graphite">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Partnership tiers</h2>
+        <p className="text-white/60 mb-8">Choose the plan that fits your institution.</p>
+        <div className="grid md:grid-cols-3 gap-6">
+          {tiers.map((tier) => (
+            <DataCard key={tier.name} variant="dark" className="border border-white/10">
+              <h3 className="text-xl font-extrabold text-white mb-4">{tier.name}</h3>
+              <div className="space-y-3 text-sm">
+                <Row label="Students per cohort" value={tier.students} />
+                <Row label="Mentor sessions" value={tier.mentorSessions} />
+                <BoolRow label="Branded portal" val={tier.brandedPortal} />
+                <BoolRow label="Dedicated SPOC" val={tier.spoc} />
+                <BoolRow label="Placement support" val={tier.placement} />
+                <BoolRow label="Analytics dashboard" val={tier.analytics} />
+              </div>
+              <Button className="w-full mt-6 bg-magenta text-white hover:bg-magenta/90" onClick={() => openForm("partner", `${tier.name} Partnership`)}>
+                Get Started
+              </Button>
+            </DataCard>
+          ))}
+        </div>
+      </Section>
+
+      {/* 5. Testimonials */}
+      <Section variant="white">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">What our partners say</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {testimonials.map((t) => (
+            <DataCard key={t.name}>
+              <p className="text-sm text-muted-foreground mb-4 italic">"{t.quote}"</p>
+              <div className="flex items-center gap-3">
+                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${t.photo}`} alt="" className="h-10 w-10 rounded-full" />
+                <div>
+                  <p className="font-bold text-sm">{t.name}</p>
+                  <p className="text-xs text-muted-foreground">{t.role}, {t.org}</p>
                 </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">{benefit.title}</h3>
-                <p className="text-muted-foreground text-sm">{benefit.description}</p>
               </div>
-            ))}
-          </div>
+            </DataCard>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Programs */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="text-primary font-semibold mb-4 block text-sm uppercase tracking-wide">Our Programs</span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                Programs We Offer for Campuses
-              </h2>
-              <p className="text-muted-foreground text-lg mb-8">
-                Choose from our range of programs or work with us to create a 
-                customized curriculum that fits your institution's needs.
-              </p>
-              <div className="space-y-3 mb-8">
-                {programs.map((program) => (
-                  <div key={program} className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="font-medium text-foreground">{program}</span>
-                  </div>
-                ))}
-              </div>
-              <Button variant="default" size="lg" onClick={() => openForm("enquiry", "Program Enquiry")}>
-                Request Custom Program
-              </Button>
-            </div>
-            <div className="relative">
-              <img src={collegeStudents} alt="College students learning" className="rounded-2xl shadow-lg" />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 6. FAQ */}
+      <Section variant="marble">
+        <h2 className="text-2xl md:text-3xl font-extrabold mb-8">Frequently asked questions</h2>
+        <Accordion type="single" collapsible className="max-w-2xl space-y-2">
+          {faqs.map((f, i) => (
+            <AccordionItem key={i} value={`faq-${i}`} className="border rounded-lg px-4 bg-card">
+              <AccordionTrigger className="text-sm font-semibold">{f.q}</AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Section>
 
-      {/* CTA */}
-      <section className="py-20 bg-primary">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary-foreground">
-            Ready to Transform Your Campus?
-          </h2>
-          <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-            Schedule a call with our partnerships team to discuss how we can 
-            bring industry-ready training to your institution.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button size="xl" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90" onClick={() => openForm("partner")}>
-              Schedule a Call
-              <Phone className="ml-2 h-5 w-5" />
-            </Button>
-            <Button asChild variant="hero-outline" size="xl" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <Link to="/bootcamps">View Bootcamps</Link>
-            </Button>
-          </div>
+      {/* 7. Final CTA */}
+      <Section variant="graphite">
+        <div className="text-center py-8">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">Ready to transform your campus?</h2>
+          <p className="text-white/60 mb-6">Schedule a call with our partnerships team today.</p>
+          <Button className="bg-magenta text-white hover:bg-magenta/90" size="lg" asChild>
+            <Link to="/apply/college">Apply Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
+          </Button>
         </div>
-      </section>
-
-      {/* Cross-links */}
-      <section className="py-16 border-t border-border">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-6 text-center">
-            <Link to="/for-students" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">For Students</h3>
-              <p className="text-sm text-muted-foreground mt-1">Share with your students</p>
-            </Link>
-            <Link to="/for-mentors" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Become a Mentor</h3>
-              <p className="text-sm text-muted-foreground mt-1">Faculty can join as mentors</p>
-            </Link>
-            <Link to="/for-employers" className="p-6 rounded-xl bg-card border border-border hover:border-primary/40 hover:shadow-card transition-all group">
-              <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">Hiring Partners</h3>
-              <p className="text-sm text-muted-foreground mt-1">Connect students with employers</p>
-            </Link>
-          </div>
-        </div>
-      </section>
+      </Section>
     </Layout>
   );
 };
+
+const Row = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex justify-between text-white/80">
+    <span>{label}</span>
+    <span className="font-semibold text-white">{value}</span>
+  </div>
+);
+
+const BoolRow = ({ label, val }: { label: string; val: boolean }) => (
+  <div className="flex justify-between text-white/80">
+    <span>{label}</span>
+    {val ? <Check className="h-4 w-4 text-magenta" /> : <Minus className="h-4 w-4 text-white/30" />}
+  </div>
+);
 
 export default ForColleges;
