@@ -52,8 +52,7 @@ const ForMentors = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="hero" size="xl" asChild>
-                <Link to="/mentor/register">Apply to Mentor</Link>
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Link to="/mentor/register">Apply to Mentor <ArrowRight className="ml-2 h-5 w-5" /></Link>
               </Button>
               <Button variant="hero-outline" size="xl" onClick={() => openForm("enquiry", "Mentor Program Enquiry")}>
                 Learn More

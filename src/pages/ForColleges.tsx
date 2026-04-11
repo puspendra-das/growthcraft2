@@ -53,8 +53,7 @@ const ForColleges = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="hero" size="xl" asChild>
-                <Link to="/college/register">Partner With Us</Link>
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Link to="/college/register">Partner With Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
               </Button>
               <Button variant="hero-outline" size="xl">
                 <Download className="mr-2 h-5 w-5" />
