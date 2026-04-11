@@ -16,7 +16,9 @@ export default {
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
         display: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        afacad: ['Afacad Flux', 'system-ui', 'sans-serif'],
         script: ['Dancing Script', 'cursive'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -52,13 +54,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        brand: {
-          DEFAULT: "hsl(var(--brand))",
-          light: "hsl(var(--brand-light))",
-          dark: "hsl(var(--brand-dark))",
-        },
+        magenta: "hsl(var(--magenta))",
+        lavender: "hsl(var(--lavender))",
         graphite: "hsl(var(--graphite))",
         marble: "hsl(var(--marble))",
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        danger: "hsl(var(--danger))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
