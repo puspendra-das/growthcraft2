@@ -81,7 +81,7 @@ export const Navbar = () => {
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="default" size="default">
+                <Button size="default" className="bg-magenta text-white hover:bg-magenta/90">
                   Get Started <ChevronDown className="ml-1 h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
@@ -133,7 +133,7 @@ export const Navbar = () => {
                 <div className="grid grid-cols-2 gap-2">
                   {registerOptions.map((opt) => (
                     <Link key={opt.path} to={opt.path} onClick={() => setIsOpen(false)}>
-                      <Button variant="default" size="sm" className="w-full text-xs">{opt.label}</Button>
+                      <Button size="sm" className="w-full text-xs bg-magenta text-white hover:bg-magenta/90">{opt.label}</Button>
                     </Link>
                   ))}
                 </div>
