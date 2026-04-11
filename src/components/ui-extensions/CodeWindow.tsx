@@ -6,13 +6,17 @@ interface CodeWindowProps {
   className?: string;
 }
 
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
 const CodeWindow = ({ code, language = "typescript", className }: CodeWindowProps) => {
-  const colorize = (line: string) => {
-    return line
+  const colorize = (raw: string) => {
+    const escaped = escapeHtml(raw);
+    return escaped
       .replace(/(\/\/.*)$/gm, '<span style="color:#6b7280">$1</span>')
-      .replace(/\b(const|let|var|function|return|import|from|export|default|if|else|async|await)\b/g, '<span style="color:#a78bfa">$1</span>')
+      .replace(/\b(const|let|var|function|return|import|from|export|default|if|else|async|await|new)\b/g, '<span style="color:#a78bfa">$1</span>')
       .replace(/\b(true|false|null|undefined)\b/g, '<span style="color:#fbbf24">$1</span>')
-      .replace(/(["'`])(.*?)\1/g, '<span style="color:#34d399">$1$2$1</span>')
+      .replace(/(&apos;|&#39;|&quot;|&#34;|'|"|`)(.*?)\1/g, '<span style="color:#34d399">$1$2$1</span>')
       .replace(/\b(\d+)\b/g, '<span style="color:#fcd34d">$1</span>');
   };
 
