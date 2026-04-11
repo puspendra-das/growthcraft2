@@ -1,22 +1,32 @@
 import { Layout } from "@/components/layout/Layout";
-import { HeroSection } from "@/components/home/HeroSection";
-import { AboutSection } from "@/components/home/AboutSection";
-import { CourseCategories } from "@/components/home/CourseCategories";
-import { BootcampsSection } from "@/components/home/BootcampsSection";
-import { AudienceSection } from "@/components/home/AudienceSection";
-import { PhilosophySection } from "@/components/home/PhilosophySection";
-import { NewsletterSection } from "@/components/home/NewsletterSection";
+import HeroSection from "@/components/sections/HeroSection";
+import TrustStrip from "@/components/sections/TrustStrip";
+import PainPath from "@/components/sections/PainPath";
+import HowItWorks from "@/components/sections/HowItWorks";
+import FeaturedCourses from "@/components/sections/FeaturedCourses";
+import BootcampHighlight from "@/components/sections/BootcampHighlight";
+import FivePaths from "@/components/sections/FivePaths";
+import MentorShowcase from "@/components/sections/MentorShowcase";
+import Outcomes from "@/components/sections/Outcomes";
+import HiringPartners from "@/components/sections/HiringPartners";
+import FAQ from "@/components/sections/FAQ";
+import FinalCTA from "@/components/sections/FinalCTA";
 
 const Index = () => {
   return (
     <Layout>
       <HeroSection />
-      <AboutSection />
-      <CourseCategories />
-      <BootcampsSection />
-      <AudienceSection />
-      <PhilosophySection />
-      <NewsletterSection />
+      <TrustStrip />
+      <PainPath />
+      <HowItWorks />
+      <FeaturedCourses />
+      <BootcampHighlight />
+      <FivePaths />
+      <MentorShowcase />
+      <Outcomes />
+      <HiringPartners />
+      <FAQ />
+      <FinalCTA />
     </Layout>
   );
 };
