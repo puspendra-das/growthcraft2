@@ -47,8 +47,7 @@ const ForEmployers = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="hero" size="xl" asChild>
-                <Link to="/employer/register">Hire From Us</Link>
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Link to="/employer/register">Hire From Us <ArrowRight className="ml-2 h-5 w-5" /></Link>
               </Button>
               <Button variant="hero-outline" size="xl" onClick={() => openForm("callback")}>
                 <Phone className="mr-2 h-5 w-5" />

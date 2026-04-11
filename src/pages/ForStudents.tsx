@@ -60,8 +60,7 @@ const ForStudents = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="hero" size="xl" asChild>
-                <Link to="/student/register">Start Learning</Link>
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Link to="/student/register">Start Learning <ArrowRight className="ml-2 h-5 w-5" /></Link>
               </Button>
               <Button asChild variant="hero-outline" size="xl">
                 <Link to="/bootcamps">View Bootcamps</Link>
