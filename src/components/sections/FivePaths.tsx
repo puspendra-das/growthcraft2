@@ -2,7 +2,6 @@ import { Section, RoleBadge } from "@/components/ui-extensions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 type RoleKey = "Student" | "College" | "Ambassador" | "Mentor" | "HiringPartner";
@@ -76,15 +75,10 @@ const roles: RoleKey[] = ["Student", "College", "Ambassador", "Mentor", "HiringP
 const FivePaths = () => {
   return (
     <Section variant="marble">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-center mb-14"
-      >
+      <div className="text-center mb-14 animate-fade-up">
         <p className="font-afacad text-sm uppercase tracking-widest text-muted-foreground mb-3">For everyone</p>
         <h2 className="text-3xl md:text-4xl font-extrabold font-display">One platform. Five ways in.</h2>
-      </motion.div>
+      </div>
 
       <Tabs defaultValue="Student" className="max-w-4xl mx-auto">
         <TabsList className="grid grid-cols-5 w-full h-auto bg-card border border-border rounded-xl p-1">
@@ -103,11 +97,7 @@ const FivePaths = () => {
           const p = personas[role];
           return (
             <TabsContent key={role} value={role} className="mt-8">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-xl border border-border bg-card p-8"
-              >
+              <div className="rounded-xl border border-border bg-card p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <RoleBadge role={role} />
                 </div>
@@ -126,7 +116,7 @@ const FivePaths = () => {
                     {p.cta} <ArrowRight className="h-4 w-4 ml-1" />
                   </Link>
                 </Button>
-              </motion.div>
+              </div>
             </TabsContent>
           );
         })}

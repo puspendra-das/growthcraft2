@@ -1,5 +1,4 @@
 import { Section } from "@/components/ui-extensions";
-import { motion } from "framer-motion";
 import { BookX, FolderX, UserX, Briefcase, Users, BookOpen, Hammer, Handshake } from "lucide-react";
 
 const pains = [
@@ -20,12 +19,7 @@ const PainPath = () => {
   return (
     <Section variant="marble">
       <div className="grid lg:grid-cols-2 gap-16">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+        <div className="animate-fade-up">
           <h2 className="text-3xl md:text-4xl font-extrabold font-display mb-8 leading-tight">
             Most coding courses leave you with tutorials, not a job.
           </h2>
@@ -39,14 +33,9 @@ const PainPath = () => {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
+        <div className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
           <h2 className="text-3xl md:text-4xl font-extrabold font-display mb-8 leading-tight">
             GrowthCraft fixes this.
           </h2>
@@ -61,7 +50,7 @@ const PainPath = () => {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </Section>
   );

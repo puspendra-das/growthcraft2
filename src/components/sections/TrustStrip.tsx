@@ -1,5 +1,4 @@
 import { Section, StatCounter } from "@/components/ui-extensions";
-import { motion } from "framer-motion";
 
 const logos = [
   "IIT Guwahati", "NIT Silchar", "Tezpur University",
@@ -9,17 +8,11 @@ const logos = [
 const TrustStrip = () => {
   return (
     <Section variant="white" className="py-16 md:py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-10"
-      >
+      <div className="text-center mb-10 animate-fade-up">
         <p className="font-afacad text-sm uppercase tracking-widest text-muted-foreground">
           Trusted by learners from
         </p>
-      </motion.div>
+      </div>
 
       <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mb-12">
         {logos.map((name) => (

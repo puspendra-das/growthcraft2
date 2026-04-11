@@ -2,7 +2,6 @@ import { Section } from "@/components/ui-extensions";
 import { CodeWindow } from "@/components/ui-extensions";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 const expressCode = `const app = express();
 
@@ -27,9 +26,9 @@ const reactCode = `function CourseCard({ course }) {
     <div className="card">
       <h3>{course.title}</h3>
       <p>{course.instructor}</p>
-      <span>{course.duration}h · {course.lessons} lessons</span>
+      <span>{course.duration}h</span>
       <button onClick={() => setEnrolled(true)}>
-        {enrolled ? '✓ Enrolled' : 'Enroll Now'}
+        {enrolled ? 'Enrolled' : 'Enroll Now'}
       </button>
     </div>
   );
@@ -39,11 +38,7 @@ const HeroSection = () => {
   return (
     <Section variant="white" className="pt-12 md:pt-20 pb-16 md:pb-24">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="animate-fade-up">
           <p className="font-afacad text-sm uppercase tracking-widest text-muted-foreground mb-4">
             India's outcome-driven MERN academy
           </p>
@@ -67,17 +62,12 @@ const HeroSection = () => {
               <Link to="/contact">Talk to a Mentor</Link>
             </Button>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="space-y-4"
-        >
+        <div className="space-y-4 animate-fade-up" style={{ animationDelay: "0.2s" }}>
           <CodeWindow code={expressCode} language="server.js" />
           <CodeWindow code={reactCode} language="CourseCard.jsx" />
-        </motion.div>
+        </div>
       </div>
     </Section>
   );

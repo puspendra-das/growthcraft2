@@ -2,7 +2,6 @@ import { Section } from "@/components/ui-extensions";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { bootcampsMock } from "@/data/bootcamps.mock";
-import { motion } from "framer-motion";
 import { Calendar, MapPin, Users } from "lucide-react";
 
 const BootcampHighlight = () => {
@@ -13,22 +12,12 @@ const BootcampHighlight = () => {
 
   return (
     <Section variant="white">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-center mb-14"
-      >
+      <div className="text-center mb-14 animate-fade-up">
         <p className="font-afacad text-sm uppercase tracking-widest text-muted-foreground mb-3">Next bootcamp</p>
         <h2 className="text-3xl md:text-4xl font-extrabold font-display">Intensive. Immersive. Industry-ready.</h2>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="rounded-2xl border border-border bg-card overflow-hidden shadow-card"
-      >
+      <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-card animate-fade-up">
         <div className="grid lg:grid-cols-2">
           <div className="bg-gradient-to-br from-magenta/5 to-lavender/5 p-8 lg:p-12 flex items-center justify-center">
             <div className="text-center">
@@ -88,7 +77,7 @@ const BootcampHighlight = () => {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </Section>
   );
 };

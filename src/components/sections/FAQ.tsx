@@ -1,6 +1,5 @@
 import { Section } from "@/components/ui-extensions";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { motion } from "framer-motion";
 
 const faqs = [
   {
@@ -40,17 +39,12 @@ const faqs = [
 const FAQ = () => {
   return (
     <Section variant="white">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-center mb-14"
-      >
+      <div className="text-center mb-14 animate-fade-up">
         <p className="font-afacad text-sm uppercase tracking-widest text-muted-foreground mb-3">FAQ</p>
         <h2 className="text-3xl md:text-4xl font-extrabold font-display">
           Questions, answered honestly.
         </h2>
-      </motion.div>
+      </div>
 
       <div className="max-w-3xl mx-auto">
         <Accordion type="single" collapsible className="space-y-3">
