@@ -1,6 +1,6 @@
 import { Section } from "@/components/ui-extensions";
 import { motion } from "framer-motion";
-import { BookX, FolderX, UserX, BriefcaseOff, Users, BookOpen, Hammer, Handshake } from "lucide-react";
+import { BookX, FolderX, UserX, Briefcase, Users, BookOpen, Hammer, Handshake } from "lucide-react";
 
 const pains = [
   { icon: BookX, text: "Tutorial hell — watching hours, building nothing" },
