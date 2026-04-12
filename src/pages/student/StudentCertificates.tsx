@@ -1,51 +1,73 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Award, Download, ExternalLink } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/ui-extensions";
+import DataCard from "@/components/ui-extensions/DataCard";
+import { PanelEmptyState } from "@/components/panel";
+import { Award, Download, Linkedin, Share2 } from "lucide-react";
 
 const certificates = [
-  { id: 1, title: "UI/UX Design Fundamentals", issuedDate: "Mar 15, 2026", credentialId: "GC-UX-2026-001" },
+  {
+    id: "1",
+    courseTitle: "UI/UX Design Fundamentals",
+    completionDate: "Mar 15, 2026",
+    credentialId: "GC-UX-2026-001",
+    grade: "A+",
+  },
+  {
+    id: "2",
+    courseTitle: "HTML & CSS Mastery",
+    completionDate: "Jan 28, 2026",
+    credentialId: "GC-HTML-2026-002",
+    grade: "A",
+  },
 ];
 
 const StudentCertificates = () => {
+  if (certificates.length === 0) {
+    return (
+      <div className="space-y-6">
+        <PageHeader title="Certificates" description="Your earned certifications and achievements" />
+        <PanelEmptyState
+          icon={<Award className="h-12 w-12" />}
+          title="No certificates yet"
+          description="Complete a course to earn your first certificate!"
+          action={<Button className="bg-magenta text-white hover:bg-magenta/90">Browse Courses</Button>}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Certificates</h1>
-        <p className="text-muted-foreground text-sm mt-1">Your earned certifications</p>
-      </div>
+      <PageHeader title="Certificates" description="Your earned certifications and achievements" />
 
-      {certificates.length === 0 ? (
-        <Card className="border-border/50">
-          <CardContent className="p-12 text-center">
-            <Award className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="font-semibold text-foreground mb-1">No certificates yet</h3>
-            <p className="text-sm text-muted-foreground">Complete a course to earn your first certificate!</p>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-2">
-          {certificates.map((cert) => (
-            <Card key={cert.id} className="border-border/50">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-primary/10">
-                    <Award className="h-8 w-8 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground">{cert.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-1">Issued: {cert.issuedDate}</p>
-                    <p className="text-xs text-muted-foreground">ID: {cert.credentialId}</p>
-                    <div className="flex gap-2 mt-3">
-                      <Button size="sm" variant="outline"><Download className="h-3.5 w-3.5 mr-1" /> Download</Button>
-                      <Button size="sm" variant="ghost"><ExternalLink className="h-3.5 w-3.5 mr-1" /> Share</Button>
-                    </div>
-                  </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        {certificates.map((cert) => (
+          <DataCard key={cert.id}>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-magenta/10 shrink-0">
+                <Award className="h-8 w-8 text-magenta" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-foreground">{cert.courseTitle}</h3>
+                <p className="text-xs text-muted-foreground mt-1">Completed: {cert.completionDate}</p>
+                <p className="text-xs text-muted-foreground">ID: {cert.credentialId}</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <Badge variant="secondary" className="bg-success/10 text-success">Grade: {cert.grade}</Badge>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+                <div className="flex gap-2 mt-4">
+                  <Button size="sm" className="bg-magenta text-white hover:bg-magenta/90">
+                    <Download className="h-3.5 w-3.5 mr-1.5" /> Download PDF
+                  </Button>
+                  <Button size="sm" variant="outline">
+                    <Linkedin className="h-3.5 w-3.5 mr-1.5" /> Share
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </DataCard>
+        ))}
+      </div>
     </div>
   );
 };
