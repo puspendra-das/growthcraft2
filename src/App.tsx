@@ -32,9 +32,11 @@ import AdminRegistrations from "./pages/admin/AdminRegistrations";
 import AdminContent from "./pages/admin/AdminContent";
 import AdminSettings from "./pages/admin/AdminSettings";
 
+// Shared panel shell
+import PanelLayout from "./layouts/PanelLayout";
+
 // Student
 import StudentAuth from "./pages/StudentAuth";
-import StudentLayout from "./layouts/StudentLayout";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentCourses from "./pages/student/StudentCourses";
 import StudentCertificates from "./pages/student/StudentCertificates";
@@ -43,7 +45,6 @@ import StudentSupport from "./pages/student/StudentSupport";
 
 // College
 import CollegeAuth from "./pages/CollegeAuth";
-import CollegeLayout from "./layouts/CollegeLayout";
 import CollegeDashboard from "./pages/college/CollegeDashboard";
 import CollegePrograms from "./pages/college/CollegePrograms";
 import CollegeStudents from "./pages/college/CollegeStudents";
@@ -54,7 +55,6 @@ import CollegeSupport from "./pages/college/CollegeSupport";
 
 // Mentor
 import MentorAuth from "./pages/MentorAuth";
-import MentorLayout from "./layouts/MentorLayout";
 import MentorDashboard from "./pages/mentor/MentorDashboard";
 import MentorStudents from "./pages/mentor/MentorStudents";
 import MentorCourses from "./pages/mentor/MentorCourses";
@@ -65,13 +65,15 @@ import MentorSupport from "./pages/mentor/MentorSupport";
 
 // Employer
 import EmployerAuth from "./pages/EmployerAuth";
-import EmployerLayout from "./layouts/EmployerLayout";
 import EmployerDashboard from "./pages/employer/EmployerDashboard";
 import EmployerTalent from "./pages/employer/EmployerTalent";
 import EmployerJobs from "./pages/employer/EmployerJobs";
 import EmployerApplications from "./pages/employer/EmployerApplications";
 import EmployerProfile from "./pages/employer/EmployerProfile";
 import EmployerSupport from "./pages/employer/EmployerSupport";
+
+// Ambassador
+import AmbassadorDashboard from "./pages/ambassador/AmbassadorDashboard";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +85,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Marketing */}
             <Route path="/" element={<Index />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:slug" element={<CourseDetail />} />
@@ -95,57 +98,57 @@ const App = () => (
             <Route path="/for-colleges" element={<ForColleges />} />
             <Route path="/for-mentors" element={<ForMentors />} />
             <Route path="/for-employers" element={<ForEmployers />} />
-            
-            {/* Student Routes */}
+
+            {/* Auth pages */}
             <Route path="/student/login" element={<StudentAuth />} />
             <Route path="/student/register" element={<StudentAuth />} />
-            <Route path="/student" element={<StudentLayout />}>
-              <Route path="dashboard" element={<StudentDashboard />} />
-              <Route path="courses" element={<StudentCourses />} />
-              <Route path="certificates" element={<StudentCertificates />} />
-              <Route path="profile" element={<StudentProfile />} />
-              <Route path="support" element={<StudentSupport />} />
-            </Route>
-
-            {/* College Routes */}
             <Route path="/college/login" element={<CollegeAuth />} />
             <Route path="/college/register" element={<CollegeAuth />} />
-            <Route path="/college" element={<CollegeLayout />}>
-              <Route path="dashboard" element={<CollegeDashboard />} />
-              <Route path="programs" element={<CollegePrograms />} />
-              <Route path="students" element={<CollegeStudents />} />
-              <Route path="schedule" element={<CollegeSchedule />} />
-              <Route path="reports" element={<CollegeReports />} />
-              <Route path="profile" element={<CollegeProfile />} />
-              <Route path="support" element={<CollegeSupport />} />
-            </Route>
-
-            {/* Mentor Routes */}
             <Route path="/mentor/login" element={<MentorAuth />} />
             <Route path="/mentor/register" element={<MentorAuth />} />
-            <Route path="/mentor" element={<MentorLayout />}>
-              <Route path="dashboard" element={<MentorDashboard />} />
-              <Route path="students" element={<MentorStudents />} />
-              <Route path="courses" element={<MentorCourses />} />
-              <Route path="schedule" element={<MentorSchedule />} />
-              <Route path="resources" element={<MentorResources />} />
-              <Route path="profile" element={<MentorProfile />} />
-              <Route path="support" element={<MentorSupport />} />
-            </Route>
-
-            {/* Employer Routes */}
             <Route path="/employer/login" element={<EmployerAuth />} />
             <Route path="/employer/register" element={<EmployerAuth />} />
-            <Route path="/employer" element={<EmployerLayout />}>
-              <Route path="dashboard" element={<EmployerDashboard />} />
-              <Route path="talent" element={<EmployerTalent />} />
-              <Route path="jobs" element={<EmployerJobs />} />
-              <Route path="applications" element={<EmployerApplications />} />
-              <Route path="profile" element={<EmployerProfile />} />
-              <Route path="support" element={<EmployerSupport />} />
+
+            {/* Panel routes — shared PanelLayout shell */}
+            <Route element={<PanelLayout />}>
+              {/* Student */}
+              <Route path="/student/dashboard" element={<StudentDashboard />} />
+              <Route path="/student/courses" element={<StudentCourses />} />
+              <Route path="/student/certificates" element={<StudentCertificates />} />
+              <Route path="/student/profile" element={<StudentProfile />} />
+              <Route path="/student/support" element={<StudentSupport />} />
+
+              {/* College */}
+              <Route path="/college/dashboard" element={<CollegeDashboard />} />
+              <Route path="/college/programs" element={<CollegePrograms />} />
+              <Route path="/college/students" element={<CollegeStudents />} />
+              <Route path="/college/schedule" element={<CollegeSchedule />} />
+              <Route path="/college/reports" element={<CollegeReports />} />
+              <Route path="/college/profile" element={<CollegeProfile />} />
+              <Route path="/college/support" element={<CollegeSupport />} />
+
+              {/* Ambassador */}
+              <Route path="/ambassador/dashboard" element={<AmbassadorDashboard />} />
+
+              {/* Mentor */}
+              <Route path="/mentor/dashboard" element={<MentorDashboard />} />
+              <Route path="/mentor/students" element={<MentorStudents />} />
+              <Route path="/mentor/courses" element={<MentorCourses />} />
+              <Route path="/mentor/schedule" element={<MentorSchedule />} />
+              <Route path="/mentor/resources" element={<MentorResources />} />
+              <Route path="/mentor/profile" element={<MentorProfile />} />
+              <Route path="/mentor/support" element={<MentorSupport />} />
+
+              {/* Employer / Hiring Partner */}
+              <Route path="/employer/dashboard" element={<EmployerDashboard />} />
+              <Route path="/employer/talent" element={<EmployerTalent />} />
+              <Route path="/employer/jobs" element={<EmployerJobs />} />
+              <Route path="/employer/applications" element={<EmployerApplications />} />
+              <Route path="/employer/profile" element={<EmployerProfile />} />
+              <Route path="/employer/support" element={<EmployerSupport />} />
             </Route>
 
-            {/* Admin Routes */}
+            {/* Admin */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
@@ -161,7 +164,7 @@ const App = () => (
               <Route path="content" element={<AdminContent />} />
               <Route path="settings" element={<AdminSettings />} />
             </Route>
-            
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
