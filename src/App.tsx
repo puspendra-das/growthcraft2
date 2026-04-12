@@ -39,8 +39,12 @@ import PanelLayout from "./layouts/PanelLayout";
 import StudentAuth from "./pages/StudentAuth";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentCourses from "./pages/student/StudentCourses";
+import StudentCoursePlayer from "./pages/student/StudentCoursePlayer";
+import StudentBootcamps from "./pages/student/StudentBootcamps";
+import StudentMentors from "./pages/student/StudentMentors";
 import StudentCertificates from "./pages/student/StudentCertificates";
 import StudentProfile from "./pages/student/StudentProfile";
+import StudentSettings from "./pages/student/StudentSettings";
 import StudentSupport from "./pages/student/StudentSupport";
 
 // College
@@ -114,8 +118,12 @@ const App = () => (
               {/* Student */}
               <Route path="/student/dashboard" element={<StudentDashboard />} />
               <Route path="/student/courses" element={<StudentCourses />} />
+              <Route path="/student/courses/:slug/learn" element={<StudentCoursePlayer />} />
+              <Route path="/student/bootcamps" element={<StudentBootcamps />} />
+              <Route path="/student/mentors" element={<StudentMentors />} />
               <Route path="/student/certificates" element={<StudentCertificates />} />
               <Route path="/student/profile" element={<StudentProfile />} />
+              <Route path="/student/settings" element={<StudentSettings />} />
               <Route path="/student/support" element={<StudentSupport />} />
 
               {/* College */}

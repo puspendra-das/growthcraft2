@@ -1,123 +1,136 @@
-import { BookOpen, Clock, Award, TrendingUp, CheckCircle2, Star, Edit3 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Play, Video, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState } from "react";
+import { KpiCard } from "@/components/panel";
+import DataCard from "@/components/ui-extensions/DataCard";
+import { PageHeader } from "@/components/ui-extensions";
+import { Link } from "react-router-dom";
 
-const initialCourses = [
-  { id: 1, title: "Full Stack Web Development", progress: 68, totalLessons: 42, completed: 28, category: "Web Dev", image: "🌐", status: "In Progress" },
-  { id: 2, title: "Data Science with Python", progress: 35, totalLessons: 36, completed: 13, category: "Data Science", image: "📊", status: "In Progress" },
-  { id: 3, title: "React & Next.js Masterclass", progress: 90, totalLessons: 30, completed: 27, category: "Frontend", image: "⚛️", status: "In Progress" },
+const continueLearning = [
+  { id: 1, title: "Full Stack Web Development", progress: 68, category: "Web Dev", image: "🌐", lastLesson: "REST API Design" },
+  { id: 2, title: "Data Science with Python", progress: 35, category: "Data Science", image: "📊", lastLesson: "Pandas DataFrames" },
+  { id: 3, title: "React & Next.js Masterclass", progress: 90, category: "Frontend", image: "⚛️", lastLesson: "Server Components" },
 ];
 
-const achievements = [
-  { title: "Fast Learner", description: "Completed 5 lessons in one day", icon: "⚡" },
-  { title: "Consistent", description: "7-day learning streak", icon: "🔥" },
-  { title: "Quiz Master", description: "Scored 100% on 3 quizzes", icon: "🏆" },
+const upcomingSessions = [
+  { id: 1, date: "Apr 14", time: "10:00 AM", title: "MERN Bootcamp — Day 5", mentor: "Rohit Sharma", type: "Live" },
+  { id: 2, date: "Apr 16", time: "2:00 PM", title: "Data Science Workshop", mentor: "Priya Patel", type: "Live" },
+  { id: 3, date: "Apr 18", time: "11:00 AM", title: "System Design Masterclass", mentor: "Amit Kumar", type: "Recorded" },
+];
+
+const recommended = [
+  { id: 1, title: "Cloud Computing with AWS", category: "DevOps", level: "Intermediate", rating: 4.7, image: "☁️" },
+  { id: 2, title: "Machine Learning Basics", category: "AI/ML", level: "Beginner", rating: 4.8, image: "🤖" },
+  { id: 3, title: "Mobile App Development", category: "Mobile", level: "Beginner", rating: 4.6, image: "📱" },
+  { id: 4, title: "System Design", category: "Architecture", level: "Advanced", rating: 4.9, image: "🏗️" },
 ];
 
 const StudentDashboard = () => {
-  const [courses, setCourses] = useState(initialCourses);
-
-  const updateStatus = (id: number, newStatus: string) => {
-    setCourses(prev => prev.map(c => 
-      c.id === id 
-        ? { ...c, status: newStatus, progress: newStatus === "Completed" ? 100 : newStatus === "Not Started" ? 0 : c.progress }
-        : c
-    ));
-  };
-
   return (
     <div className="space-y-6 md:space-y-8">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Welcome back, Student! 👋</h1>
-        <p className="text-muted-foreground mt-1 text-sm md:text-base">Track your learning progress manually</p>
+      <PageHeader
+        title="Welcome back, Student! 👋"
+        description="Track your learning progress and upcoming sessions"
+      />
+
+      {/* KPI Row */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <KpiCard label="Enrolled Courses" value={3} delta={12} />
+        <KpiCard label="Hours Learned" value={47} suffix="h" delta={8} />
+        <KpiCard label="Certificates" value={1} delta={0} />
+        <KpiCard label="Current Streak" value={7} suffix=" days" delta={40} />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-        {[
-          { label: "Enrolled Courses", value: String(courses.length), icon: BookOpen, color: "text-primary" },
-          { label: "Completed", value: String(courses.filter(c => c.status === "Completed").length), icon: CheckCircle2, color: "text-green-500" },
-          { label: "Certificates", value: "1", icon: Award, color: "text-yellow-500" },
-          { label: "Avg. Progress", value: `${Math.round(courses.reduce((a, c) => a + c.progress, 0) / courses.length)}%`, icon: TrendingUp, color: "text-primary" },
-        ].map((stat) => (
-          <Card key={stat.label} className="border-border/50">
-            <CardContent className="p-4 md:p-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-muted">
-                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                </div>
-                <div>
-                  <p className="text-xl md:text-2xl font-bold text-foreground">{stat.value}</p>
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg md:text-xl font-bold text-foreground">My Courses</h2>
-          <p className="text-xs text-muted-foreground">Update status manually below</p>
+      {/* Continue Learning */}
+      <DataCard>
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-lg font-bold text-foreground font-display">Continue Learning</h2>
+          <Link to="/student/courses">
+            <Button variant="ghost" size="sm" className="text-xs">
+              View all <ArrowRight className="h-3.5 w-3.5 ml-1" />
+            </Button>
+          </Link>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {courses.map((course) => (
-            <Card key={course.id} className="border-border/50 hover:shadow-md transition-shadow">
-              <CardContent className="p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-3xl">{course.image}</span>
-                  <Badge variant="secondary" className="text-xs">{course.category}</Badge>
-                </div>
-                <h3 className="font-semibold text-foreground mb-3 text-sm">{course.title}</h3>
-                <div className="space-y-2 mb-4">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>{course.completed}/{course.totalLessons} lessons</span>
-                    <span>{course.progress}%</span>
-                  </div>
-                  <Progress value={course.progress} className="h-2" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <Edit3 className="h-3.5 w-3.5 text-muted-foreground" />
-                  <Select value={course.status} onValueChange={(val) => updateStatus(course.id, val)}>
-                    <SelectTrigger className="h-8 text-xs">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Not Started">Not Started</SelectItem>
-                      <SelectItem value="In Progress">In Progress</SelectItem>
-                      <SelectItem value="Completed">Completed</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      <Card className="border-border/50">
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Star className="h-5 w-5 text-yellow-500" /> Achievements
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {achievements.map((a, i) => (
-            <div key={i} className="flex items-center gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
-              <span className="text-2xl">{a.icon}</span>
-              <div>
-                <p className="font-medium text-sm text-foreground">{a.title}</p>
-                <p className="text-xs text-muted-foreground">{a.description}</p>
+        <div className="grid gap-4 md:grid-cols-3">
+          {continueLearning.map((course) => (
+            <div key={course.id} className="rounded-xl border border-border bg-white p-4 hover:shadow-sm transition-shadow">
+              <div className="flex items-start justify-between mb-3">
+                <span className="text-3xl">{course.image}</span>
+                <Badge variant="secondary" className="text-[10px]">{course.category}</Badge>
               </div>
-              <CheckCircle2 className="h-4 w-4 text-green-500 ml-auto flex-shrink-0" />
+              <h3 className="font-semibold text-foreground text-sm mb-1">{course.title}</h3>
+              <p className="text-xs text-muted-foreground mb-3">Last: {course.lastLesson}</p>
+              <div className="space-y-1.5 mb-4">
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Progress</span>
+                  <span className="font-medium text-magenta">{course.progress}%</span>
+                </div>
+                <Progress value={course.progress} className="h-2 [&>div]:bg-magenta" />
+              </div>
+              <Button size="sm" className="w-full bg-magenta text-white hover:bg-magenta/90">
+                <Play className="h-3.5 w-3.5 mr-1.5" /> Resume
+              </Button>
             </div>
           ))}
-        </CardContent>
-      </Card>
+        </div>
+      </DataCard>
+
+      {/* Upcoming Bootcamp Sessions */}
+      <DataCard>
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-lg font-bold text-foreground font-display">Upcoming Sessions</h2>
+          <Link to="/student/bootcamps">
+            <Button variant="ghost" size="sm" className="text-xs">
+              View all <ArrowRight className="h-3.5 w-3.5 ml-1" />
+            </Button>
+          </Link>
+        </div>
+        <div className="space-y-3">
+          {upcomingSessions.map((session) => (
+            <div key={session.id} className="flex items-center gap-4 rounded-lg border border-border bg-white p-4 hover:shadow-sm transition-shadow">
+              <div className="text-center min-w-[56px]">
+                <p className="text-xs font-medium text-muted-foreground">{session.date}</p>
+                <p className="text-sm font-bold text-foreground">{session.time}</p>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-semibold text-foreground truncate">{session.title}</h4>
+                <p className="text-xs text-muted-foreground">with {session.mentor}</p>
+              </div>
+              <Badge variant={session.type === "Live" ? "default" : "secondary"} className={session.type === "Live" ? "bg-magenta text-white" : ""}>
+                {session.type === "Live" ? <Video className="h-3 w-3 mr-1" /> : null}
+                {session.type}
+              </Badge>
+              <Button size="sm" variant="outline" className="shrink-0">
+                {session.type === "Live" ? "Join" : "Watch"}
+              </Button>
+            </div>
+          ))}
+        </div>
+      </DataCard>
+
+      {/* Recommended for You */}
+      <DataCard>
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-lg font-bold text-foreground font-display">Recommended for You</h2>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {recommended.map((course) => (
+            <div key={course.id} className="rounded-xl border border-border bg-white p-4 hover:shadow-sm transition-shadow">
+              <span className="text-3xl block mb-3">{course.image}</span>
+              <h3 className="font-semibold text-foreground text-sm mb-1">{course.title}</h3>
+              <div className="flex items-center gap-2 mb-3">
+                <Badge variant="secondary" className="text-[10px]">{course.category}</Badge>
+                <Badge variant="outline" className="text-[10px]">{course.level}</Badge>
+              </div>
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
+                <span className="font-medium">{course.rating}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </DataCard>
     </div>
   );
 };
