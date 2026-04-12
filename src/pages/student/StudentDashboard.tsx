@@ -1,4 +1,4 @@
-import { BookOpen, Clock, Award, Flame, Play, Video, ArrowRight, Star } from "lucide-react";
+import { Play, Video, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";

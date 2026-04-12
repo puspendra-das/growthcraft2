@@ -37,9 +37,8 @@ const curriculum = [
 ];
 
 const StudentCoursePlayer = () => {
-  const { slug } = useParams();
+  const { slug: _slug } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const currentLesson = curriculum.flatMap(s => s.lessons).find(l => (l as any).current);
 
   return (
     <div className="flex gap-0 -m-4 md:-m-8 min-h-[calc(100vh-4rem)]">

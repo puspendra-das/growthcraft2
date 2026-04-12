@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/ui-extensions";
 import DataCard from "@/components/ui-extensions/DataCard";
-import { Video, ChevronDown, Calendar, Users } from "lucide-react";
+import { Video, ChevronDown, Calendar } from "lucide-react";
 import { useState } from "react";
 
 const bootcamps = [

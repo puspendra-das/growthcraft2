@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/ui-extensions";
 import DataCard from "@/components/ui-extensions/DataCard";
 import { PanelEmptyState } from "@/components/panel";
-import { Award, Download, Linkedin, Share2 } from "lucide-react";
+import { Award, Download, Linkedin } from "lucide-react";
 
 const certificates = [
   {

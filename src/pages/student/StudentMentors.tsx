@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/ui-extensions";
 import DataCard from "@/components/ui-extensions/DataCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Video, Clock, User } from "lucide-react";
+import { Video } from "lucide-react";
 
 const upcomingSessions = [
   { id: 1, date: new Date(2026, 3, 14), time: "10:00 AM", mentor: "Rohit Sharma", topic: "React Performance", duration: "45 min", type: "1:1" },
