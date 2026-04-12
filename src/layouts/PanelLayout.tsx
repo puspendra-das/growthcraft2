@@ -22,6 +22,8 @@ const panelConfigs: Record<string, { role: Role; basePath: string; navSections: 
         items: [
           { icon: LayoutDashboard, label: "Dashboard", href: "dashboard" },
           { icon: BookOpen, label: "My Courses", href: "courses" },
+          { icon: GraduationCap, label: "Bootcamps", href: "bootcamps" },
+          { icon: Users, label: "Mentors", href: "mentors" },
           { icon: Award, label: "Certificates", href: "certificates" },
         ],
       },
@@ -29,6 +31,7 @@ const panelConfigs: Record<string, { role: Role; basePath: string; navSections: 
         label: "Account",
         items: [
           { icon: User, label: "Profile", href: "profile" },
+          { icon: Settings, label: "Settings", href: "settings" },
           { icon: HelpCircle, label: "Support", href: "support" },
         ],
       },
