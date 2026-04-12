@@ -1,0 +1,18 @@
+import { EmptyState } from "@/components/ui-extensions";
+import { cn } from "@/lib/utils";
+
+interface PanelEmptyStateProps {
+  icon?: React.ReactNode;
+  title: string;
+  description?: string;
+  action?: React.ReactNode;
+  className?: string;
+}
+
+const PanelEmptyState = ({ className, ...props }: PanelEmptyStateProps) => (
+  <div className={cn("rounded-xl border border-border bg-white p-12", className)}>
+    <EmptyState {...props} />
+  </div>
+);
+
+export default PanelEmptyState;
