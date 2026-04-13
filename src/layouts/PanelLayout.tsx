@@ -68,7 +68,8 @@ const panelConfigs: Record<string, { role: Role; basePath: string; navSections: 
         items: [
           { icon: LayoutDashboard, label: "Dashboard", href: "dashboard" },
           { icon: Megaphone, label: "Referrals", href: "referrals" },
-          { icon: DollarSign, label: "Earnings", href: "earnings" },
+          { icon: Award, label: "Share & Earn", href: "share" },
+          { icon: DollarSign, label: "Payouts", href: "payouts" },
         ],
       },
       {
