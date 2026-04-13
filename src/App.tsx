@@ -77,6 +77,11 @@ import EmployerSupport from "./pages/employer/EmployerSupport";
 
 // Ambassador
 import AmbassadorDashboard from "./pages/ambassador/AmbassadorDashboard";
+import AmbassadorReferrals from "./pages/ambassador/AmbassadorReferrals";
+import AmbassadorShare from "./pages/ambassador/AmbassadorShare";
+import AmbassadorPayouts from "./pages/ambassador/AmbassadorPayouts";
+import AmbassadorProfile from "./pages/ambassador/AmbassadorProfile";
+import AmbassadorSupport from "./pages/ambassador/AmbassadorSupport";
 
 const queryClient = new QueryClient();
 
