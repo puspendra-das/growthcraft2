@@ -77,6 +77,11 @@ import EmployerSupport from "./pages/employer/EmployerSupport";
 
 // Ambassador
 import AmbassadorDashboard from "./pages/ambassador/AmbassadorDashboard";
+import AmbassadorReferrals from "./pages/ambassador/AmbassadorReferrals";
+import AmbassadorShare from "./pages/ambassador/AmbassadorShare";
+import AmbassadorPayouts from "./pages/ambassador/AmbassadorPayouts";
+import AmbassadorProfile from "./pages/ambassador/AmbassadorProfile";
+import AmbassadorSupport from "./pages/ambassador/AmbassadorSupport";
 
 const queryClient = new QueryClient();
 
@@ -135,6 +140,11 @@ const App = () => (
 
               {/* Ambassador */}
               <Route path="/ambassador/dashboard" element={<AmbassadorDashboard />} />
+              <Route path="/ambassador/referrals" element={<AmbassadorReferrals />} />
+              <Route path="/ambassador/share" element={<AmbassadorShare />} />
+              <Route path="/ambassador/payouts" element={<AmbassadorPayouts />} />
+              <Route path="/ambassador/profile" element={<AmbassadorProfile />} />
+              <Route path="/ambassador/support" element={<AmbassadorSupport />} />
 
               {/* Mentor */}
               <Route path="/mentor/dashboard" element={<MentorDashboard />} />
