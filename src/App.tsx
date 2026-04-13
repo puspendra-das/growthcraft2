@@ -140,6 +140,11 @@ const App = () => (
 
               {/* Ambassador */}
               <Route path="/ambassador/dashboard" element={<AmbassadorDashboard />} />
+              <Route path="/ambassador/referrals" element={<AmbassadorReferrals />} />
+              <Route path="/ambassador/share" element={<AmbassadorShare />} />
+              <Route path="/ambassador/payouts" element={<AmbassadorPayouts />} />
+              <Route path="/ambassador/profile" element={<AmbassadorProfile />} />
+              <Route path="/ambassador/support" element={<AmbassadorSupport />} />
 
               {/* Mentor */}
               <Route path="/mentor/dashboard" element={<MentorDashboard />} />
