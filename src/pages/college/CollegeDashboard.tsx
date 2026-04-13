@@ -1,127 +1,114 @@
-import { Building2, Users, BookOpen, Calendar, TrendingUp, Award } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import PageHeader from "@/components/ui-extensions/PageHeader";
+import { KpiCard, ChartCard, StatusPill } from "@/components/panel";
+import DataCard from "@/components/ui-extensions/DataCard";
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+} from "recharts";
+import { Users, BookOpen, Star } from "lucide-react";
 
-const stats = [
-  { label: "Students Trained", value: "245", icon: Users, color: "text-primary" },
-  { label: "Active Programs", value: "4", icon: BookOpen, color: "text-accent" },
-  { label: "Placement Rate", value: "87%", icon: TrendingUp, color: "text-green-500" },
-  { label: "Certifications", value: "189", icon: Award, color: "text-yellow-500" },
+const enrollmentTrend = [
+  { month: "Oct", students: 32 },
+  { month: "Nov", students: 41 },
+  { month: "Dec", students: 38 },
+  { month: "Jan", students: 55 },
+  { month: "Feb", students: 62 },
+  { month: "Mar", students: 58 },
 ];
 
-const activePrograms = [
-  { title: "Full Stack Development Bootcamp", students: 45, status: "In Progress", startDate: "Mar 15, 2026", endDate: "Jun 15, 2026" },
-  { title: "Data Science Workshop", students: 30, status: "Upcoming", startDate: "Apr 20, 2026", endDate: "May 20, 2026" },
-  { title: "Career Readiness Program", students: 120, status: "Completed", startDate: "Jan 10, 2026", endDate: "Mar 10, 2026" },
+const topPerformers = [
+  { name: "Priya Devi", course: "Data Science", progress: 96 },
+  { name: "Amit Kumar", course: "React Bootcamp", progress: 94 },
+  { name: "Meera Singh", course: "Career Readiness", progress: 92 },
+  { name: "Rahul Sharma", course: "Full Stack Dev", progress: 88 },
+  { name: "Sneha Gupta", course: "UI/UX Design", progress: 85 },
 ];
 
-const recentPlacements = [
-  { name: "Rahul Sharma", course: "Full Stack Dev", company: "TCS", role: "Junior Developer" },
-  { name: "Priya Devi", course: "Data Science", company: "Infosys", role: "Data Analyst" },
-  { name: "Amit Kumar", course: "React Bootcamp", company: "Wipro", role: "Frontend Dev" },
+const recentActivity = [
+  { text: "Ravi Patel enrolled in Full Stack Dev", time: "2 hours ago" },
+  { text: "Priya Devi completed Module 8 — Data Science", time: "5 hours ago" },
+  { text: "Sneha Gupta submitted assignment — UI/UX Design", time: "1 day ago" },
+  { text: "Amit Kumar earned React Bootcamp certificate", time: "2 days ago" },
+  { text: "3 new students enrolled in Career Readiness", time: "3 days ago" },
 ];
 
-const CollegeDashboard = () => {
-  return (
-    <div className="space-y-6 md:space-y-8">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Welcome, ABC Engineering College! 🏫</h1>
-        <p className="text-muted-foreground mt-1 text-sm md:text-base">Your campus partnership dashboard</p>
+const CollegeDashboard = () => (
+  <div className="space-y-8">
+    <PageHeader
+      title="College Dashboard"
+      description="Overview of your campus partnership with GrowthCraft"
+    />
+
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <KpiCard label="Total Students Enrolled" value={245} delta={12} />
+      <KpiCard label="Active Courses" value={6} delta={8} />
+      <div className="rounded-xl border border-border bg-white p-6">
+        <p className="text-sm text-muted-foreground mb-1">Partnership Tier</p>
+        <StatusPill variant="active" label="Gold" className="text-sm px-3 py-1" />
       </div>
+      <KpiCard label="Avg Student Rating" value={4.6} suffix="/5" delta={3} />
+    </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-        {stats.map((stat) => (
-          <Card key={stat.label} className="border-border/50">
-            <CardContent className="p-4 md:p-6">
+    <div className="grid lg:grid-cols-2 gap-6">
+      <ChartCard title="Enrollment Trend">
+        <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={enrollmentTrend}>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+            <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="students"
+              stroke="hsl(var(--lavender))"
+              strokeWidth={2}
+              dot={{ fill: "hsl(var(--lavender))", r: 4 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </ChartCard>
+
+      <DataCard>
+        <h3 className="text-base font-semibold font-display mb-4">Top Performers</h3>
+        <div className="space-y-3">
+          {topPerformers.map((s, i) => (
+            <div key={i} className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-muted">
-                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                <span className="text-xs font-bold text-muted-foreground w-5">#{i + 1}</span>
+                <div className="h-8 w-8 rounded-full bg-lavender/10 text-lavender flex items-center justify-center text-xs font-bold">
+                  {s.name.split(" ").map(n => n[0]).join("")}
                 </div>
                 <div>
-                  <p className="text-xl md:text-2xl font-bold text-foreground">{stat.value}</p>
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                  <p className="text-sm font-medium">{s.name}</p>
+                  <p className="text-xs text-muted-foreground">{s.course}</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg md:text-xl font-bold text-foreground">Active Programs</h2>
-          <Button variant="ghost" size="sm" className="text-primary" asChild>
-            <Link to="/college/programs">View All</Link>
-          </Button>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {activePrograms.map((program) => (
-            <Card key={program.title} className="border-border/50 hover:shadow-md transition-shadow">
-              <CardContent className="p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <Badge variant={program.status === "In Progress" ? "default" : program.status === "Upcoming" ? "secondary" : "outline"} className="text-xs">
-                    {program.status}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">{program.students} students</span>
+              <div className="flex items-center gap-2">
+                <div className="w-20 bg-muted rounded-full h-1.5">
+                  <div className="bg-magenta rounded-full h-1.5" style={{ width: `${s.progress}%` }} />
                 </div>
-                <h3 className="font-semibold text-foreground mb-3 text-sm">{program.title}</h3>
-                <p className="text-xs text-muted-foreground">{program.startDate} → {program.endDate}</p>
-              </CardContent>
-            </Card>
+                <span className="text-xs font-semibold text-magenta w-8 text-right">{s.progress}%</span>
+              </div>
+            </div>
           ))}
         </div>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="border-border/50">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" /> Recent Placements
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {recentPlacements.map((p, i) => (
-              <div key={i} className="flex items-center justify-between border-b border-border pb-3 last:border-0 last:pb-0">
-                <div>
-                  <p className="font-medium text-sm text-foreground">{p.name}</p>
-                  <p className="text-xs text-muted-foreground">{p.course}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-foreground">{p.company}</p>
-                  <p className="text-xs text-muted-foreground">{p.role}</p>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="border-border/50">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" /> Upcoming Events
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {[
-              { title: "Campus Hackathon", date: "Apr 15, 2026", type: "Event" },
-              { title: "Industry Connect Webinar", date: "Apr 22, 2026", type: "Webinar" },
-              { title: "Placement Drive", date: "May 5, 2026", type: "Placement" },
-            ].map((event, i) => (
-              <div key={i} className="flex items-center justify-between border-b border-border pb-3 last:border-0 last:pb-0">
-                <div>
-                  <p className="font-medium text-sm text-foreground">{event.title}</p>
-                  <p className="text-xs text-muted-foreground">{event.date}</p>
-                </div>
-                <Badge variant="outline" className="text-xs">{event.type}</Badge>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
+      </DataCard>
     </div>
-  );
-};
+
+    <DataCard>
+      <h3 className="text-base font-semibold font-display mb-4">Recent Activity</h3>
+      <div className="space-y-3">
+        {recentActivity.map((a, i) => (
+          <div key={i} className="flex items-start gap-3 py-2 border-b border-border last:border-0">
+            <div className="h-2 w-2 rounded-full bg-lavender mt-1.5 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm">{a.text}</p>
+              <p className="text-xs text-muted-foreground">{a.time}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </DataCard>
+  </div>
+);
 
 export default CollegeDashboard;
