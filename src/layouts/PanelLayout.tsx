@@ -45,10 +45,9 @@ const panelConfigs: Record<string, { role: Role; basePath: string; navSections: 
         label: "Main",
         items: [
           { icon: LayoutDashboard, label: "Dashboard", href: "dashboard" },
-          { icon: BookOpen, label: "Programs", href: "programs" },
           { icon: GraduationCap, label: "Students", href: "students" },
-          { icon: Calendar, label: "Schedule", href: "schedule" },
           { icon: BarChart3, label: "Reports", href: "reports" },
+          { icon: Award, label: "Partnership", href: "partnership" },
         ],
       },
       {

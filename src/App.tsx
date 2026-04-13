@@ -50,10 +50,9 @@ import StudentSupport from "./pages/student/StudentSupport";
 // College
 import CollegeAuth from "./pages/CollegeAuth";
 import CollegeDashboard from "./pages/college/CollegeDashboard";
-import CollegePrograms from "./pages/college/CollegePrograms";
 import CollegeStudents from "./pages/college/CollegeStudents";
-import CollegeSchedule from "./pages/college/CollegeSchedule";
 import CollegeReports from "./pages/college/CollegeReports";
+import CollegePartnership from "./pages/college/CollegePartnership";
 import CollegeProfile from "./pages/college/CollegeProfile";
 import CollegeSupport from "./pages/college/CollegeSupport";
 
@@ -128,10 +127,9 @@ const App = () => (
 
               {/* College */}
               <Route path="/college/dashboard" element={<CollegeDashboard />} />
-              <Route path="/college/programs" element={<CollegePrograms />} />
               <Route path="/college/students" element={<CollegeStudents />} />
-              <Route path="/college/schedule" element={<CollegeSchedule />} />
               <Route path="/college/reports" element={<CollegeReports />} />
+              <Route path="/college/partnership" element={<CollegePartnership />} />
               <Route path="/college/profile" element={<CollegeProfile />} />
               <Route path="/college/support" element={<CollegeSupport />} />
 

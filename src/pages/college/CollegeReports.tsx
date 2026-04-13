@@ -1,56 +1,119 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Download, TrendingUp, Users, Award, BarChart3 } from "lucide-react";
+import { useState } from "react";
+import PageHeader from "@/components/ui-extensions/PageHeader";
+import DataCard from "@/components/ui-extensions/DataCard";
+import PanelDataTable, { Column } from "@/components/panel/PanelDataTable";
 import { Button } from "@/components/ui/button";
+import { Download, FileText, Plus } from "lucide-react";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
 
-const reports = [
-  { title: "Student Progress Report - Q1 2026", date: "Mar 31, 2026", type: "Progress" },
-  { title: "Placement Summary Report", date: "Mar 15, 2026", type: "Placement" },
-  { title: "Program Completion Analytics", date: "Feb 28, 2026", type: "Analytics" },
-  { title: "Student Feedback Summary", date: "Feb 15, 2026", type: "Feedback" },
+interface Report {
+  month: string;
+  enrollments: number;
+  completionRate: string;
+}
+
+const reports: Report[] = [
+  { month: "March 2026", enrollments: 58, completionRate: "82%" },
+  { month: "February 2026", enrollments: 62, completionRate: "79%" },
+  { month: "January 2026", enrollments: 55, completionRate: "76%" },
+  { month: "December 2025", enrollments: 38, completionRate: "84%" },
+  { month: "November 2025", enrollments: 41, completionRate: "71%" },
+  { month: "October 2025", enrollments: 32, completionRate: "68%" },
 ];
 
-const CollegeReports = () => (
-  <div className="space-y-6">
-    <div>
-      <h1 className="text-2xl md:text-3xl font-bold text-foreground">Reports</h1>
-      <p className="text-muted-foreground mt-1 text-sm">View and download reports for your campus programs</p>
-    </div>
+const columns: Column<Report>[] = [
+  {
+    key: "month",
+    label: "Month",
+    sortable: true,
+    render: (row) => (
+      <div className="flex items-center gap-2">
+        <FileText className="h-4 w-4 text-muted-foreground" />
+        <span className="font-medium text-sm">{row.month}</span>
+      </div>
+    ),
+  },
+  { key: "enrollments", label: "Total Enrollments", sortable: true },
+  { key: "completionRate", label: "Completion Rate", sortable: true },
+  {
+    key: "actions",
+    label: "",
+    render: () => (
+      <Button variant="ghost" size="sm">
+        <Download className="h-4 w-4 mr-1" /> PDF
+      </Button>
+    ),
+  },
+];
 
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {[
-        { label: "Total Students", value: "245", icon: Users },
-        { label: "Avg Completion", value: "76%", icon: TrendingUp },
-        { label: "Placed Students", value: "89", icon: Award },
-        { label: "Programs Run", value: "8", icon: BarChart3 },
-      ].map((stat) => (
-        <Card key={stat.label} className="border-border/50">
-          <CardContent className="p-4 text-center">
-            <stat.icon className="h-6 w-6 text-primary mx-auto mb-2" />
-            <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-            <p className="text-xs text-muted-foreground">{stat.label}</p>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+const metrics = ["Enrollments", "Completion Rate", "Student Progress", "Placement Stats", "Mentor Sessions"];
 
-    <Card className="border-border/50">
-      <CardHeader><CardTitle className="text-lg">Available Reports</CardTitle></CardHeader>
-      <CardContent className="space-y-3">
-        {reports.map((report, i) => (
-          <div key={i} className="flex items-center justify-between border-b border-border pb-3 last:border-0 last:pb-0">
-            <div className="flex items-center gap-3">
-              <FileText className="h-5 w-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium text-sm text-foreground">{report.title}</p>
-                <p className="text-xs text-muted-foreground">{report.date}</p>
+const CollegeReports = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const { toast } = useToast();
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        title="Reports"
+        description="View and download reports for your campus programs"
+        action={
+          <Button onClick={() => setModalOpen(true)} className="bg-magenta hover:bg-magenta/90 text-white">
+            <Plus className="h-4 w-4 mr-2" /> Generate Custom Report
+          </Button>
+        }
+      />
+
+      <PanelDataTable columns={columns} data={reports} pageSize={10} />
+
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader><DialogTitle>Generate Custom Report</DialogTitle></DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>From</Label>
+                <Input type="date" />
+              </div>
+              <div className="space-y-2">
+                <Label>To</Label>
+                <Input type="date" />
               </div>
             </div>
-            <Button variant="ghost" size="sm"><Download className="h-4 w-4" /></Button>
+            <div className="space-y-2">
+              <Label>Metrics to include</Label>
+              <div className="space-y-2">
+                {metrics.map(m => (
+                  <div key={m} className="flex items-center gap-2">
+                    <Checkbox id={m} defaultChecked />
+                    <label htmlFor={m} className="text-sm">{m}</label>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setModalOpen(false)}>Cancel</Button>
+              <Button
+                className="bg-magenta hover:bg-magenta/90 text-white"
+                onClick={() => {
+                  toast({ title: "Report generated", description: "Your custom report will be ready to download shortly." });
+                  setModalOpen(false);
+                }}
+              >
+                Generate
+              </Button>
+            </div>
           </div>
-        ))}
-      </CardContent>
-    </Card>
-  </div>
-);
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
 
 export default CollegeReports;
