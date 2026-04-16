@@ -1,71 +1,101 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Save } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
+import DataCard from "@/components/ui-extensions/DataCard";
+import { toast } from "sonner";
 
 const MentorProfile = () => {
-  const { toast } = useToast();
+  const [expertise, setExpertise] = useState(["React", "Node.js", "TypeScript", "System Design"]);
+  const [newSkill, setNewSkill] = useState("");
+  const [isAvailable, setIsAvailable] = useState(true);
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({ title: "Profile updated!", description: "Your mentor profile has been saved." });
+  const addSkill = () => {
+    const s = newSkill.trim();
+    if (s && !expertise.includes(s)) {
+      setExpertise(prev => [...prev, s]);
+      setNewSkill("");
+    }
   };
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Mentor Profile</h1>
-        <p className="text-muted-foreground mt-1 text-sm">Manage your profile and expertise</p>
+        <h1 className="text-2xl font-bold text-foreground">Mentor Profile</h1>
+        <p className="text-sm text-muted-foreground mt-1">Manage your public profile and preferences</p>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-6">
-        <Card className="border-border/50">
-          <CardHeader><CardTitle className="text-lg">Personal Information</CardTitle></CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-2"><Label>Full Name</Label><Input defaultValue="John Doe" /></div>
-              <div className="space-y-2"><Label>Email</Label><Input type="email" defaultValue="john@example.com" /></div>
-              <div className="space-y-2"><Label>Phone</Label><Input defaultValue="+91 98765 43210" /></div>
-              <div className="space-y-2"><Label>Location</Label><Input defaultValue="Bangalore, India" /></div>
-            </div>
-          </CardContent>
-        </Card>
+      <DataCard>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-16 w-16 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">
+            MS
+          </div>
+          <div>
+            <h3 className="font-semibold text-foreground">Mentor Sharma</h3>
+            <p className="text-sm text-muted-foreground">mentor@growthcraft.in</p>
+          </div>
+          <div className="ml-auto flex items-center gap-2">
+            <Label htmlFor="available" className="text-sm">Available for sessions</Label>
+            <Switch id="available" checked={isAvailable} onCheckedChange={setIsAvailable} />
+          </div>
+        </div>
 
-        <Card className="border-border/50">
-          <CardHeader><CardTitle className="text-lg">Professional Details</CardTitle></CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-2"><Label>Current Organization</Label><Input defaultValue="TechCorp India" /></div>
-              <div className="space-y-2"><Label>Designation</Label><Input defaultValue="Senior Developer" /></div>
-              <div className="space-y-2"><Label>Years of Experience</Label><Input type="number" defaultValue="8" /></div>
-              <div className="space-y-2"><Label>LinkedIn Profile</Label><Input defaultValue="https://linkedin.com/in/johndoe" /></div>
-            </div>
-            <div className="space-y-2">
-              <Label>Areas of Expertise</Label>
-              <Input defaultValue="React, Node.js, TypeScript, System Design, AWS" />
-            </div>
-            <div className="space-y-2">
-              <Label>Bio</Label>
-              <Textarea defaultValue="Passionate about teaching and mentoring the next generation of developers. 8+ years building scalable web applications." rows={3} />
-            </div>
-          </CardContent>
-        </Card>
+        <div className="grid gap-5">
+          <div>
+            <Label className="text-sm font-medium">Bio</Label>
+            <Textarea
+              className="mt-1.5"
+              rows={4}
+              defaultValue="Senior software engineer with 8+ years of experience in React, Node.js, and cloud architecture. Passionate about mentoring the next generation of developers."
+            />
+          </div>
 
-        <Card className="border-border/50">
-          <CardHeader><CardTitle className="text-lg">Availability</CardTitle></CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-2"><Label>Hours per Week</Label><Input type="number" defaultValue="10" /></div>
-              <div className="space-y-2"><Label>Preferred Time Slots</Label><Input defaultValue="Evenings & Weekends" /></div>
+          <div>
+            <Label className="text-sm font-medium">Expertise</Label>
+            <div className="flex flex-wrap gap-2 mt-1.5 mb-2">
+              {expertise.map(s => (
+                <Badge key={s} variant="secondary" className="gap-1">
+                  {s}
+                  <button onClick={() => setExpertise(prev => prev.filter(x => x !== s))}>
+                    <X className="h-3 w-3" />
+                  </button>
+                </Badge>
+              ))}
             </div>
-          </CardContent>
-        </Card>
+            <div className="flex gap-2 max-w-xs">
+              <Input
+                value={newSkill}
+                onChange={(e) => setNewSkill(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addSkill())}
+                placeholder="Add expertise…"
+                className="h-8 text-sm"
+              />
+              <Button size="sm" variant="outline" onClick={addSkill}>Add</Button>
+            </div>
+          </div>
 
-        <div className="flex justify-end"><Button type="submit"><Save className="h-4 w-4 mr-2" /> Save Changes</Button></div>
-      </form>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <Label className="text-sm font-medium">LinkedIn</Label>
+              <Input className="mt-1.5" defaultValue="https://linkedin.com/in/mentor-sharma" />
+            </div>
+            <div>
+              <Label className="text-sm font-medium">Session Rate (₹/hr)</Label>
+              <Input className="mt-1.5" type="number" defaultValue="1500" />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 flex justify-end">
+          <Button className="bg-magenta hover:bg-magenta/90 text-white" onClick={() => toast.success("Profile saved!")}>
+            Save Profile
+          </Button>
+        </div>
+      </DataCard>
     </div>
   );
 };
