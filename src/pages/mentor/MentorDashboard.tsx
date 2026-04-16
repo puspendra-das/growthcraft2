@@ -1,29 +1,43 @@
-import { Users, BookOpen, Calendar, Star, Clock, TrendingUp } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Video, DollarSign, Star, Calendar, Clock } from "lucide-react";
+import { KpiCard, ChartCard } from "@/components/panel";
+import DataCard from "@/components/ui-extensions/DataCard";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+} from "recharts";
 
-const stats = [
-  { label: "Active Students", value: "18", icon: Users, color: "text-primary" },
-  { label: "Courses Assigned", value: "3", icon: BookOpen, color: "text-accent" },
-  { label: "Sessions This Week", value: "5", icon: Calendar, color: "text-green-500" },
-  { label: "Avg Rating", value: "4.8", icon: Star, color: "text-yellow-500" },
+const earningsData = [
+  { month: "Nov", amount: 18000 },
+  { month: "Dec", amount: 22000 },
+  { month: "Jan", amount: 19500 },
+  { month: "Feb", amount: 26000 },
+  { month: "Mar", amount: 24000 },
+  { month: "Apr", amount: 28500 },
 ];
 
-const assignedStudents = [
-  { name: "Rahul S.", course: "Full Stack Dev", progress: 72, lastActive: "2 hours ago" },
-  { name: "Priya D.", course: "Full Stack Dev", progress: 88, lastActive: "1 day ago" },
-  { name: "Amit K.", course: "React Masterclass", progress: 45, lastActive: "3 hours ago" },
-  { name: "Sneha G.", course: "React Masterclass", progress: 60, lastActive: "Today" },
+const todaySessions = [
+  { student: "Rahul S.", time: "10:00 AM", course: "React Masterclass", duration: "45 min" },
+  { student: "Priya D.", time: "12:30 PM", course: "Full Stack Dev", duration: "60 min" },
+  { student: "Amit K.", time: "3:00 PM", course: "React Masterclass", duration: "45 min" },
+  { student: "Sneha G.", time: "5:00 PM", course: "Node.js Advanced", duration: "30 min" },
 ];
 
-const upcomingSessions = [
-  { title: "1:1 with Rahul S.", time: "Today, 3:00 PM", type: "Mentoring" },
-  { title: "Group Code Review", time: "Tomorrow, 10:00 AM", type: "Review" },
-  { title: "React Workshop Session 5", time: "Apr 12, 2:00 PM", type: "Workshop" },
+const recentReviews = [
+  { student: "Rahul S.", rating: 5, text: "Amazing session! Very clear explanations.", date: "2 days ago" },
+  { student: "Priya D.", rating: 5, text: "Helped me understand hooks deeply.", date: "3 days ago" },
+  { student: "Amit K.", rating: 4, text: "Good pace, would love more examples.", date: "5 days ago" },
+  { student: "Sneha G.", rating: 5, text: "Best mentor on the platform!", date: "1 week ago" },
+  { student: "Vivek R.", rating: 4, text: "Very patient and knowledgeable.", date: "1 week ago" },
 ];
+
+const StarRating = ({ rating }: { rating: number }) => (
+  <div className="flex gap-0.5">
+    {Array.from({ length: 5 }).map((_, i) => (
+      <Star key={i} className={`h-3.5 w-3.5 ${i < rating ? "text-warning fill-warning" : "text-muted-foreground/30"}`} />
+    ))}
+  </div>
+);
 
 const MentorDashboard = () => (
   <div className="space-y-6 md:space-y-8">
@@ -33,62 +47,72 @@ const MentorDashboard = () => (
     </div>
 
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-      {stats.map((stat) => (
-        <Card key={stat.label} className="border-border/50">
-          <CardContent className="p-4 md:p-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-muted"><stat.icon className={`h-5 w-5 ${stat.color}`} /></div>
-              <div>
-                <p className="text-xl md:text-2xl font-bold text-foreground">{stat.value}</p>
-                <p className="text-xs text-muted-foreground">{stat.label}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+      <KpiCard label="Sessions Delivered" value={142} delta={12} />
+      <KpiCard label="Total Earnings" value={138000} prefix="₹" delta={8} />
+      <KpiCard label="Avg Rating" value={4.8} suffix="/5" delta={2} />
+      <KpiCard label="Today's Sessions" value={4} />
     </div>
 
-    <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-foreground">My Students</h2>
-        <Button variant="ghost" size="sm" className="text-primary" asChild><Link to="/mentor/students">View All</Link></Button>
-      </div>
-      <div className="grid gap-3 md:grid-cols-2">
-        {assignedStudents.map((s, i) => (
-          <Card key={i} className="border-border/50">
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
-                {s.name.split(" ").map(n => n[0]).join("")}
-              </div>
+    <div className="grid lg:grid-cols-2 gap-6">
+      <DataCard>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-base font-semibold font-display flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-primary" /> Today's Calendar
+          </h3>
+          <Badge variant="outline" className="text-xs">{todaySessions.length} sessions</Badge>
+        </div>
+        <div className="space-y-0">
+          {todaySessions.map((s, i) => (
+            <div key={i} className="flex items-center gap-4 py-3 border-b border-border last:border-0">
+              <div className="w-20 text-sm font-mono text-muted-foreground">{s.time}</div>
+              <div className="h-8 w-0.5 bg-magenta rounded-full" />
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-foreground text-sm">{s.name}</p>
-                <p className="text-xs text-muted-foreground">{s.course}</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <Progress value={s.progress} className="h-1.5 flex-1" />
-                  <span className="text-xs text-muted-foreground">{s.progress}%</span>
-                </div>
+                <p className="font-medium text-sm text-foreground">{s.student}</p>
+                <p className="text-xs text-muted-foreground">{s.course} · {s.duration}</p>
               </div>
-              <span className="text-xs text-muted-foreground whitespace-nowrap">{s.lastActive}</span>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              <Button size="sm" className="bg-magenta hover:bg-magenta/90 text-white text-xs">
+                Join
+              </Button>
+            </div>
+          ))}
+        </div>
+      </DataCard>
+
+      <ChartCard title="Earnings Trend">
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={earningsData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+            <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+            <Tooltip formatter={(v: number) => [`₹${v.toLocaleString()}`, "Earnings"]} />
+            <Bar dataKey="amount" fill="hsl(var(--lavender))" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </ChartCard>
     </div>
 
-    <Card className="border-border/50">
-      <CardHeader><CardTitle className="text-lg flex items-center gap-2"><Calendar className="h-5 w-5 text-primary" /> Upcoming Sessions</CardTitle></CardHeader>
-      <CardContent className="space-y-4">
-        {upcomingSessions.map((session, i) => (
-          <div key={i} className="flex items-center justify-between border-b border-border pb-3 last:border-0 last:pb-0">
-            <div>
-              <p className="font-medium text-sm text-foreground">{session.title}</p>
-              <p className="text-xs text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" /> {session.time}</p>
+    <DataCard>
+      <h3 className="text-base font-semibold font-display flex items-center gap-2 mb-4">
+        <Star className="h-5 w-5 text-warning" /> Recent Reviews
+      </h3>
+      <div className="space-y-4">
+        {recentReviews.map((r, i) => (
+          <div key={i} className="flex items-start gap-3 pb-4 border-b border-border last:border-0 last:pb-0">
+            <div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs shrink-0">
+              {r.student.split(" ").map(n => n[0]).join("")}
             </div>
-            <Badge variant="outline" className="text-xs">{session.type}</Badge>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="font-medium text-sm text-foreground">{r.student}</span>
+                <StarRating rating={r.rating} />
+              </div>
+              <p className="text-sm text-muted-foreground">{r.text}</p>
+            </div>
+            <span className="text-xs text-muted-foreground whitespace-nowrap">{r.date}</span>
           </div>
         ))}
-      </CardContent>
-    </Card>
+      </div>
+    </DataCard>
   </div>
 );
 
