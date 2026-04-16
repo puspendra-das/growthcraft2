@@ -89,10 +89,10 @@ const panelConfigs: Record<string, { role: Role; basePath: string; navSections: 
         label: "Main",
         items: [
           { icon: LayoutDashboard, label: "Dashboard", href: "dashboard" },
+          { icon: Calendar, label: "Sessions", href: "sessions" },
+          { icon: Calendar, label: "Availability", href: "availability" },
           { icon: Users, label: "Students", href: "students" },
-          { icon: BookOpen, label: "Courses", href: "courses" },
-          { icon: Calendar, label: "Schedule", href: "schedule" },
-          { icon: FileText, label: "Resources", href: "resources" },
+          { icon: DollarSign, label: "Earnings", href: "earnings" },
         ],
       },
       {
