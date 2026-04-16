@@ -59,10 +59,10 @@ import CollegeSupport from "./pages/college/CollegeSupport";
 // Mentor
 import MentorAuth from "./pages/MentorAuth";
 import MentorDashboard from "./pages/mentor/MentorDashboard";
+import MentorSessions from "./pages/mentor/MentorSessions";
+import MentorAvailability from "./pages/mentor/MentorAvailability";
 import MentorStudents from "./pages/mentor/MentorStudents";
-import MentorCourses from "./pages/mentor/MentorCourses";
-import MentorSchedule from "./pages/mentor/MentorSchedule";
-import MentorResources from "./pages/mentor/MentorResources";
+import MentorEarnings from "./pages/mentor/MentorEarnings";
 import MentorProfile from "./pages/mentor/MentorProfile";
 import MentorSupport from "./pages/mentor/MentorSupport";
 
@@ -148,10 +148,10 @@ const App = () => (
 
               {/* Mentor */}
               <Route path="/mentor/dashboard" element={<MentorDashboard />} />
+              <Route path="/mentor/sessions" element={<MentorSessions />} />
+              <Route path="/mentor/availability" element={<MentorAvailability />} />
               <Route path="/mentor/students" element={<MentorStudents />} />
-              <Route path="/mentor/courses" element={<MentorCourses />} />
-              <Route path="/mentor/schedule" element={<MentorSchedule />} />
-              <Route path="/mentor/resources" element={<MentorResources />} />
+              <Route path="/mentor/earnings" element={<MentorEarnings />} />
               <Route path="/mentor/profile" element={<MentorProfile />} />
               <Route path="/mentor/support" element={<MentorSupport />} />
 
