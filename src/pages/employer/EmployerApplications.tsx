@@ -1,174 +1,134 @@
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+import DataCard from "@/components/ui-extensions/DataCard";
 import { Button } from "@/components/ui/button";
-import { Search, Eye, Download } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+
+type Stage = "Applied" | "Shortlisted" | "Interview" | "Hired" | "Rejected";
 
 interface Application {
   id: number;
   name: string;
-  email: string;
   role: string;
-  applied: string;
-  status: string;
-  score: number;
-  skills: string[];
-  course: string;
-  experience: string;
-  resumeLink: string;
-  coverNote: string;
+  appliedDate: string;
+  stage: Stage;
 }
 
-const initialApplications: Application[] = [
-  { id: 1, name: "Rahul Sharma", email: "rahul@email.com", role: "Junior React Developer", applied: "Apr 8, 2026", status: "Under Review", score: 92, skills: ["React", "Node.js", "MongoDB"], course: "Full Stack Dev", experience: "6 months project experience", resumeLink: "#", coverNote: "Passionate about building user interfaces with React. Completed several projects during the GrowthCraft bootcamp." },
-  { id: 2, name: "Priya Devi", email: "priya@email.com", role: "Data Analyst Intern", applied: "Apr 7, 2026", status: "Shortlisted", score: 88, skills: ["Python", "Pandas", "SQL"], course: "Data Science", experience: "Academic projects + internship", resumeLink: "#", coverNote: "Strong analytical background with hands-on experience in Python data analysis." },
-  { id: 3, name: "Amit Kumar", email: "amit@email.com", role: "Full Stack Developer", applied: "Apr 6, 2026", status: "Interview Scheduled", score: 85, skills: ["React", "TypeScript", "Next.js"], course: "React Masterclass", experience: "1 year freelance", resumeLink: "#", coverNote: "Experienced freelancer transitioning to full-time. Built 5+ production apps." },
-  { id: 4, name: "Sneha Gupta", email: "sneha@email.com", role: "Junior React Developer", applied: "Apr 5, 2026", status: "Under Review", score: 78, skills: ["React", "CSS", "JavaScript"], course: "Full Stack Dev", experience: "Fresher", resumeLink: "#", coverNote: "Recent graduate eager to start career in frontend development." },
-  { id: 5, name: "Ravi Patel", email: "ravi@email.com", role: "Full Stack Developer", applied: "Apr 4, 2026", status: "Rejected", score: 65, skills: ["Java", "Spring"], course: "Backend Dev", experience: "Fresher", resumeLink: "#", coverNote: "Looking for backend development opportunities." },
-  { id: 6, name: "Meera Singh", email: "meera@email.com", role: "Junior React Developer", applied: "Apr 3, 2026", status: "Hired", score: 94, skills: ["React", "Node.js", "PostgreSQL"], course: "Full Stack Dev", experience: "1 year at startup", resumeLink: "#", coverNote: "Full stack developer with startup experience. Strong in React ecosystem." },
+const stages: Stage[] = ["Applied", "Shortlisted", "Interview", "Hired", "Rejected"];
+
+const stageColors: Record<Stage, string> = {
+  Applied: "border-t-lavender",
+  Shortlisted: "border-t-info",
+  Interview: "border-t-warning",
+  Hired: "border-t-success",
+  Rejected: "border-t-danger",
+};
+
+const initialApps: Application[] = [
+  { id: 1, name: "Rahul Sharma", role: "Junior React Developer", appliedDate: "Apr 8", stage: "Applied" },
+  { id: 2, name: "Karan Mehta", role: "Backend Engineer", appliedDate: "Apr 8", stage: "Applied" },
+  { id: 3, name: "Vikram Iyer", role: "Data Analyst Intern", appliedDate: "Apr 7", stage: "Applied" },
+  { id: 4, name: "Priya Devi", role: "Data Analyst Intern", appliedDate: "Apr 7", stage: "Shortlisted" },
+  { id: 5, name: "Sneha Gupta", role: "Junior React Developer", appliedDate: "Apr 5", stage: "Shortlisted" },
+  { id: 6, name: "Amit Kumar", role: "Full Stack Developer", appliedDate: "Apr 6", stage: "Interview" },
+  { id: 7, name: "Anjali Roy", role: "UI/UX Designer", appliedDate: "Apr 1", stage: "Interview" },
+  { id: 8, name: "Meera Singh", role: "Junior React Developer", appliedDate: "Apr 3", stage: "Hired" },
+  { id: 9, name: "Nisha Kapoor", role: "Frontend Developer", appliedDate: "Mar 30", stage: "Hired" },
+  { id: 10, name: "Ravi Patel", role: "Full Stack Developer", appliedDate: "Apr 4", stage: "Rejected" },
 ];
 
 const EmployerApplications = () => {
-  const [applications, setApplications] = useState(initialApplications);
-  const [search, setSearch] = useState("");
-  const [viewApp, setViewApp] = useState<Application | null>(null);
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [apps, setApps] = useState(initialApps);
   const { toast } = useToast();
 
-  const filtered = applications.filter(app => {
-    const matchesSearch = app.name.toLowerCase().includes(search.toLowerCase()) || app.role.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = statusFilter === "all" || app.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
-
-  const updateStatus = (id: number, newStatus: string) => {
-    setApplications(prev => prev.map(a => a.id === id ? { ...a, status: newStatus } : a));
-    toast({ title: `Application ${newStatus.toLowerCase()}`, description: `Candidate status updated to ${newStatus}.` });
-    setViewApp(null);
+  const move = (id: number, direction: 1 | -1) => {
+    setApps((prev) => prev.map((a) => {
+      if (a.id !== id) return a;
+      const idx = stages.indexOf(a.stage);
+      const next = idx + direction;
+      if (next < 0 || next >= stages.length) return a;
+      const newStage = stages[next];
+      toast({ title: `Moved to ${newStage}`, description: `${a.name} → ${newStage}` });
+      return { ...a, stage: newStage };
+    }));
   };
+
+  const grouped = stages.reduce((acc, s) => {
+    acc[s] = apps.filter((a) => a.stage === s);
+    return acc;
+  }, {} as Record<Stage, Application[]>);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Applications</h1>
-        <p className="text-muted-foreground mt-1 text-sm">Review candidate applications</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground font-display">Applications</h1>
+        <p className="text-muted-foreground mt-1 text-sm">Move candidates through your hiring pipeline</p>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search applications..." className="pl-10" value={search} onChange={e => setSearch(e.target.value)} />
-        </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-48"><SelectValue placeholder="Filter by status" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            <SelectItem value="Under Review">Under Review</SelectItem>
-            <SelectItem value="Shortlisted">Shortlisted</SelectItem>
-            <SelectItem value="Interview Scheduled">Interview Scheduled</SelectItem>
-            <SelectItem value="Hired">Hired</SelectItem>
-            <SelectItem value="Rejected">Rejected</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <div className="overflow-x-auto pb-2">
+        <div className="grid grid-cols-5 gap-3 min-w-[1000px]">
+          {stages.map((stage) => (
+            <div key={stage} className="space-y-3">
+              <div className="flex items-center justify-between px-1">
+                <h3 className="text-sm font-semibold text-foreground">{stage}</h3>
+                <Badge variant="outline" className="text-[10px]">{grouped[stage].length}</Badge>
+              </div>
 
-      <div className="grid gap-3">
-        {filtered.map((app) => (
-          <Card key={app.id} className="border-border/50">
-            <CardContent className="p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
-                    {app.name.split(" ").map(n => n[0]).join("")}
+              <div className="space-y-2 min-h-[200px]">
+                {grouped[stage].map((app) => {
+                  const idx = stages.indexOf(app.stage);
+                  return (
+                    <DataCard
+                      key={app.id}
+                      className={cn("p-3 border-t-4", stageColors[stage])}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="h-8 w-8 rounded-full bg-magenta/10 text-magenta flex items-center justify-center text-[10px] font-bold">
+                          {app.name.split(" ").map((n) => n[0]).join("")}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-semibold text-foreground text-sm truncate">{app.name}</p>
+                          <p className="text-[10px] text-muted-foreground truncate">{app.role}</p>
+                        </div>
+                      </div>
+                      <p className="text-[10px] text-muted-foreground mb-2">Applied {app.appliedDate}</p>
+                      <div className="flex gap-1">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-6 w-6"
+                          disabled={idx === 0}
+                          onClick={() => move(app.id, -1)}
+                          title="Move left"
+                        >
+                          <ChevronLeft className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-6 w-6"
+                          disabled={idx === stages.length - 1}
+                          onClick={() => move(app.id, 1)}
+                          title="Move right"
+                        >
+                          <ChevronRight className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </DataCard>
+                  );
+                })}
+                {grouped[stage].length === 0 && (
+                  <div className="rounded-lg border border-dashed border-border p-6 text-center">
+                    <p className="text-xs text-muted-foreground">No candidates</p>
                   </div>
-                  <div>
-                    <p className="font-medium text-foreground">{app.name}</p>
-                    <p className="text-xs text-muted-foreground">Applied for: {app.role} · {app.applied}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <p className="text-sm font-bold text-green-600">{app.score}%</p>
-                  <Badge variant={
-                    app.status === "Hired" ? "default" :
-                    app.status === "Rejected" ? "destructive" :
-                    app.status === "Shortlisted" ? "secondary" : "outline"
-                  } className="text-xs">{app.status}</Badge>
-                  <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => setViewApp(app)}>
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                </div>
+                )}
               </div>
-            </CardContent>
-          </Card>
-        ))}
-        {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground py-8">No applications found.</p>
-        )}
-      </div>
-
-      {/* Application Detail Dialog */}
-      <Dialog open={!!viewApp} onOpenChange={() => setViewApp(null)}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader><DialogTitle>Application: {viewApp?.name}</DialogTitle></DialogHeader>
-          {viewApp && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
-                  {viewApp.name.split(" ").map(n => n[0]).join("")}
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">{viewApp.name}</p>
-                  <p className="text-sm text-muted-foreground">{viewApp.email}</p>
-                </div>
-                <Badge variant={viewApp.status === "Hired" ? "default" : viewApp.status === "Rejected" ? "destructive" : "outline"} className="ml-auto">{viewApp.status}</Badge>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div><span className="text-muted-foreground">Applied for:</span><br/><span className="font-medium text-foreground">{viewApp.role}</span></div>
-                <div><span className="text-muted-foreground">Score:</span><br/><span className="font-bold text-green-600 text-lg">{viewApp.score}%</span></div>
-                <div><span className="text-muted-foreground">Course:</span><br/><span className="font-medium text-foreground">{viewApp.course}</span></div>
-                <div><span className="text-muted-foreground">Experience:</span><br/><span className="font-medium text-foreground">{viewApp.experience}</span></div>
-              </div>
-
-              <div>
-                <p className="text-sm text-muted-foreground font-medium mb-1">Skills</p>
-                <div className="flex gap-1 flex-wrap">
-                  {viewApp.skills.map(s => <Badge key={s} variant="outline" className="text-xs">{s}</Badge>)}
-                </div>
-              </div>
-
-              <div>
-                <p className="text-sm text-muted-foreground font-medium mb-1">Cover Note</p>
-                <p className="text-sm text-foreground">{viewApp.coverNote}</p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => toast({ title: "Resume downloaded" })}>
-                  <Download className="h-3.5 w-3.5 mr-1" /> Resume
-                </Button>
-              </div>
-
-              {viewApp.status !== "Hired" && viewApp.status !== "Rejected" && (
-                <div className="flex gap-2 pt-2 border-t border-border">
-                  <Button size="sm" onClick={() => updateStatus(viewApp.id, "Shortlisted")} variant="outline" disabled={viewApp.status === "Shortlisted"}>Shortlist</Button>
-                  <Button size="sm" onClick={() => updateStatus(viewApp.id, "Interview Scheduled")} disabled={viewApp.status === "Interview Scheduled"}>Schedule Interview</Button>
-                  <Button size="sm" onClick={() => updateStatus(viewApp.id, "Hired")} variant="default">Hire</Button>
-                  <Button size="sm" onClick={() => updateStatus(viewApp.id, "Rejected")} variant="destructive">Reject</Button>
-                </div>
-              )}
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
