@@ -41,7 +41,7 @@ const Contact = () => {
       </Section>
 
       {/* Form + Info */}
-      <Section variant="white" className="pt-0">
+      <Section variant="marble">
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Form */}
           <div>
@@ -98,7 +98,7 @@ const Contact = () => {
       </Section>
 
       {/* FAQ */}
-      <Section variant="marble">
+      <Section variant="white">
         <h2 className="text-2xl md:text-3xl font-extrabold mb-8">Common questions</h2>
         <Accordion type="single" collapsible className="max-w-2xl space-y-2">
           {faqs.map((f, i) => (
