@@ -19,7 +19,7 @@ const BootcampHighlight = () => {
 
       <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-card animate-fade-up">
         <div className="grid lg:grid-cols-2">
-          <div className="bg-gradient-to-br from-magenta/5 to-lavender/5 p-8 lg:p-12 flex items-center justify-center">
+          <div className="bg-marble p-8 lg:p-12 flex items-center justify-center">
             <div className="text-center">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-magenta/10 text-magenta text-sm font-semibold mb-4">
                 <span className="w-2 h-2 rounded-full bg-magenta animate-pulse" />

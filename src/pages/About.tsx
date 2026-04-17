@@ -63,7 +63,7 @@ const About = () => {
       <Section variant="marble">
         <h2 className="text-2xl md:text-3xl font-extrabold mb-8">Our story</h2>
         <div className="relative pl-8">
-          <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-gradient-to-b from-magenta to-lavender" />
+          <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-magenta" />
           <div className="space-y-8">
             {milestones.map((m) => (
               <div key={m.year} className="relative">

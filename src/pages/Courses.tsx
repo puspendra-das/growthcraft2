@@ -189,7 +189,7 @@ const Courses = () => {
                     <span className="text-lg font-extrabold text-magenta">₹{course.discountedPrice.toLocaleString()}</span>
                     <span className="text-xs text-muted-foreground line-through ml-2">₹{course.price.toLocaleString()}</span>
                   </div>
-                  <span className="text-xs text-lavender font-medium group-hover:underline">View Curriculum →</span>
+                  <span className="text-xs text-magenta font-medium group-hover:underline">View Curriculum →</span>
                 </div>
               </DataCard>
             </Link>

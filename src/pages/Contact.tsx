@@ -41,7 +41,7 @@ const Contact = () => {
       </Section>
 
       {/* Form + Info */}
-      <Section variant="white" className="pt-0">
+      <Section variant="marble">
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Form */}
           <div>
